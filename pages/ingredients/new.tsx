@@ -17,7 +17,7 @@ const NewIngredientPage = () => {
     <SidebarLayout title={"Create New Ingredient"}>
       <Grid container>
         <Grid item xs={12}>
-          <h1>Create New Ingredient</h1>
+          <h1>Cadastro de ingrediente</h1>
         </Grid>
         <Grid item xs={12}>
           <Box display="flex" width="100%" height="100%" justifyContent="center">
