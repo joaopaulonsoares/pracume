@@ -49,12 +49,12 @@ const IngredientsPage = () => {
   return (
     <SidebarLayout>
       <Head>
-        <title>Ingredients</title>
+        <title>Ingredientes</title>
       </Head>
 
       <p>
         <Link href={Routes.NewIngredientPage()}>
-          <a>Create Ingredient</a>
+          <a>Cadastrar ingrediente</a>
         </Link>
       </p>
 

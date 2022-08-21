@@ -8,14 +8,11 @@ interface SidebarLayoutProps {
   children?: ReactNode
 }
 
-const SidebarLayout: FC<SidebarLayoutProps> = ({ children, title }: any) => {
+const SidebarLayout: FC<SidebarLayoutProps> = ({ children }) => {
   const theme = useTheme()
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-      </Head>
       <Box
         sx={{
           flex: 1,

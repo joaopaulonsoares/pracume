@@ -14,7 +14,7 @@ const NewIngredientPage = () => {
   const [createIngredientMutation] = useMutation(createIngredient)
 
   return (
-    <SidebarLayout title={"Create New Ingredient"}>
+    <SidebarLayout>
       <Grid container>
         <Grid item xs={12}>
           <h1>Cadastro de ingrediente</h1>
@@ -22,7 +22,7 @@ const NewIngredientPage = () => {
         <Grid item xs={12}>
           <Box display="flex" width="100%" height="100%" justifyContent="center">
             <IngredientForm
-              submitText="Create Ingredient"
+              submitText="Cadastrar"
               // TODO use a zod schema for form validation
               //  - Tip: extract mutation's schema into a shared `validations.ts` file and
               //         then import and use it here
@@ -31,7 +31,7 @@ const NewIngredientPage = () => {
               onSubmit={async (values) => {
                 try {
                   const ingredient = await createIngredientMutation(values)
-                  router.push(Routes.ShowIngredientPage({ ingredientId: ingredient.id }))
+                  void router.push(Routes.ShowIngredientPage({ ingredientId: ingredient.id }))
                 } catch (error: any) {
                   console.error(error)
                   return {
@@ -46,7 +46,7 @@ const NewIngredientPage = () => {
 
       <p>
         <Link href={Routes.IngredientsPage()}>
-          <a>Ingredients</a>
+          <a>Lista de ingredientes cadastrados</a>
         </Link>
       </p>
     </SidebarLayout>
