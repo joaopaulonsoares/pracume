@@ -1,5 +1,5 @@
 import { useContext } from "react"
-
+import NextLink from "next/link"
 import { ListSubheader, alpha, Box, List, styled, Button, ListItem } from "@mui/material"
 import { SidebarContext } from "app/contexts/SidebarContext"
 
@@ -22,22 +22,7 @@ import ChromeReaderModeTwoToneIcon from "@mui/icons-material/ChromeReaderModeTwo
 import WorkspacePremiumTwoToneIcon from "@mui/icons-material/WorkspacePremiumTwoTone"
 import CameraFrontTwoToneIcon from "@mui/icons-material/CameraFrontTwoTone"
 import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone"
-import { useRouter } from "next/router"
-import Link from "next/link"
-function NavLink({ href, exact, children, ...props }) {
-  const { pathname } = useRouter()
-  const isActive = exact ? pathname === href : pathname.startsWith(href)
-
-  if (isActive) {
-    props.className += " active"
-  }
-
-  return (
-    <Link href={href}>
-      <a {...props}>{children}</a>
-    </Link>
-  )
-}
+import { NavLink } from "app/core/components/NavLink"
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `

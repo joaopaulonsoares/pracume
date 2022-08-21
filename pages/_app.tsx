@@ -1,9 +1,12 @@
-import {ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps} from "@blitzjs/next"
-import {AuthenticationError, AuthorizationError} from "blitz"
+import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
+import { AuthenticationError, AuthorizationError } from "blitz"
+import { HelmetProvider } from "react-helmet-async"
 import React from "react"
-import {withBlitz} from "app/blitz-client"
+import { withBlitz } from "app/blitz-client"
+import ThemeProvider from "app/theme/ThemeProvider"
+import { SidebarProvider } from "app/contexts/SidebarContext"
 
-function RootErrorFallback({error}: ErrorFallbackProps) {
+function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
     return <div>Error: You are not authenticated</div>
   } else if (error instanceof AuthorizationError) {
@@ -23,10 +26,16 @@ function RootErrorFallback({error}: ErrorFallbackProps) {
   }
 }
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <Component {...pageProps} />
+      <ThemeProvider>
+        <HelmetProvider>
+          <SidebarProvider>
+            <Component {...pageProps} />
+          </SidebarProvider>
+        </HelmetProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   )
 }

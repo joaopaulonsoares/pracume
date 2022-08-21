@@ -1,31 +1,11 @@
-import {
-  Box,
-  Tooltip,
-  Badge,
-  TooltipProps,
-  tooltipClasses,
-  styled,
-  useTheme
-} from '@mui/material';
-import { Link } from 'react-router-dom';
-
-const LogoWrapper = styled(Link)(
-  ({ theme }) => `
-        color: ${theme.palette.text.primary};
-        display: flex;
-        text-decoration: none;
-        width: 53px;
-        margin: 0 auto;
-        font-weight: ${theme.typography.fontWeightBold};
-`
-);
+import { Box, Tooltip, Badge, TooltipProps, tooltipClasses, styled, useTheme } from "@mui/material"
 
 const LogoSignWrapper = styled(Box)(
   () => `
         width: 52px;
         height: 38px;
 `
-);
+)
 
 const LogoSign = styled(Box)(
   ({ theme }) => `
@@ -38,7 +18,7 @@ const LogoSign = styled(Box)(
         top: 3px;
         left: 17px;
 
-        &:after, 
+        &:after,
         &:before {
             content: "";
             display: block;
@@ -62,7 +42,7 @@ const LogoSign = styled(Box)(
             background: ${theme.palette.secondary.main};
         }
 `
-);
+)
 
 const LogoSignInner = styled(Box)(
   ({ theme }) => `
@@ -75,7 +55,7 @@ const LogoSignInner = styled(Box)(
         border-radius: ${theme.general.borderRadiusSm};
         background: ${theme.header.background};
 `
-);
+)
 
 const TooltipWrapper = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -84,46 +64,40 @@ const TooltipWrapper = styled(({ className, ...props }: TooltipProps) => (
     backgroundColor: theme.colors.alpha.trueWhite[100],
     color: theme.palette.getContrastText(theme.colors.alpha.trueWhite[100]),
     fontSize: theme.typography.pxToRem(12),
-    fontWeight: 'bold',
+    fontWeight: "bold",
     borderRadius: theme.general.borderRadiusSm,
-    boxShadow:
-      '0 .2rem .8rem rgba(7,9,25,.18), 0 .08rem .15rem rgba(7,9,25,.15)'
+    boxShadow: "0 .2rem .8rem rgba(7,9,25,.18), 0 .08rem .15rem rgba(7,9,25,.15)",
   },
   [`& .${tooltipClasses.arrow}`]: {
-    color: theme.colors.alpha.trueWhite[100]
-  }
-}));
+    color: theme.colors.alpha.trueWhite[100],
+  },
+}))
 
 function Logo() {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
-    <TooltipWrapper
-      title="Tokyo Free White React Typescript Admin Dashboard"
-      arrow
-    >
-      <LogoWrapper to="/overview">
-        <Badge
-          sx={{
-            '.MuiBadge-badge': {
-              fontSize: theme.typography.pxToRem(11),
-              right: -2,
-              top: 8
-            }
-          }}
-          overlap="circular"
-          color="success"
-          badgeContent="2.0"
-        >
-          <LogoSignWrapper>
-            <LogoSign>
-              <LogoSignInner />
-            </LogoSign>
-          </LogoSignWrapper>
-        </Badge>
-      </LogoWrapper>
+    <TooltipWrapper title="Tokyo Free White React Typescript Admin Dashboard" arrow>
+      <Badge
+        sx={{
+          ".MuiBadge-badge": {
+            fontSize: theme.typography.pxToRem(11),
+            right: -2,
+            top: 8,
+          },
+        }}
+        overlap="circular"
+        color="success"
+        badgeContent="2.0"
+      >
+        <LogoSignWrapper>
+          <LogoSign>
+            <LogoSignInner />
+          </LogoSign>
+        </LogoSignWrapper>
+      </Badge>
     </TooltipWrapper>
-  );
+  )
 }
 
-export default Logo;
+export default Logo

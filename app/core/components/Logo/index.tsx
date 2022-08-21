@@ -1,15 +1,4 @@
-import { Box, styled, Tooltip } from '@mui/material';
-import { Link } from 'react-router-dom';
-
-const LogoWrapper = styled(Link)(
-  ({ theme }) => `
-        color: ${theme.palette.text.primary};
-        padding: ${theme.spacing(0, 1, 0, 0)};
-        display: flex;
-        text-decoration: none;
-        font-weight: ${theme.typography.fontWeightBold};
-`
-);
+import { Box, styled, Tooltip } from "@mui/material"
 
 const LogoSignWrapper = styled(Box)(
   () => `
@@ -18,7 +7,7 @@ const LogoSignWrapper = styled(Box)(
         margin-top: 4px;
         transform: scale(.8);
 `
-);
+)
 
 const LogoSign = styled(Box)(
   ({ theme }) => `
@@ -31,7 +20,7 @@ const LogoSign = styled(Box)(
         top: 3px;
         left: 17px;
 
-        &:after, 
+        &:after,
         &:before {
             content: "";
             display: block;
@@ -55,7 +44,7 @@ const LogoSign = styled(Box)(
             background: ${theme.palette.secondary.main};
         }
 `
-);
+)
 
 const LogoSignInner = styled(Box)(
   ({ theme }) => `
@@ -68,13 +57,13 @@ const LogoSignInner = styled(Box)(
         border-radius: ${theme.general.borderRadiusSm};
         background: ${theme.header.background};
 `
-);
+)
 
 const LogoTextWrapper = styled(Box)(
   ({ theme }) => `
         padding-left: ${theme.spacing(1)};
 `
-);
+)
 
 const VersionBadge = styled(Box)(
   ({ theme }) => `
@@ -87,18 +76,18 @@ const VersionBadge = styled(Box)(
         line-height: 1;
         font-size: ${theme.typography.pxToRem(11)};
 `
-);
+)
 
 const LogoText = styled(Box)(
   ({ theme }) => `
         font-size: ${theme.typography.pxToRem(15)};
         font-weight: ${theme.typography.fontWeightBold};
 `
-);
+)
 
 function Logo() {
   return (
-    <LogoWrapper to="/overview">
+    <>
       <LogoSignWrapper>
         <LogoSign>
           <LogoSignInner />
@@ -107,7 +96,7 @@ function Logo() {
       <Box
         component="span"
         sx={{
-          display: { xs: 'none', sm: 'inline-block' }
+          display: { xs: "none", sm: "inline-block" },
         }}
       >
         <LogoTextWrapper>
@@ -117,8 +106,8 @@ function Logo() {
           <LogoText>Tokyo Free White</LogoText>
         </LogoTextWrapper>
       </Box>
-    </LogoWrapper>
-  );
+    </>
+  )
 }
 
-export default Logo;
+export default Logo

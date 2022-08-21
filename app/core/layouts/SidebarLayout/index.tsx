@@ -8,7 +8,7 @@ interface SidebarLayoutProps {
   children?: ReactNode
 }
 
-const SidebarLayout: FC<SidebarLayoutProps> = () => {
+const SidebarLayout: FC<SidebarLayoutProps> = ({ children, title }: any) => {
   const theme = useTheme()
 
   return (
@@ -51,9 +51,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = () => {
             },
           }}
         >
-          <Box display="block">
-            <div>index sidebar</div>
-          </Box>
+          <Box display="block">{children}</Box>
         </Box>
       </Box>
     </>

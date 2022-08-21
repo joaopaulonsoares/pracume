@@ -1,28 +1,21 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Menu,
-  MenuItem
-} from '@mui/material';
-import { useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
-import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
+import { Box, List, ListItem, ListItemText, Menu, MenuItem } from "@mui/material"
+import { useRef, useState } from "react"
+import { styled } from "@mui/material/styles"
+import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone"
+import { NavLink } from "app/core/components/NavLink"
 
 const ListWrapper = styled(Box)(
   ({ theme }) => `
         .MuiTouchRipple-root {
             display: none;
         }
-        
+
         .MuiListItem-root {
-            transition: ${theme.transitions.create(['color', 'fill'])};
-            
+            transition: ${theme.transitions.create(["color", "fill"])};
+
             &.MuiListItem-indicators {
                 padding: ${theme.spacing(1, 2)};
-            
+
                 .MuiListItemText-root {
                     .MuiTypography-root {
                         &:before {
@@ -44,9 +37,9 @@ const ListWrapper = styled(Box)(
                 &.active,
                 &:active,
                 &:hover {
-                
+
                     background: transparent;
-                
+
                     .MuiListItemText-root {
                         .MuiTypography-root {
                             &:before {
@@ -60,55 +53,50 @@ const ListWrapper = styled(Box)(
             }
         }
 `
-);
+)
 
 function HeaderMenu() {
-  const ref = useRef<any>(null);
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const ref = useRef<any>(null)
+  const [isOpen, setOpen] = useState<boolean>(false)
 
   const handleOpen = (): void => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = (): void => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <>
       <ListWrapper
         sx={{
           display: {
-            xs: 'none',
-            md: 'block'
-          }
+            xs: "none",
+            md: "block",
+          },
         }}
       >
         <List disablePadding component={Box} display="flex">
+          {/*
           <ListItem
-            classes={{ root: 'MuiListItem-indicators' }}
+            classes={{ root: "MuiListItem-indicators" }}
             button
             component={NavLink}
             to="/components/buttons"
           >
-            <ListItemText
-              primaryTypographyProps={{ noWrap: true }}
-              primary="Buttons"
-            />
+            <ListItemText primaryTypographyProps={{ noWrap: true }} primary="Buttons" />
           </ListItem>
           <ListItem
-            classes={{ root: 'MuiListItem-indicators' }}
+            classes={{ root: "MuiListItem-indicators" }}
             button
             component={NavLink}
             to="/components/forms"
           >
-            <ListItemText
-              primaryTypographyProps={{ noWrap: true }}
-              primary="Forms"
-            />
+            <ListItemText primaryTypographyProps={{ noWrap: true }} primary="Forms" />
           </ListItem>
           <ListItem
-            classes={{ root: 'MuiListItem-indicators' }}
+            classes={{ root: "MuiListItem-indicators" }}
             button
             ref={ref}
             onClick={handleOpen}
@@ -125,9 +113,11 @@ function HeaderMenu() {
               }
             />
           </ListItem>
+            */}
         </List>
       </ListWrapper>
       <Menu anchorEl={ref.current} onClose={handleClose} open={isOpen}>
+        {/*
         <MenuItem sx={{ px: 3 }} component={NavLink} to="/overview">
           Overview
         </MenuItem>
@@ -140,9 +130,11 @@ function HeaderMenu() {
         <MenuItem sx={{ px: 3 }} component={NavLink} to="/components/modals">
           Modals
         </MenuItem>
+
+          */}
       </Menu>
     </>
-  );
+  )
 }
 
-export default HeaderMenu;
+export default HeaderMenu
