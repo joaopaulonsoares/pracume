@@ -180,7 +180,7 @@ function SidebarMenu() {
                   to="/overview"
                   startIcon={<DesignServicesTwoToneIcon />}
                 >
-                  Overview
+                  Dashboard
                 </Button>
               </ListItem>
             </List>
@@ -190,7 +190,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Dashboards
+              Ponto de Venda
             </ListSubheader>
           }
         >
@@ -204,7 +204,7 @@ function SidebarMenu() {
                   to="/dashboards/crypto"
                   startIcon={<BrightnessLowTwoToneIcon />}
                 >
-                  Cryptocurrency
+                  Pedidos
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -215,31 +215,29 @@ function SidebarMenu() {
                   to="/dashboards/messenger"
                   startIcon={<MmsTwoToneIcon />}
                 >
-                  Messenger
+                  Comandas
                 </Button>
               </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Management
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
               <ListItem component="div">
                 <Button
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/management/transactions"
-                  startIcon={<TableChartTwoToneIcon />}
+                  to="/dashboards/messenger"
+                  startIcon={<MmsTwoToneIcon />}
                 >
-                  Transactions List
+                  Resumo caixa
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={NavLink}
+                  onClick={closeSidebar}
+                  to="/dashboards/messenger"
+                  startIcon={<MmsTwoToneIcon />}
+                >
+                  Notas Fiscais
                 </Button>
               </ListItem>
             </List>
@@ -249,7 +247,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Accounts
+              Administração
             </ListSubheader>
           }
         >
@@ -263,7 +261,7 @@ function SidebarMenu() {
                   to="/management/profile/details"
                   startIcon={<AccountCircleTwoToneIcon />}
                 >
-                  User Profile
+                  Vendas
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -274,7 +272,7 @@ function SidebarMenu() {
                   to="/management/profile/settings"
                   startIcon={<DisplaySettingsTwoToneIcon />}
                 >
-                  Account Settings
+                  Estoque
                 </Button>
               </ListItem>
             </List>
@@ -284,7 +282,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Components
+              CRUD
             </ListSubheader>
           }
         >
@@ -298,7 +296,7 @@ function SidebarMenu() {
                   to="/components/buttons"
                   startIcon={<BallotTwoToneIcon />}
                 >
-                  Buttons
+                  Ingredientes
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -309,7 +307,7 @@ function SidebarMenu() {
                   to="/components/modals"
                   startIcon={<BeachAccessTwoToneIcon />}
                 >
-                  Modals
+                  Bebidas
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -320,7 +318,7 @@ function SidebarMenu() {
                   to="/components/accordions"
                   startIcon={<EmojiEventsTwoToneIcon />}
                 >
-                  Accordions
+                  Produtos
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -331,7 +329,7 @@ function SidebarMenu() {
                   to="/components/tabs"
                   startIcon={<FilterVintageTwoToneIcon />}
                 >
-                  Tabs
+                  Mesas
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -342,7 +340,7 @@ function SidebarMenu() {
                   to="/components/badges"
                   startIcon={<HowToVoteTwoToneIcon />}
                 >
-                  Badges
+                  Clientes
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -350,100 +348,10 @@ function SidebarMenu() {
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/components/tooltips"
-                  startIcon={<LocalPharmacyTwoToneIcon />}
+                  to="/components/badges"
+                  startIcon={<HowToVoteTwoToneIcon />}
                 >
-                  Tooltips
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={NavLink}
-                  onClick={closeSidebar}
-                  to="/components/avatars"
-                  startIcon={<RedeemTwoToneIcon />}
-                >
-                  Avatars
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={NavLink}
-                  onClick={closeSidebar}
-                  to="/components/cards"
-                  startIcon={<SettingsTwoToneIcon />}
-                >
-                  Cards
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={NavLink}
-                  onClick={closeSidebar}
-                  to="/components/forms"
-                  startIcon={<TrafficTwoToneIcon />}
-                >
-                  Forms
-                </Button>
-              </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Extra Pages
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={NavLink}
-                  onClick={closeSidebar}
-                  to="/status/404"
-                  startIcon={<CheckBoxTwoToneIcon />}
-                >
-                  Error 404
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={NavLink}
-                  onClick={closeSidebar}
-                  to="/status/500"
-                  startIcon={<CameraFrontTwoToneIcon />}
-                >
-                  Error 500
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={NavLink}
-                  onClick={closeSidebar}
-                  to="/status/coming-soon"
-                  startIcon={<ChromeReaderModeTwoToneIcon />}
-                >
-                  Coming Soon
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={NavLink}
-                  onClick={closeSidebar}
-                  to="/status/maintenance"
-                  startIcon={<WorkspacePremiumTwoToneIcon />}
-                >
-                  Maintenance
+                  Colaboradores
                 </Button>
               </ListItem>
             </List>
