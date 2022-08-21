@@ -2,6 +2,8 @@
   "name": "pracume",
   "version": "1.0.0",
   "scripts": {
+    "db:start": "docker-compose up -d",
+    "predev": "docker-compose up -d",
     "dev": "blitz dev",
     "build": "blitz build",
     "start": "blitz start",

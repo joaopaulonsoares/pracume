@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react"
 import { Box, alpha, lighten, useTheme } from "@mui/material"
-
+import Head from "next/head"
 import Sidebar from "./Sidebar"
 import Header from "./Header"
 
@@ -13,6 +13,9 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({ children, title }: any) => {
 
   return (
     <>
+      <Head>
+        <title>{title}</title>
+      </Head>
       <Box
         sx={{
           flex: 1,
@@ -51,7 +54,9 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({ children, title }: any) => {
             },
           }}
         >
-          <Box display="block">{children}</Box>
+          <Box display="block" width="100%">
+            {children}
+          </Box>
         </Box>
       </Box>
     </>

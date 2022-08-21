@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -12,6 +12,12 @@ generator client {
 
 // --------------------------------------
 
+enum Role {
+  USER
+  EMPLOYEE
+  ADMIN
+}
+
 model User {
   id             Int      @id @default(autoincrement())
   createdAt      DateTime @default(now())
@@ -19,7 +25,7 @@ model User {
   name           String?
   email          String   @unique
   hashedPassword String?
-  role           String   @default("USER")
+  role           String   @default("EMPLOYEE")
 
   tokens   Token[]
   sessions Session[]
@@ -63,3 +69,143 @@ model Token {
 // enum TokenType {
 //   RESET_PASSWORD
 // }
+
+// Application models
+
+model Ingredient {
+  id              Int         @id @default(autoincrement())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  name            String
+  unitMeasurement String?
+  quantity        Float?
+  Beverage        Beverage?   @relation(fields: [beverageId], references: [id])
+  beverageId      Int?
+  Sandwiches      Sandwiches? @relation(fields: [sandwichesId], references: [id])
+  sandwichesId    Int?
+  Additional      Additional? @relation(fields: [additionalId], references: [id])
+  additionalId    Int?
+}
+
+model Beverage {
+  id              Int          @id @default(autoincrement())
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  name            String
+  unitMeasurement String?
+  quantity        Float?
+  industrialized  Boolean      @default(false)
+  ingredients     Ingredient[]
+  Product         Product[]
+}
+
+model Sandwiches {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  name        String
+  description String?
+  ingredients Ingredient[]
+  Product     Product[]
+}
+
+model Additional {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  name        String
+  price       Int
+  priceScale  Int          @default(2)
+  ingredients Ingredient[]
+  Product     Product?     @relation(fields: [productId], references: [id])
+  productId   Int?
+}
+
+model Product {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  name       String
+  price      Int
+  priceScale Int      @default(2)
+
+  beveragesOptions  Beverage[]
+  additionalOptions Additional[] // Acho que esse campo pode ser apagado, e os adicionais ficarem ligados ao pedido
+
+  Sandwiches   Sandwiches? @relation(fields: [sandwichesId], references: [id])
+  sandwichesId Int?
+  Sale         Sale?       @relation(fields: [saleId], references: [id])
+  saleId       Int?
+}
+
+enum ORDER_TYPES {
+  WITHDRAWAL
+  LOCAL
+  DELIVERY
+}
+
+model Orders {
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  deliveryTime   DateTime?
+  deliveryType   String
+  amount         Int              @default(0)
+  amountScale    Int              @default(2)
+  status         ORDER_PAD_STATUS @default(OPEN)
+  holderName     String
+  tableReference String?
+  OrderPad       OrderPad?        @relation(fields: [orderPadId], references: [id])
+  orderPadId     Int?
+}
+
+enum ORDER_PAD_STATUS {
+  OPEN
+  CLOSED
+  CANCELED
+}
+
+model OrderPad {
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  amount         Int              @default(0)
+  amountScale    Int              @default(2)
+  status         ORDER_PAD_STATUS @default(OPEN)
+  holderName     String
+  tableReference String?
+  orders         Orders[]
+}
+
+enum SALE_STATUS {
+  OPEN
+  CLOSED
+  CANCELED
+}
+
+enum INVOICE_STATUS {
+  NOT_GENERATED
+  TRANSMITED
+  PENDING
+  CONTIGENCY
+  PROCESSING
+  AUTHORIZED
+  DENIED
+  REJECTED
+}
+
+model Sale {
+  id                     Int            @id @default(autoincrement())
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  amount                 Int            @default(0)
+  amountScale            Int            @default(2)
+  status                 SALE_STATUS    @default(OPEN)
+  products               Product[]
+  invoice_number         String         @default("")
+  invoice_status         INVOICE_STATUS @default(NOT_GENERATED)
+  customerDocument       String?
+  paymentMethod          String?
+  deliveryFeeAmount      Int            @default(0)
+  deliveryFeeAmountScale Int            @default(2)
+}

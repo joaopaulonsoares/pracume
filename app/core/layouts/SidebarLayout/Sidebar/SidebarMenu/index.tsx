@@ -22,6 +22,12 @@ import ChromeReaderModeTwoToneIcon from "@mui/icons-material/ChromeReaderModeTwo
 import WorkspacePremiumTwoToneIcon from "@mui/icons-material/WorkspacePremiumTwoTone"
 import CameraFrontTwoToneIcon from "@mui/icons-material/CameraFrontTwoTone"
 import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone"
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart"
+import BalanceIcon from "@mui/icons-material/Balance"
+import FastfoodIcon from "@mui/icons-material/Fastfood"
+import EggAltIcon from "@mui/icons-material/EggAlt"
+import SportsBarIcon from "@mui/icons-material/SportsBar"
+import ReceiptIcon from "@mui/icons-material/Receipt"
 import { NavLink } from "app/core/components/NavLink"
 
 const MenuWrapper = styled(Box)(
@@ -201,8 +207,8 @@ function SidebarMenu() {
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/dashboards/crypto"
-                  startIcon={<BrightnessLowTwoToneIcon />}
+                  to="/teste"
+                  startIcon={<AddShoppingCartIcon />}
                 >
                   Pedidos
                 </Button>
@@ -213,7 +219,7 @@ function SidebarMenu() {
                   component={NavLink}
                   onClick={closeSidebar}
                   to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<FastfoodIcon />}
                 >
                   Comandas
                 </Button>
@@ -224,7 +230,7 @@ function SidebarMenu() {
                   component={NavLink}
                   onClick={closeSidebar}
                   to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<BalanceIcon />}
                 >
                   Resumo caixa
                 </Button>
@@ -235,7 +241,7 @@ function SidebarMenu() {
                   component={NavLink}
                   onClick={closeSidebar}
                   to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<ReceiptIcon />}
                 >
                   Notas Fiscais
                 </Button>
@@ -282,7 +288,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              CRUD
+              Gerenciamento
             </ListSubheader>
           }
         >
@@ -293,8 +299,8 @@ function SidebarMenu() {
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/components/buttons"
-                  startIcon={<BallotTwoToneIcon />}
+                  to="/ingredients"
+                  startIcon={<EggAltIcon />}
                 >
                   Ingredientes
                 </Button>
@@ -305,7 +311,7 @@ function SidebarMenu() {
                   component={NavLink}
                   onClick={closeSidebar}
                   to="/components/modals"
-                  startIcon={<BeachAccessTwoToneIcon />}
+                  startIcon={<SportsBarIcon />}
                 >
                   Bebidas
                 </Button>
