@@ -8,8 +8,25 @@ import Layout from "app/core/layouts/Layout"
 import getIngredients from "app/ingredients/queries/getIngredients"
 import Blitz from "pages/api/rpc/[[...blitz]]"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
+import { BasicTable } from "app/core/components/BasicTable"
+import { Box } from "@mui/material"
 
 const ITEMS_PER_PAGE = 100
+
+const tableHeader = [
+  {
+    name: "Nome",
+    key: "name",
+  },
+  {
+    name: "Quantidade",
+    key: "quantity",
+  },
+  {
+    name: "Unidade de Medida",
+    key: "unitMeasurement",
+  },
+]
 
 export const IngredientsList = () => {
   const router = useRouter()
@@ -22,6 +39,7 @@ export const IngredientsList = () => {
 
   const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
   const goToNextPage = () => router.push({ query: { page: page + 1 } })
+  console.log(ingredients)
 
   return (
     <div>
@@ -41,6 +59,8 @@ export const IngredientsList = () => {
       <button disabled={!hasMore} onClick={goToNextPage}>
         Próximo
       </button>
+
+      <BasicTable />
     </div>
   )
 }
@@ -48,19 +68,21 @@ export const IngredientsList = () => {
 const IngredientsPage = () => {
   return (
     <SidebarLayout>
-      <Head>
-        <title>Ingredientes</title>
-      </Head>
+      <Box margin={5}>
+        <Head>
+          <title>Ingredientes</title>
+        </Head>
 
-      <p>
-        <Link href={Routes.NewIngredientPage()}>
-          <a>Cadastrar ingrediente</a>
-        </Link>
-      </p>
+        <p>
+          <Link href={Routes.NewIngredientPage()}>
+            <a>Cadastrar ingrediente</a>
+          </Link>
+        </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
-        <IngredientsList />
-      </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <IngredientsList />
+        </Suspense>
+      </Box>
     </SidebarLayout>
   )
 }
