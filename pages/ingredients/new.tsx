@@ -8,6 +8,7 @@ import SidebarLayout from "app/core/layouts/SidebarLayout"
 import createIngredient from "app/ingredients/mutations/createIngredient"
 import { IngredientForm, FORM_ERROR } from "app/ingredients/components/IngredientForm"
 import { Box, Grid } from "@mui/material"
+import { BoxCenter } from "app/core/components/BoxCenter"
 
 const NewIngredientPage = () => {
   const router = useRouter()
@@ -15,12 +16,19 @@ const NewIngredientPage = () => {
 
   return (
     <SidebarLayout>
+      <p>
+        <Link href={Routes.IngredientsPage()}>
+          <a>Lista de ingredientes cadastrados</a>
+        </Link>
+      </p>
       <Grid container>
         <Grid item xs={12}>
-          <h1>Cadastro de ingrediente</h1>
+          <BoxCenter>
+            <h1>Cadastro de ingrediente</h1>
+          </BoxCenter>
         </Grid>
         <Grid item xs={12}>
-          <Box display="flex" width="100%" height="100%" justifyContent="center">
+          <BoxCenter paddingTop={5}>
             <IngredientForm
               submitText="Cadastrar"
               // TODO use a zod schema for form validation
@@ -40,15 +48,9 @@ const NewIngredientPage = () => {
                 }
               }}
             />
-          </Box>
+          </BoxCenter>
         </Grid>
       </Grid>
-
-      <p>
-        <Link href={Routes.IngredientsPage()}>
-          <a>Lista de ingredientes cadastrados</a>
-        </Link>
-      </p>
     </SidebarLayout>
   )
 }

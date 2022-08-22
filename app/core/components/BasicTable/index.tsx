@@ -19,12 +19,16 @@ import {
 } from "@mui/material"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
+import VisibilityIcon from "@mui/icons-material/Visibility"
 
-function defaultBehavior(id: number) {
-  return ""
-}
-
-export function BasicTable({ title, subTitle = "", headers, content, editAction }: any) {
+export function BasicTable({
+  title,
+  subTitle = "",
+  headers,
+  content,
+  editAction,
+  showAction,
+}: any) {
   const theme = useTheme()
   const [page, setPage] = useState(2)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -37,7 +41,6 @@ export function BasicTable({ title, subTitle = "", headers, content, editAction 
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
-  console.log(editAction)
 
   return (
     <Grid container spacing={3}>
@@ -69,23 +72,6 @@ export function BasicTable({ title, subTitle = "", headers, content, editAction 
                       </TableCell>
                     ))}
                     <TableCell align="right">
-                      <Tooltip placement="top" title="Deletar" arrow>
-                        <Link href={editAction(contItem.id)}>
-                          <IconButton
-                            sx={{
-                              "&:hover": {
-                                background: theme.colors.error.lighter,
-                              },
-                              color: theme.palette.error.main,
-                            }}
-                            color="inherit"
-                            size="small"
-                          >
-                            <DeleteTwoToneIcon fontSize="small" />
-                          </IconButton>
-                        </Link>
-                      </Tooltip>
-
                       {editAction && (
                         <Link href={editAction(contItem.id)}>
                           <Tooltip placement="top" title="Editar" arrow>
@@ -100,6 +86,25 @@ export function BasicTable({ title, subTitle = "", headers, content, editAction 
                               size="small"
                             >
                               <EditIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
+                        </Link>
+                      )}
+
+                      {showAction && (
+                        <Link href={showAction(contItem.id)}>
+                          <Tooltip placement="top" title="Visualizar" arrow>
+                            <IconButton
+                              sx={{
+                                "&:hover": {
+                                  background: theme.colors.info.lighter,
+                                },
+                                color: theme.colors.alpha.black[90],
+                              }}
+                              color="inherit"
+                              size="small"
+                            >
+                              <VisibilityIcon fontSize="small" />
                             </IconButton>
                           </Tooltip>
                         </Link>

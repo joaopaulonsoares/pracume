@@ -11,6 +11,8 @@ import Layout from "app/core/layouts/Layout"
 import getIngredient from "app/ingredients/queries/getIngredient"
 import updateIngredient from "app/ingredients/mutations/updateIngredient"
 import { IngredientForm, FORM_ERROR } from "app/ingredients/components/IngredientForm"
+import { Grid } from "@mui/material"
+import { BoxCenter } from "app/core/components/BoxCenter"
 
 export const EditIngredient = () => {
   const router = useRouter()
@@ -32,11 +34,10 @@ export const EditIngredient = () => {
       </Head>
 
       <div>
-        <h1>Editar Ingrediente {ingredient.name}</h1>
         <pre>{JSON.stringify(ingredient, null, 2)}</pre>
 
         <IngredientForm
-          submitText="Update Ingredient"
+          submitText="Atualizar ingredientes"
           // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
@@ -66,17 +67,25 @@ export const EditIngredient = () => {
 const EditIngredientPage = () => {
   return (
     <SidebarLayout>
-      <div>
-        <Suspense fallback={<div>Loading...</div>}>
-          <EditIngredient />
-        </Suspense>
-
-        <p>
-          <Link href={Routes.IngredientsPage()}>
-            <a>Ingredients</a>
-          </Link>
-        </p>
-      </div>
+      <p>
+        <Link href={Routes.IngredientsPage()}>
+          <a>Ingredients</a>
+        </Link>
+      </p>
+      <Grid container>
+        <Grid item xs={12}>
+          <BoxCenter>
+            <h1>Editar Ingrediente</h1>
+          </BoxCenter>
+        </Grid>
+        <Grid item xs={12}>
+          <BoxCenter paddingTop={5}>
+            <Suspense fallback={<div>Loading...</div>}>
+              <EditIngredient />
+            </Suspense>
+          </BoxCenter>
+        </Grid>
+      </Grid>
     </SidebarLayout>
   )
 }

@@ -9,7 +9,7 @@ import getIngredients from "app/ingredients/queries/getIngredients"
 import Blitz from "pages/api/rpc/[[...blitz]]"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
 import { BasicTable } from "app/core/components/BasicTable"
-import { Box } from "@mui/material"
+import { Box, Button } from "@mui/material"
 
 const ITEMS_PER_PAGE = 100
 
@@ -41,40 +41,28 @@ export const IngredientsList = () => {
     take: ITEMS_PER_PAGE,
   })
 
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
-  const goToNextPage = () => router.push({ query: { page: page + 1 } })
+  // const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
+  // const goToNextPage = () => router.push({ query: { page: page + 1 } })
 
   function redirectToEditPageFunction(id: number) {
     return Routes.EditIngredientPage({ ingredientId: id })
   }
 
+  function redirectToShowPageFunction(id: number) {
+    return Routes.ShowIngredientPage({ ingredientId: id })
+  }
+
   return (
-    <div>
-      <ul>
-        {ingredients.map((ingredient) => (
-          <li key={ingredient.id}>
-            <Link href={Routes.ShowIngredientPage({ ingredientId: ingredient.id })}>
-              <a>{ingredient.name}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Anterior
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Próximo
-      </button>
-
+    <Box paddingTop={5}>
       <BasicTable
         title="Ingredientes"
         subTitle="Lista de ingredientes cadastrados"
         headers={tableHeader}
         content={ingredients}
         editAction={redirectToEditPageFunction}
+        showAction={redirectToShowPageFunction}
       />
-    </div>
+    </Box>
   )
 }
 
@@ -86,11 +74,11 @@ const IngredientsPage = () => {
           <title>Ingredientes</title>
         </Head>
 
-        <p>
+        <Box width="100%" display="flex" justifyContent="right">
           <Link href={Routes.NewIngredientPage()}>
-            <a>Cadastrar ingrediente</a>
+            <Button variant="contained">Cadastrar Ingrediente</Button>
           </Link>
-        </p>
+        </Box>
 
         <Suspense fallback={<div>Loading...</div>}>
           <IngredientsList />
