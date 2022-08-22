@@ -96,7 +96,7 @@ model Beverage {
   quantity        Float?
   industrialized  Boolean      @default(false)
   ingredients     Ingredient[]
-  Product         Product[]
+  // Product         Product[]
 }
 
 model Sandwiches {
@@ -106,7 +106,7 @@ model Sandwiches {
   name        String
   description String?
   ingredients Ingredient[]
-  Product     Product[]
+  // Product     Product[]
 }
 
 model Additional {
@@ -117,25 +117,31 @@ model Additional {
   price       Int
   priceScale  Int          @default(2)
   ingredients Ingredient[]
-  Product     Product?     @relation(fields: [productId], references: [id])
-  productId   Int?
+  //Product     Product?     @relation(fields: [productId], references: [id])
+  //productId   Int?
 }
 
 model Product {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name       String
-  price      Int
-  priceScale Int      @default(2)
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  description String?
+  price       Int
+  priceScale  Int      @default(2)
 
-  beveragesOptions  Beverage[]
-  additionalOptions Additional[] // Acho que esse campo pode ser apagado, e os adicionais ficarem ligados ao pedido
+  //beveragesOptions Beverage[]
+  //additionalOptions Additional[] // Acho que esse campo pode ser apagado, e os adicionais ficarem ligados ao pedido
 
-  Sandwiches   Sandwiches? @relation(fields: [sandwichesId], references: [id])
-  sandwichesId Int?
-  Sale         Sale?       @relation(fields: [saleId], references: [id])
-  saleId       Int?
+  //Sandwiches   Sandwiches? @relation(fields: [sandwichesId], references: [id])
+  //sandwichesId Int?
+  //Sale         Sale?       @relation(fields: [saleId], references: [id])
+  //saleId       Int?
+
+  // Beverage     Beverage?   @relation(fields: [beverageId], references: [id])
+  // beverageId   Int?
+  // Sale   Sale? @relation(fields: [saleId], references: [id])
+  // saleId Int?
 }
 
 enum ORDER_TYPES {
@@ -157,6 +163,7 @@ model Orders {
   tableReference String?
   OrderPad       OrderPad?        @relation(fields: [orderPadId], references: [id])
   orderPadId     Int?
+  products       Json?
 }
 
 enum ORDER_PAD_STATUS {
@@ -201,7 +208,7 @@ model Sale {
   amount                 Int            @default(0)
   amountScale            Int            @default(2)
   status                 SALE_STATUS    @default(OPEN)
-  products               Product[]
+  // products               Product[]
   invoice_number         String         @default("")
   invoice_status         INVOICE_STATUS @default(NOT_GENERATED)
   customerDocument       String?

@@ -27,6 +27,7 @@ import BalanceIcon from "@mui/icons-material/Balance"
 import FastfoodIcon from "@mui/icons-material/Fastfood"
 import EggAltIcon from "@mui/icons-material/EggAlt"
 import SportsBarIcon from "@mui/icons-material/SportsBar"
+import BallotIcon from "@mui/icons-material/Ballot"
 import ReceiptIcon from "@mui/icons-material/Receipt"
 import { NavLink } from "app/core/components/NavLink"
 
@@ -219,7 +220,7 @@ function SidebarMenu() {
                   component={NavLink}
                   onClick={closeSidebar}
                   to="/dashboards/messenger"
-                  startIcon={<FastfoodIcon />}
+                  startIcon={<BallotIcon />}
                 >
                   Comandas
                 </Button>
@@ -322,7 +323,7 @@ function SidebarMenu() {
                   component={NavLink}
                   onClick={closeSidebar}
                   to="/components/accordions"
-                  startIcon={<EmojiEventsTwoToneIcon />}
+                  startIcon={<FastfoodIcon />}
                 >
                   Produtos
                 </Button>
