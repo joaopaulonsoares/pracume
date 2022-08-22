@@ -15,6 +15,10 @@ const ITEMS_PER_PAGE = 100
 
 const tableHeader = [
   {
+    name: "Id",
+    key: "id",
+  },
+  {
     name: "Nome",
     key: "name",
   },
@@ -39,7 +43,10 @@ export const IngredientsList = () => {
 
   const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
   const goToNextPage = () => router.push({ query: { page: page + 1 } })
-  console.log(ingredients)
+
+  function redirectToEditPageFunction(id: number) {
+    return Routes.EditIngredientPage({ ingredientId: id })
+  }
 
   return (
     <div>
@@ -60,7 +67,13 @@ export const IngredientsList = () => {
         Próximo
       </button>
 
-      <BasicTable />
+      <BasicTable
+        title="Ingredientes"
+        subTitle="Lista de ingredientes cadastrados"
+        headers={tableHeader}
+        content={ingredients}
+        editAction={redirectToEditPageFunction}
+      />
     </div>
   )
 }
