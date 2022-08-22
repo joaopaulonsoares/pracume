@@ -28,11 +28,11 @@ export const EditIngredient = () => {
   return (
     <>
       <Head>
-        <title>Edit Ingredient {ingredient.id}</title>
+        <title>Editar Ingrediente {ingredient.name}</title>
       </Head>
 
       <div>
-        <h1>Edit Ingredient {ingredient.id}</h1>
+        <h1>Editar Ingrediente {ingredient.name}</h1>
         <pre>{JSON.stringify(ingredient, null, 2)}</pre>
 
         <IngredientForm
@@ -49,7 +49,7 @@ export const EditIngredient = () => {
                 ...values,
               })
               await setQueryData(updated)
-              router.push(Routes.ShowIngredientPage({ ingredientId: updated.id }))
+              void router.push(Routes.ShowIngredientPage({ ingredientId: updated.id }))
             } catch (error: any) {
               console.error(error)
               return {

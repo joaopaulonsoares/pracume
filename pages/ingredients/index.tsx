@@ -36,10 +36,10 @@ export const IngredientsList = () => {
       </ul>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
+        Anterior
       </button>
       <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
+        Próximo
       </button>
     </div>
   )

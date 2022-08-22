@@ -19,15 +19,15 @@ export const Ingredient = () => {
   return (
     <>
       <Head>
-        <title>Ingredient {ingredient.id}</title>
+        <title>Ingrediente {ingredient.id}</title>
       </Head>
 
       <div>
-        <h1>Ingredient {ingredient.id}</h1>
+        <h1>Ingrediente {ingredient.id}</h1>
         <pre>{JSON.stringify(ingredient, null, 2)}</pre>
 
         <Link href={Routes.EditIngredientPage({ ingredientId: ingredient.id })}>
-          <a>Edit</a>
+          <a>Editar</a>
         </Link>
 
         <button
@@ -35,12 +35,12 @@ export const Ingredient = () => {
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteIngredientMutation({ id: ingredient.id })
-              router.push(Routes.IngredientsPage())
+              void router.push(Routes.IngredientsPage())
             }
           }}
           style={{ marginLeft: "0.5rem" }}
         >
-          Delete
+          Deletar
         </button>
       </div>
     </>
@@ -53,7 +53,7 @@ const ShowIngredientPage = () => {
       <div>
         <p>
           <Link href={Routes.IngredientsPage()}>
-            <a>Ingredients</a>
+            <a>Ingredientes</a>
           </Link>
         </p>
 
