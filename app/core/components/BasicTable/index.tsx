@@ -58,7 +58,9 @@ export function BasicTable({
               <TableHead>
                 <TableRow>
                   {headers.map((header) => (
-                    <TableCell key={`header-${header.name}`}>{header.name}</TableCell>
+                    <TableCell align="left" key={`header-${header.name}`}>
+                      {header.name}
+                    </TableCell>
                   ))}
                   <TableCell align="center">Ações</TableCell>
                 </TableRow>
@@ -67,7 +69,7 @@ export function BasicTable({
                 {content.map((contItem, index) => (
                   <TableRow key={contItem.id} hover>
                     {headers.map((headerItem) => (
-                      <TableCell key={`cell-header-${headerItem.key}`}>
+                      <TableCell align="left" key={`cell-header-${headerItem.key}`}>
                         {contItem[headerItem.key]}
                       </TableCell>
                     ))}

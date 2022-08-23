@@ -17,6 +17,7 @@ export interface TextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["i
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
   inputAdornmentText?: string
+  startInputAdornmentText?: string
 }
 
 export const MaterialTextField = forwardRef<HTMLInputElement, TextFieldProps>(
@@ -33,6 +34,7 @@ export const MaterialTextField = forwardRef<HTMLInputElement, TextFieldProps>(
       multiline = false,
       type,
       inputAdornmentText,
+      startInputAdornmentText,
       ...props
     },
     ref
@@ -66,6 +68,9 @@ export const MaterialTextField = forwardRef<HTMLInputElement, TextFieldProps>(
           type={type}
           InputProps={{
             endAdornment: <InputAdornment position="end">{inputAdornmentText}</InputAdornment>,
+            startAdornment: (
+              <InputAdornment position="start">{startInputAdornmentText}</InputAdornment>
+            ),
           }}
         />
 

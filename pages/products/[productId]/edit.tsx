@@ -11,6 +11,9 @@ import getProduct from "app/products/queries/getProduct"
 import updateProduct from "app/products/mutations/updateProduct"
 import { ProductForm, FORM_ERROR } from "app/products/components/ProductForm"
 import { convertNumberToScale } from "app/core/utils/convertNumberToScaleTwo"
+import SidebarLayout from "app/core/layouts/SidebarLayout"
+import { BoxCenter } from "app/core/components/BoxCenter"
+import { Grid } from "@mui/material"
 
 export const EditProduct = () => {
   const router = useRouter()
@@ -32,7 +35,6 @@ export const EditProduct = () => {
       </Head>
 
       <div>
-        <h1>Edit Product {product.id}</h1>
         <pre>{JSON.stringify(product, null, 2)}</pre>
 
         <ProductForm
@@ -68,17 +70,27 @@ export const EditProduct = () => {
 
 const EditProductPage = () => {
   return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <EditProduct />
-      </Suspense>
-
+    <SidebarLayout>
       <p>
         <Link href={Routes.ProductsPage()}>
-          <a>Products</a>
+          <a>Lista de Produtos</a>
         </Link>
       </p>
-    </div>
+      <Grid container>
+        <Grid item xs={12}>
+          <BoxCenter>
+            <h1>Editar Produto</h1>
+          </BoxCenter>
+        </Grid>
+        <Grid item xs={12}>
+          <BoxCenter paddingTop={5}>
+            <Suspense fallback={<div>Loading...</div>}>
+              <EditProduct />
+            </Suspense>
+          </BoxCenter>
+        </Grid>
+      </Grid>
+    </SidebarLayout>
   )
 }
 

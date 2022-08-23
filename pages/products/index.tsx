@@ -30,6 +30,10 @@ const tableHeader = [
     name: "Preço",
     key: "formattedPrice",
   },
+  {
+    name: "Situação",
+    key: "status",
+  },
 ]
 
 export const ProductsList = () => {
@@ -45,6 +49,7 @@ export const ProductsList = () => {
     return {
       ...product,
       formattedPrice: `R$ ${formatScaledPrice(product.price, product.priceScale)}`,
+      status: product.isActive ? "Ativo" : "Desativo",
     }
   })
 
