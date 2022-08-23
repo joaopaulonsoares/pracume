@@ -216,10 +216,11 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="#"
                   startIcon={<BallotIcon />}
                 >
                   Comandas
@@ -227,10 +228,11 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="#"
                   startIcon={<BalanceIcon />}
                 >
                   Resumo caixa
@@ -238,10 +240,11 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="#"
                   startIcon={<ReceiptIcon />}
                 >
                   Notas Fiscais
@@ -262,10 +265,11 @@ function SidebarMenu() {
             <List component="div">
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/management/profile/details"
+                  to="#"
                   startIcon={<AccountCircleTwoToneIcon />}
                 >
                   Vendas
@@ -273,10 +277,11 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/management/profile/settings"
+                  to="#"
                   startIcon={<DisplaySettingsTwoToneIcon />}
                 >
                   Estoque
@@ -308,10 +313,11 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/components/modals"
+                  to="#"
                   startIcon={<SportsBarIcon />}
                 >
                   Bebidas
@@ -330,10 +336,11 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/components/tabs"
+                  to="#"
                   startIcon={<FilterVintageTwoToneIcon />}
                 >
                   Mesas
@@ -341,10 +348,11 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/components/badges"
+                  to="#"
                   startIcon={<HowToVoteTwoToneIcon />}
                 >
                   Clientes
@@ -352,10 +360,11 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
+                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/components/badges"
+                  to="#"
                   startIcon={<HowToVoteTwoToneIcon />}
                 >
                   Colaboradores

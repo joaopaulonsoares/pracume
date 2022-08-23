@@ -60,7 +60,7 @@ export function BasicTable({
                   {headers.map((header) => (
                     <TableCell key={`header-${header.name}`}>{header.name}</TableCell>
                   ))}
-                  <TableCell align="center">center</TableCell>
+                  <TableCell align="center">Ações</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

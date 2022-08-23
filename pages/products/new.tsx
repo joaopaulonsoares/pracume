@@ -12,11 +12,11 @@ const NewProductPage = () => {
   const [createProductMutation] = useMutation(createProduct)
 
   return (
-    <Layout title={"Create New Product"}>
-      <h1>Create New Product</h1>
+    <Layout title={"Cadastrar novo produto"}>
+      <h1>Cadastrar novo produto</h1>
 
       <ProductForm
-        submitText="Create Product"
+        submitText="Cadastrar produto"
         // TODO use a zod schema for form validation
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
@@ -41,7 +41,7 @@ const NewProductPage = () => {
 
       <p>
         <Link href={Routes.ProductsPage()}>
-          <a>Products</a>
+          <a>Lista de Produtos</a>
         </Link>
       </p>
     </Layout>

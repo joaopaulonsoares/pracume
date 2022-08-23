@@ -8,7 +8,13 @@ export function ProductForm<S extends z.ZodType<any, any>>(props: FormProps<S>) 
   return (
     <Form<S> {...props}>
       <MaterialTextField name="name" label="Name" placeholder="Nome" />
-      <MaterialTextField name="description" label="Descrição" placeholder="Descrição" />
+      <MaterialTextField
+        name="description"
+        label="Descrição"
+        placeholder="Descrição"
+        multiline
+        rows={4}
+      />
       <MaterialTextField name="price" label="Preço" placeholder="Preço" type="number" />
     </Form>
   )
