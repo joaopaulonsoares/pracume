@@ -81,29 +81,6 @@ export const ProductsList = () => {
       />
     </Box>
   )
-
-  /*
-  return (
-    <div>
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>
-            <Link href={Routes.ShowProductPage({ productId: product.id })}>
-              <a>{product.name}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
-    </div>
-  )
-  */
 }
 
 const ProductsPage = () => {
@@ -111,7 +88,7 @@ const ProductsPage = () => {
     <SidebarLayout>
       <Box margin={5}>
         <Head>
-          <title>Products</title>
+          <title>Produtos</title>
         </Head>
 
         <Box width="100%" display="flex" justifyContent="right">
@@ -120,7 +97,7 @@ const ProductsPage = () => {
           </Link>
         </Box>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Carregando...</div>}>
           <ProductsList />
         </Suspense>
       </Box>

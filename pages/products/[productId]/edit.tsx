@@ -36,7 +36,7 @@ export const EditProduct = () => {
       </Head>
 
       <div>
-        <pre>{JSON.stringify(product, null, 2)}</pre>
+        <pre>{/*JSON.stringify(product, null, 2)*/}</pre>
 
         <ProductForm
           submitText="Atualizar produto"
@@ -46,9 +46,7 @@ export const EditProduct = () => {
           // schema={UpdateProduct}
           initialValues={{ ...product, price: product.price / 10 ** product.priceScale }}
           onSubmit={async (values) => {
-            console.log(values.price)
             const convertedPrice = await convertNumberToIntegerWithScale(values.price, 2)
-            console.log(convertedPrice)
             try {
               const updated = await updateProductMutation({
                 ...values,
@@ -57,7 +55,9 @@ export const EditProduct = () => {
                 isActive: values.isActive === "true" ? true : false,
               })
               await setQueryData(updated)
-              void router.push(Routes.ShowProductPage({ productId: updated.id }))
+
+              // void router.push(Routes.ShowProductPage({ productId: updated.id }))
+              void router.push(Routes.ProductsPage())
             } catch (error: any) {
               console.error(error)
               return {
