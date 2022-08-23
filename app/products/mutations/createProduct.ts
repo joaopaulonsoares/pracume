@@ -6,6 +6,7 @@ const CreateProduct = z.object({
   name: z.string(),
   description: z.string(),
   price: z.number(),
+  isActive: z.boolean(),
 })
 
 export default resolver.pipe(resolver.zod(CreateProduct), resolver.authorize(), async (input) => {

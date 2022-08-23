@@ -20,6 +20,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone"
 import VisibilityIcon from "@mui/icons-material/Visibility"
+import Label from "app/core/components/Label"
 
 export function BasicTable({
   title,
@@ -40,6 +41,31 @@ export function BasicTable({
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
+  }
+
+  const getStatusLabel = (status: string): JSX.Element => {
+    const map = {
+      false: {
+        text: "Inativo",
+        color: "error",
+      },
+      true: {
+        text: "Ativo",
+        color: "success",
+      },
+    }
+
+    const { text, color }: any = map[status]
+
+    return <Label color={color}>{text}</Label>
+  }
+
+  function renderCollumType(value: any, type: string) {
+    if (type === "badge") {
+      return getStatusLabel(value as string)
+    }
+
+    return value
   }
 
   return (
@@ -70,7 +96,7 @@ export function BasicTable({
                   <TableRow key={contItem.id} hover>
                     {headers.map((headerItem) => (
                       <TableCell align="left" key={`cell-header-${headerItem.key}`}>
-                        {contItem[headerItem.key]}
+                        {renderCollumType(contItem[headerItem.key], headerItem.type)}
                       </TableCell>
                     ))}
                     <TableCell align="center">

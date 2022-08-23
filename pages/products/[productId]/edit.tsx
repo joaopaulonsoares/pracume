@@ -10,7 +10,8 @@ import Layout from "app/core/layouts/Layout"
 import getProduct from "app/products/queries/getProduct"
 import updateProduct from "app/products/mutations/updateProduct"
 import { ProductForm, FORM_ERROR } from "app/products/components/ProductForm"
-import { convertNumberToScale } from "app/core/utils/convertNumberToScaleTwo"
+import { convertNumberToIntegerWithScale } from "app/core/utils/convertNumberToIntegerWithScale"
+import { convertNumberFromIntegerWithScaleToFloat } from "app/core/utils/convertNumberFromIntegerWithScaleToFloat"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
 import { BoxCenter } from "app/core/components/BoxCenter"
 import { Grid } from "@mui/material"
@@ -43,15 +44,17 @@ export const EditProduct = () => {
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
           // schema={UpdateProduct}
-          initialValues={product}
+          initialValues={{ ...product, price: product.price / 10 ** product.priceScale }}
           onSubmit={async (values) => {
-            const convertedPrice = await convertNumberToScale(values.price, 2)
-
+            console.log(values.price)
+            const convertedPrice = await convertNumberToIntegerWithScale(values.price, 2)
+            console.log(convertedPrice)
             try {
               const updated = await updateProductMutation({
                 ...values,
                 id: product.id,
                 price: convertedPrice,
+                isActive: values.isActive === "true" ? true : false,
               })
               await setQueryData(updated)
               void router.push(Routes.ShowProductPage({ productId: updated.id }))

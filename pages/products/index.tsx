@@ -9,7 +9,7 @@ import getProducts from "app/products/queries/getProducts"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
 import { Box, Button } from "@mui/material"
 import BasicTable from "app/core/components/BasicTable"
-import { formatScaledPrice } from "app/core/utils/formatScaledPrice"
+import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
 const ITEMS_PER_PAGE = 100
 
@@ -17,22 +17,27 @@ const tableHeader = [
   {
     name: "Id",
     key: "id",
+    type: "text",
   },
   {
     name: "Nome",
     key: "name",
+    type: "text",
   },
   {
     name: "Descrição",
     key: "description",
+    type: "text",
   },
   {
     name: "Preço",
     key: "formattedPrice",
+    type: "text",
   },
   {
     name: "Situação",
-    key: "status",
+    key: "isActive",
+    type: "badge",
   },
 ]
 
@@ -48,8 +53,8 @@ export const ProductsList = () => {
   const formattedProducts = products.map((product) => {
     return {
       ...product,
-      formattedPrice: `R$ ${formatScaledPrice(product.price, product.priceScale)}`,
-      status: product.isActive ? "Ativo" : "Desativo",
+      formattedPrice: `R$ ${formatScaledPriceToPtBr(product.price, product.priceScale)}`,
+      // status: product.isActive ? "Ativo" : "Desativo",
     }
   })
 

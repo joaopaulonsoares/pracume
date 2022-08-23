@@ -5,7 +5,7 @@ import { useMutation } from "@blitzjs/rpc"
 import Layout from "app/core/layouts/Layout"
 import createProduct from "app/products/mutations/createProduct"
 import { ProductForm, FORM_ERROR } from "app/products/components/ProductForm"
-import { convertNumberToScale } from "app/core/utils/convertNumberToScaleTwo"
+import { convertNumberToIntegerWithScale } from "app/core/utils/convertNumberToIntegerWithScale"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
 import { Grid } from "@mui/material"
 import { BoxCenter } from "app/core/components/BoxCenter"
@@ -37,10 +37,11 @@ const NewProductPage = () => {
               // schema={CreateProduct}
               // initialValues={{}}
               onSubmit={async (values) => {
-                const convertedPrice = await convertNumberToScale(values.price, 2)
+                const convertedPrice = await convertNumberToIntegerWithScale(values.price, 2)
                 try {
                   const product = await createProductMutation({
                     ...values,
+                    isActive: values.isActive === "true" ? true : false,
                     price: convertedPrice,
                   })
                   void router.push(Routes.ShowProductPage({ productId: product.id }))

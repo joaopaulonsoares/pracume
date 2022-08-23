@@ -26,6 +26,12 @@ export function ProductForm<S extends z.ZodType<any, any>>(props: FormProps<S>) 
           type="number"
           startInputAdornmentText="R$"
         />
+        <MaterialTextField
+          required
+          name="isActive"
+          label="Produto Disponível"
+          placeholder="true ou false"
+        />
       </Form>
     </Box>
   )
