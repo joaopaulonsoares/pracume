@@ -322,7 +322,7 @@ function SidebarMenu() {
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/components/accordions"
+                  to="/products"
                   startIcon={<FastfoodIcon />}
                 >
                   Produtos

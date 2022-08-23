@@ -60,7 +60,7 @@ export function BasicTable({
                   {headers.map((header) => (
                     <TableCell key={`header-${header.name}`}>{header.name}</TableCell>
                   ))}
-                  <TableCell align="right">Ações</TableCell>
+                  <TableCell align="center">center</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -71,7 +71,7 @@ export function BasicTable({
                         {contItem[headerItem.key]}
                       </TableCell>
                     ))}
-                    <TableCell align="right">
+                    <TableCell align="center">
                       {editAction && (
                         <Link href={editAction(contItem.id)}>
                           <Tooltip placement="top" title="Editar" arrow>
