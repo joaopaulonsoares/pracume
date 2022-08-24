@@ -208,7 +208,7 @@ function SidebarMenu() {
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="/teste"
+                  to="/orders"
                   startIcon={<AddShoppingCartIcon />}
                 >
                   Pedidos
