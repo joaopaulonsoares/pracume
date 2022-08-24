@@ -69,9 +69,10 @@ const NewOrderPage = () => {
                 <Box
                   height="700px" // fixed the height
                   style={{
-                    border: "2px solid black",
+                    //border: "2px solid black",
                     overflow: "hidden",
                     overflowY: "scroll", // added scroll
+                    padding: "10px",
                   }}
                 >
                   <Grid container spacing={1}>
@@ -232,6 +233,31 @@ const NewOrderPage = () => {
                               </Typography>
                               <Button size="small" color="success">
                                 Adicionar
+                              </Button>
+                            </Box>
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                  <Grid container spacing={1} paddingTop={1}>
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+                      <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
+                        <Card>
+                          <CardHeader title="Creme" subheader="R$ 12,90" />
+
+                          <CardActions>
+                            <Box
+                              width="100%"
+                              display="flex"
+                              justifyContent="space-around"
+                              alignItems="center"
+                            >
+                              <Button size="small" color="success" variant="outlined">
+                                300
+                              </Button>
+                              <Button size="small" color="success" variant="outlined">
+                                500
                               </Button>
                             </Box>
                           </CardActions>
