@@ -16,6 +16,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  TextField,
   Typography,
 } from "@mui/material"
 import { BoxCenter } from "app/core/components/BoxCenter"
@@ -34,36 +35,146 @@ const NewOrderPage = () => {
           <a>Lista de Pedidos</a>
         </Link>
       </p>
-      <BoxCenter>
-        <h3>Cadastro de novo pedido</h3>
-      </BoxCenter>
-      <Grid container>
+
+      <Grid container padding={2}>
         <Grid item xs={12} md={8} lg={9} paddingBottom={1}>
-          <Box minWidth="100%">
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              maxHeight: 700,
+              overflow: "hidden",
+              overflowY: "scroll",
+              // justifyContent="flex-end" # DO NOT USE THIS WITH 'scroll'
+            }}
+          >
             <Grid container xs={12} spacing={1}>
-              {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
-                  <Card>
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        Lizard
+              <Grid item xs={12}>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  paddingBottom={1}
+                >
+                  <Grid container alignItems="center">
+                    <Grid item xs={9}>
+                      <Typography gutterBottom variant="h3" component="div">
+                        Produtos disponíveis
                       </Typography>
-                      {/*
-                                            <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread
-                      </Typography>
-                      */}
-                    </CardContent>
-                    <CardActions>
-                      <Box width="100%" display="flex" justifyContent="right">
-                        <Button size="small" color="success">
-                          Adicionar
-                        </Button>
-                      </Box>
-                    </CardActions>
-                  </Card>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <TextField
+                        id="standard-search"
+                        label="Pesquisar produto"
+                        type="search"
+                        variant="standard"
+                        fullWidth
+                      />
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={1}>
+                  {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+                    <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
+                      <Card>
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="div">
+                            Lizard
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Box
+                            width="100%"
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <Typography
+                              variant="subtitle2"
+                              color="text.secondary"
+                              fontWeight="bold"
+                              fontSize="14px"
+                            >
+                              R$ 14,90
+                            </Typography>
+                            <Button size="small" color="success">
+                              Adicionar
+                            </Button>
+                          </Box>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
+                <Grid container paddingTop={2} spacing={1}>
+                  {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+                    <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
+                      <Card>
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="div">
+                            Lizard
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Box
+                            width="100%"
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <Typography
+                              variant="subtitle2"
+                              color="text.secondary"
+                              fontWeight="bold"
+                              fontSize="14px"
+                            >
+                              R$ 14,90
+                            </Typography>
+                            <Button size="small" color="success">
+                              Adicionar
+                            </Button>
+                          </Box>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+                <Grid container paddingTop={2} spacing={1}>
+                  {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+                    <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
+                      <Card>
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="div">
+                            Lizard
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Box
+                            width="100%"
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                          >
+                            <Typography
+                              variant="subtitle2"
+                              color="text.secondary"
+                              fontWeight="bold"
+                              fontSize="14px"
+                            >
+                              R$ 14,90
+                            </Typography>
+                            <Button size="small" color="success">
+                              Adicionar
+                            </Button>
+                          </Box>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
             </Grid>
           </Box>
         </Grid>
