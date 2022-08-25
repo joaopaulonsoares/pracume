@@ -28,6 +28,92 @@ const NewOrderPage = () => {
   const router = useRouter()
   const [createOrderMutation] = useMutation(createOrder)
 
+  function ProductCard() {
+    return (
+      <Grid item xs={12} sm={6} md={6} lg={4} xl={2}>
+        <Card>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Lizard
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Box width="100%" display="flex" justifyContent="space-between" alignItems="center">
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                fontWeight="bold"
+                fontSize="14px"
+              >
+                R$ 14,90
+              </Typography>
+              <Button size="small" color="success">
+                Adicionar
+              </Button>
+            </Box>
+          </CardActions>
+        </Card>
+      </Grid>
+    )
+  }
+
+  function BeverageProductCard() {
+    return (
+      <Grid item xs={12} sm={6} md={6} lg={4} xl={2}>
+        <Card>
+          <CardContent>
+            <Typography sx={{ fontSize: 14 }} gutterBottom variant="h5" component="div">
+              Suco de acerola
+            </Typography>
+            <Typography sx={{ fontSize: 12 }} variant="h5" component="div" color="text.secondary">
+              R$ 14,90
+            </Typography>
+          </CardContent>
+
+          <CardActions>
+            <Box width="100%" display="flex" justifyContent="space-around" alignItems="center">
+              <Button size="small" color="success" variant="outlined">
+                300
+              </Button>
+              <Button size="small" color="success" variant="outlined">
+                500
+              </Button>
+            </Box>
+          </CardActions>
+        </Card>
+      </Grid>
+    )
+  }
+
+  function OrderResumeProduct() {
+    return (
+      <Box p={2}>
+        <Grid container>
+          <Grid item xs={11}>
+            <Typography variant="h5">Big Cheddar</Typography>
+            <Typography variant="subtitle2">+ Queijo</Typography>
+            <Typography variant="subtitle2">+ Presunto</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Box display="flex" flexDirection="column">
+              <IconButton aria-label="Editar item" size="small">
+                <EditIcon sx={{ fontSize: "15px" }} />
+              </IconButton>
+              <IconButton aria-label="Remover produto" size="small" color="error">
+                <ClearIcon sx={{ fontSize: "15px" }} />
+              </IconButton>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="subtitle1" align="right" margin={0}>
+              R$ 12,20
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
+    )
+  }
+
   return (
     <SidebarLayout>
       <p>
@@ -50,7 +136,7 @@ const NewOrderPage = () => {
                   <Grid container alignItems="center">
                     <Grid item xs={9}>
                       <Typography gutterBottom variant="h3" component="div">
-                        Produtos disponíveis
+                        Novo pedido
                       </Typography>
                     </Grid>
                     <Grid item xs={3}>
@@ -77,192 +163,23 @@ const NewOrderPage = () => {
                 >
                   <Grid container spacing={1}>
                     {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
-                        <Card>
-                          <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                              Lizard
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Box
-                              width="100%"
-                              display="flex"
-                              justifyContent="space-between"
-                              alignItems="center"
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                color="text.secondary"
-                                fontWeight="bold"
-                                fontSize="14px"
-                              >
-                                R$ 14,90
-                              </Typography>
-                              <Button size="small" color="success">
-                                Adicionar
-                              </Button>
-                            </Box>
-                          </CardActions>
-                        </Card>
-                      </Grid>
+                      <ProductCard key={`produto-lanche-${index}`} />
                     ))}
                   </Grid>
                   <Grid container spacing={1} paddingTop={1}>
                     {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
-                        <Card>
-                          <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                              Lizard
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Box
-                              width="100%"
-                              display="flex"
-                              justifyContent="space-between"
-                              alignItems="center"
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                color="text.secondary"
-                                fontWeight="bold"
-                                fontSize="14px"
-                              >
-                                R$ 14,90
-                              </Typography>
-                              <Button size="small" color="success">
-                                Adicionar
-                              </Button>
-                            </Box>
-                          </CardActions>
-                        </Card>
-                      </Grid>
+                      <ProductCard key={`produto-bebida-${index}`} />
                     ))}
                   </Grid>
                   <Grid container spacing={1} paddingTop={1}>
                     {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
-                        <Card>
-                          <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                              Lizard
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Box
-                              width="100%"
-                              display="flex"
-                              justifyContent="space-between"
-                              alignItems="center"
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                color="text.secondary"
-                                fontWeight="bold"
-                                fontSize="14px"
-                              >
-                                R$ 14,90
-                              </Typography>
-                              <Button size="small" color="success">
-                                Adicionar
-                              </Button>
-                            </Box>
-                          </CardActions>
-                        </Card>
-                      </Grid>
+                      <ProductCard key={`produto-adicional-${index}`} />
                     ))}
                   </Grid>
-                  <Grid container spacing={1} paddingTop={1}>
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
-                        <Card>
-                          <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                              Lizard
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Box
-                              width="100%"
-                              display="flex"
-                              justifyContent="space-between"
-                              alignItems="center"
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                color="text.secondary"
-                                fontWeight="bold"
-                                fontSize="14px"
-                              >
-                                R$ 14,90
-                              </Typography>
-                              <Button size="small" color="success">
-                                Adicionar
-                              </Button>
-                            </Box>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                  <Grid container spacing={1} paddingTop={1}>
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
-                        <Card>
-                          <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                              Lizard
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Box
-                              width="100%"
-                              display="flex"
-                              justifyContent="space-between"
-                              alignItems="center"
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                color="text.secondary"
-                                fontWeight="bold"
-                                fontSize="14px"
-                              >
-                                R$ 14,90
-                              </Typography>
-                              <Button size="small" color="success">
-                                Adicionar
-                              </Button>
-                            </Box>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                  <Grid container spacing={1} paddingTop={1}>
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <Grid item xs={12} sm={6} md={6} lg={4} xl={2} key={`produto-${index}`}>
-                        <Card>
-                          <CardHeader title="Creme" subheader="R$ 12,90" />
 
-                          <CardActions>
-                            <Box
-                              width="100%"
-                              display="flex"
-                              justifyContent="space-around"
-                              alignItems="center"
-                            >
-                              <Button size="small" color="success" variant="outlined">
-                                300
-                              </Button>
-                              <Button size="small" color="success" variant="outlined">
-                                500
-                              </Button>
-                            </Box>
-                          </CardActions>
-                        </Card>
-                      </Grid>
+                  <Grid container spacing={1} paddingTop={1}>
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+                      <BeverageProductCard key={`produto-bebida-${index}`} />
                     ))}
                   </Grid>
                 </Box>
@@ -272,45 +189,29 @@ const NewOrderPage = () => {
         </Grid>
         <Grid item xs={12} md={4} lg={3}>
           <Box paddingTop="60px">
-            {" "}
             <Card sx={{ minHeight: { xs: 0, md: 700 } }}>
-              <CardHeader title="Resumo do Pedido" subheader={" saved addresses"} />
+              <CardHeader title="Resumo do Pedido" />
               <Divider />
-              <Box paddingBottom={1}>
-                {[0, 1, 2, 3].map((item, index) => (
-                  <Box p={2} key={`item-${index}`}>
-                    <Grid container>
-                      <Grid item xs={11}>
-                        <Typography variant="h5">Big Cheddar</Typography>
-                        <Typography variant="subtitle2">+ Queijo</Typography>
-                        <Typography variant="subtitle2">+ Presunto</Typography>
-                      </Grid>
-                      <Grid item xs={1}>
-                        <Box display="flex" flexDirection="column">
-                          <IconButton aria-label="Editar item" size="small">
-                            <EditIcon sx={{ fontSize: "15px" }} />
-                          </IconButton>
-                          <IconButton aria-label="Remover produto" size="small" color="error">
-                            <ClearIcon sx={{ fontSize: "15px" }} />
-                          </IconButton>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant="subtitle1" align="right" margin={0}>
-                          R$ 12,20
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
+              <Box
+                paddingBottom={1}
+                height="500px" // fixed the height
+                style={{
+                  //border: "2px solid black",
+                  overflow: "hidden",
+                  overflowY: "scroll", // added scroll
+                  padding: "10px",
+                }}
+              >
+                {[0, 1, 2, 3, 4].map((item, index) => (
+                  <OrderResumeProduct key={`order-resume-product-${index}`} />
                 ))}
-
                 <Divider />
-                <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
-                  <Typography variant="h4">R$ 23,20</Typography>
-                  <Button variant="contained" color="success" endIcon={<ArrowForwardTwoTone />}>
-                    Confirmar
-                  </Button>
-                </Box>
+              </Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
+                <Typography variant="h4">R$ 23,20</Typography>
+                <Button variant="contained" color="success" endIcon={<ArrowForwardTwoTone />}>
+                  Confirmar
+                </Button>
               </Box>
             </Card>
           </Box>
