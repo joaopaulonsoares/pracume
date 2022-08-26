@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -23,18 +24,65 @@ import { BoxCenter } from "app/core/components/BoxCenter"
 import { ArrowForwardTwoTone } from "@mui/icons-material"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
+import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
-const NewOrderPage = () => {
+const productOne = {
+  name: "Produto Um",
+  amount: {
+    value: 1000,
+    scale: 2,
+  },
+  extraItems: [
+    {
+      name: "Batata frita",
+      amount: {
+        value: 100,
+        scale: 2,
+      },
+    },
+  ],
+  observations: "Nenhuma observação",
+}
+
+const productTwo = {
+  name: "Produto Dois",
+  amount: {
+    value: 1000,
+    scale: 2,
+  },
+  extraItems: [
+    {
+      name: "Batata frita",
+      amount: {
+        value: 100,
+        scale: 2,
+      },
+    },
+  ],
+  observations: "Nenhuma observação",
+}
+
+function NewOrderPage(): JSX.Element {
   const router = useRouter()
   const [createOrderMutation] = useMutation(createOrder)
+  const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
 
-  function ProductCard() {
+  function addSelectedProduct(info: any) {
+    setSelectedProducts((oldArray: any) => [...oldArray, info])
+  }
+
+  function removeSelectedProduct(info: any) {
+    setSelectedProducts((oldArray: any) => [...oldArray, info])
+  }
+
+  function ProductCard({ info }: any) {
+    const { name, amount, extraItems, observations } = info
     return (
       <Grid item xs={12} sm={6} md={6} lg={4} xl={2}>
         <Card>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              Lizard
+              {name}
             </Typography>
           </CardContent>
           <CardActions>
@@ -45,7 +93,7 @@ const NewOrderPage = () => {
                 fontWeight="bold"
                 fontSize="14px"
               >
-                R$ 14,90
+                R$ {formatScaledPriceToPtBr(amount.value, amount.scale)}
               </Typography>
               <Button size="small" color="success">
                 Adicionar
@@ -157,29 +205,29 @@ const NewOrderPage = () => {
                   style={{
                     //border: "2px solid black",
                     overflow: "hidden",
-                    overflowY: "scroll", // added scroll
+                    overflowY: "scroll",
                     padding: "10px",
                   }}
                 >
                   <Grid container spacing={1}>
                     {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <ProductCard key={`produto-lanche-${index}`} />
+                      <ProductCard key={`produto-lanche-${index}`} info={productOne} />
                     ))}
                   </Grid>
                   <Grid container spacing={1} paddingTop={1}>
                     {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <ProductCard key={`produto-bebida-${index}`} />
+                      <ProductCard key={`produto-bebida-${index}`} info={productTwo} />
                     ))}
                   </Grid>
                   <Grid container spacing={1} paddingTop={1}>
                     {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <ProductCard key={`produto-adicional-${index}`} />
+                      <ProductCard key={`produto-adicional-${index}`} info={productOne} />
                     ))}
                   </Grid>
 
                   <Grid container spacing={1} paddingTop={1}>
                     {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <BeverageProductCard key={`produto-bebida-${index}`} />
+                      <BeverageProductCard key={`produto-bebida-${index}`} info={productTwo} />
                     ))}
                   </Grid>
                 </Box>
@@ -198,7 +246,7 @@ const NewOrderPage = () => {
                 style={{
                   //border: "2px solid black",
                   overflow: "hidden",
-                  overflowY: "scroll", // added scroll
+                  overflowY: "scroll",
                   padding: "10px",
                 }}
               >
