@@ -26,106 +26,27 @@ import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import { mockedProducts } from "app/orders/mockedProducts"
-
-const productOne = {
-  id: 1,
-  name: "Produto Um",
-  amount: {
-    value: 1000,
-    scale: 2,
-  },
-  extraItems: [
-    {
-      name: "Batata frita",
-      type: "additional",
-      amount: {
-        value: 0,
-        scale: 2,
-      },
-    },
-    {
-      name: "Suco Maracuja 300",
-      type: "additional",
-      amount: {
-        value: 0,
-        scale: 2,
-      },
-    },
-    {
-      name: "Ovo",
-      type: "additional",
-      amount: {
-        value: 50,
-        scale: 2,
-      },
-    },
-  ],
-}
-
-const selectedProductOne = {
-  id: 1,
-  name: "Produto Um",
-  amount: {
-    value: 1000,
-    scale: 2,
-  },
-  extraItems: [
-    {
-      name: "Batata frita",
-      amount: {
-        value: 0,
-        scale: 2,
-      },
-    },
-  ],
-  observations: "Nenhuma observação",
-  totalAmont: {
-    value: 1000,
-    scale: 2,
-  },
-}
-
-const productTwo = {
-  id: 2,
-  name: "Produto Dois",
-  amount: {
-    value: 1000,
-    scale: 2,
-  },
-  extraItems: [
-    {
-      name: "Batata frita",
-      type: "additional",
-      amount: {
-        value: 100,
-        scale: 2,
-      },
-    },
-    {
-      name: "Suco Maracuja 300",
-      type: "additional",
-      amount: {
-        value: 0,
-        scale: 2,
-      },
-    },
-  ],
-  observations: "Nenhuma observação",
-}
+import { v4 } from "uuid"
 
 function NewOrderPage(): JSX.Element {
   const router = useRouter()
   const [createOrderMutation] = useMutation(createOrder)
   const productsList = mockedProducts
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
-  console.log(selectedProducts)
+  const filteredProductsList = selectedProducts
+  //console.log(selectedProducts)
 
   function addSelectedProduct(info: any) {
-    setSelectedProducts((oldArray: any) => [...oldArray, info])
+    //const generateUUid = uuid()
+    console.log(v4())
+
+    setSelectedProducts((oldArray: any) => [...oldArray, { uuid: v4(), ...info }])
   }
 
-  function removeSelectedProduct(info: any) {
-    setSelectedProducts((oldArray: any) => [...oldArray, info])
+  function removeSelectedProduct(itemUuid: string) {
+    setSelectedProducts((prevState: any) => {
+      return prevState.filter((data) => data.uuid != itemUuid)
+    })
   }
 
   function ProductCard({ info }: any) {
@@ -186,7 +107,7 @@ function NewOrderPage(): JSX.Element {
     )
   }
 
-  function OrderResumeProduct({ orderProduct }: any) {
+  function OrderResumeProduct({ orderProduct, itemUuid }: any) {
     const { id, name, amount, items, observations } = orderProduct
     return (
       <Box p={2}>
@@ -196,7 +117,7 @@ function NewOrderPage(): JSX.Element {
 
             {items.length > 0 &&
               items.map((item, index) => (
-                <Typography key={`order-${index}-id`} variant="subtitle2">
+                <Typography key={`order-${itemUuid}-${index}-id`} variant="subtitle2">
                   + {item.name}
                 </Typography>
               ))}
@@ -206,7 +127,12 @@ function NewOrderPage(): JSX.Element {
               <IconButton aria-label="Editar item" size="small">
                 <EditIcon sx={{ fontSize: "15px" }} />
               </IconButton>
-              <IconButton aria-label="Remover produto" size="small" color="error">
+              <IconButton
+                aria-label="Remover produto"
+                size="small"
+                color="error"
+                onClick={() => removeSelectedProduct(itemUuid)}
+              >
                 <ClearIcon sx={{ fontSize: "15px" }} />
               </IconButton>
             </Box>
@@ -222,7 +148,6 @@ function NewOrderPage(): JSX.Element {
   }
 
   function calculateTotalSelectedItemsPrice(listToSum: any) {
-    console.log(listToSum)
     const sum = listToSum.reduce(
       (previousValue, currentItem) => previousValue + currentItem.amount.value,
       0
@@ -320,8 +245,12 @@ function NewOrderPage(): JSX.Element {
                   padding: "10px",
                 }}
               >
-                {selectedProducts.map((item, index) => (
-                  <OrderResumeProduct key={`order-resume-product-${index}`} orderProduct={item} />
+                {filteredProductsList.map((item, index) => (
+                  <OrderResumeProduct
+                    key={`order-resume-product-${item.uuid}`}
+                    orderProduct={item}
+                    itemUuid={item.uuid}
+                  />
                 ))}
                 <Divider />
               </Box>
