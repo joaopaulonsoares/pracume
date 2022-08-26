@@ -140,10 +140,41 @@ export const beverageList = [
     type: "beverage",
     name: "Guaraná Lata",
     amount: {
-      value: 400,
+      value: 500,
       scale: 2,
     },
     items: [],
+  },
+]
+
+const mockedJuices = [
+  {
+    id: 11,
+    type: "beverage",
+    name: "Suco de Maracujá",
+    amount: {
+      value: 0,
+      scale: 2,
+    },
+    items: [],
+    sizeOptions: [
+      {
+        name: "300",
+        size: 300,
+        amount: {
+          value: 1200,
+          scale: 2,
+        },
+      },
+      {
+        name: "500",
+        size: 500,
+        amount: {
+          value: 1400,
+          scale: 2,
+        },
+      },
+    ],
   },
 ]
 
@@ -151,4 +182,5 @@ export const mockedProducts = {
   combos: comboList,
   sandwiches: sandwichesList,
   beverages: beverageList,
+  juices: mockedJuices,
 }

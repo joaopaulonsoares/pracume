@@ -27,6 +27,7 @@ import ClearIcon from "@mui/icons-material/Clear"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import { mockedProducts } from "app/orders/mockedProducts"
 import { v4 } from "uuid"
+import Tooltip from "@mui/material/Tooltip"
 
 function NewOrderPage(): JSX.Element {
   const router = useRouter()
@@ -34,12 +35,10 @@ function NewOrderPage(): JSX.Element {
   const productsList = mockedProducts
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
   const filteredProductsList = selectedProducts
-  //console.log(selectedProducts)
+  console.log(filteredProductsList)
 
   function addSelectedProduct(info: any) {
-    //const generateUUid = uuid()
-    console.log(v4())
-
+    console.log(info)
     setSelectedProducts((oldArray: any) => [...oldArray, { uuid: v4(), ...info }])
   }
 
@@ -79,41 +78,88 @@ function NewOrderPage(): JSX.Element {
     )
   }
 
-  function BeverageProductCard() {
+  function BeverageProductCard({ info }: any) {
+    const { name, amount, extraItems, observations, sizeOptions } = info
+
+    function handleBeverageClick(beverageInfos: any) {
+      addSelectedProduct({
+        ...info,
+        amount: beverageInfos.amount,
+        items: [{ name: `${beverageInfos.name} ml`, type: beverageInfos.type }],
+      })
+    }
+
     return (
       <Grid item xs={12} sm={6} md={6} lg={4} xl={2}>
         <Card>
           <CardContent>
             <Typography sx={{ fontSize: 14 }} gutterBottom variant="h5" component="div">
-              Suco de acerola
+              {name}
             </Typography>
-            <Typography sx={{ fontSize: 12 }} variant="h5" component="div" color="text.secondary">
-              R$ 14,90
-            </Typography>
+            <>
+              {sizeOptions.length > 0 ? (
+                <Box width="100%" display="flex" justifyContent="space-around" alignItems="center">
+                  {sizeOptions.map((sizeItem, index) => (
+                    <Typography
+                      key={`${index}-bebida-${name}-${sizeItem.name}`}
+                      sx={{ fontSize: 12 }}
+                      variant="h5"
+                      component="div"
+                      color="text.secondary"
+                    >
+                      {sizeItem.name} - R${" "}
+                      {formatScaledPriceToPtBr(sizeItem.amount.value, sizeItem.amount.scale)}
+                    </Typography>
+                  ))}
+                </Box>
+              ) : (
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  fontWeight="bold"
+                  fontSize="14px"
+                >
+                  R$ {formatScaledPriceToPtBr(amount.value, amount.scale)}
+                </Typography>
+              )}
+            </>
           </CardContent>
 
           <CardActions>
-            <Box width="100%" display="flex" justifyContent="space-around" alignItems="center">
-              <Button size="small" color="success" variant="outlined">
-                300
-              </Button>
-              <Button size="small" color="success" variant="outlined">
-                500
-              </Button>
-            </Box>
+            {sizeOptions.length > 0 ? (
+              <Box width="100%" display="flex" justifyContent="space-around" alignItems="center">
+                {sizeOptions.map((sizeItem, index) => (
+                  <Button
+                    size="small"
+                    color="success"
+                    variant="outlined"
+                    key={`${name}-size-${sizeItem.size}`}
+                    onClick={() => handleBeverageClick(sizeItem)}
+                  >
+                    {sizeItem.name}
+                  </Button>
+                ))}
+              </Box>
+            ) : (
+              <button>teste</button>
+            )}
           </CardActions>
         </Card>
       </Grid>
     )
   }
 
-  function OrderResumeProduct({ orderProduct, itemUuid }: any) {
+  function OrderResumeProduct({ orderProduct, itemUuid, index }: any) {
     const { id, name, amount, items, observations } = orderProduct
+    const listPosition = index + 1
+
     return (
-      <Box p={2}>
+      <Box p={1}>
         <Grid container>
           <Grid item xs={11}>
-            <Typography variant="h5">{name}</Typography>
+            <Typography variant="h5">
+              {listPosition} - {name}
+            </Typography>
 
             {items.length > 0 &&
               items.map((item, index) => (
@@ -127,14 +173,16 @@ function NewOrderPage(): JSX.Element {
               <IconButton aria-label="Editar item" size="small">
                 <EditIcon sx={{ fontSize: "15px" }} />
               </IconButton>
-              <IconButton
-                aria-label="Remover produto"
-                size="small"
-                color="error"
-                onClick={() => removeSelectedProduct(itemUuid)}
-              >
-                <ClearIcon sx={{ fontSize: "15px" }} />
-              </IconButton>
+              <Tooltip title={`Remover produto ${listPosition}`}>
+                <IconButton
+                  aria-label="Remover produto"
+                  size="small"
+                  color="error"
+                  onClick={() => removeSelectedProduct(itemUuid)}
+                >
+                  <ClearIcon sx={{ fontSize: "15px" }} />
+                </IconButton>
+              </Tooltip>
             </Box>
           </Grid>
           <Grid item xs={12}>
@@ -143,6 +191,7 @@ function NewOrderPage(): JSX.Element {
             </Typography>
           </Grid>
         </Grid>
+        <Divider />
       </Box>
     )
   }
@@ -164,103 +213,120 @@ function NewOrderPage(): JSX.Element {
       </p>
 
       <Grid container padding={2}>
-        <Grid item xs={12} md={8} lg={9} paddingBottom={1} height="60px">
-          <Box>
-            <Grid container xs={12} spacing={1}>
-              <Grid item xs={12}>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  paddingBottom={1}
-                >
-                  <Grid container alignItems="center">
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h3" component="div">
-                        Novo pedido
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField
-                        id="standard-search"
-                        label="Pesquisar produto"
-                        type="search"
-                        variant="standard"
-                        fullWidth
-                      />
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Box
-                  height="700px" // fixed the height
-                  style={{
-                    //border: "2px solid black",
-                    overflow: "hidden",
-                    overflowY: "scroll",
-                    padding: "10px",
-                  }}
-                >
-                  <Grid container spacing={1}>
-                    {productsList.combos.map((item, index) => (
-                      <ProductCard key={`product-combo-${index}`} info={item} />
-                    ))}
-                  </Grid>
-                  <Grid container spacing={1} paddingTop={4}>
-                    {productsList.sandwiches.map((item, index) => (
-                      <ProductCard key={`product-sandwiches-${index}`} info={item} />
-                    ))}
-                  </Grid>
-                  <Grid container spacing={1} paddingTop={4}>
-                    {productsList.beverages.map((item, index) => (
-                      <ProductCard key={`product-beverage-${index}`} info={item} />
-                    ))}
-                  </Grid>
-
-                  {/*
-                  <Grid container spacing={1} paddingTop={1}>
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <BeverageProductCard key={`produto-bebida-${index}`} info={productTwo} />
-                    ))}
-                  </Grid>
-                  */}
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={4} lg={3}>
-          <Box paddingTop="60px">
-            <Card sx={{ minHeight: { xs: 0, md: 700 } }}>
-              <CardHeader title="Resumo do Pedido" />
-              <Divider />
+        <Grid item xs={12} md={8} lg={9} paddingBottom={1}>
+          <Grid container xs={12} spacing={1}>
+            <Grid item xs={12}>
               <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
                 paddingBottom={1}
-                height="500px" // fixed the height
+              >
+                <Grid container alignItems="center">
+                  <Grid item xs={9}>
+                    <Typography gutterBottom variant="h3" component="div">
+                      Novo pedido
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      id="standard-search"
+                      label="Pesquisar produto"
+                      type="search"
+                      variant="standard"
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                maxHeight="700px" // fixed the height: ;
                 style={{
-                  //border: "2px solid black",
-                  overflow: "hidden",
-                  overflowY: "scroll",
+                  overflow: "auto",
                   padding: "10px",
                 }}
               >
-                {filteredProductsList.map((item, index) => (
-                  <OrderResumeProduct
-                    key={`order-resume-product-${item.uuid}`}
-                    orderProduct={item}
-                    itemUuid={item.uuid}
-                  />
-                ))}
-                <Divider />
+                <Grid container spacing={1}>
+                  {productsList.combos.map((item, index) => (
+                    <ProductCard key={`product-combo-${index}`} info={item} />
+                  ))}
+                </Grid>
+                <Grid container spacing={1} paddingTop={4}>
+                  {productsList.sandwiches.map((item, index) => (
+                    <ProductCard key={`product-sandwiches-${index}`} info={item} />
+                  ))}
+                </Grid>
+                <Grid container spacing={1} paddingTop={4}>
+                  {productsList.beverages.map((item, index) => (
+                    <ProductCard key={`product-beverage-${index}`} info={item} />
+                  ))}
+                </Grid>
+
+                {
+                  <Grid container spacing={1} paddingTop={1}>
+                    {productsList.juices.map((item, index) => (
+                      <BeverageProductCard key={`produto-bebida-${index}`} info={item} />
+                    ))}
+                  </Grid>
+                }
               </Box>
-              <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
-                <Typography variant="h4">
-                  R$ {calculateTotalSelectedItemsPrice(selectedProducts)}
-                </Typography>
-                <Button variant="contained" color="success" endIcon={<ArrowForwardTwoTone />}>
-                  Confirmar
-                </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} md={4} lg={3}>
+          <Box paddingTop="60px">
+            <Card sx={{ minHeight: { xs: 0, md: 0 } }}>
+              <CardHeader title="Resumo do Pedido" />
+              <Divider />
+              <Box display="flex" flexDirection="column" justifyContent="space-between">
+                <Box
+                  paddingBottom={1}
+                  maxHeight="580px" // fixed the height: ;
+                  style={{
+                    //border: "2px solid black",
+                    overflow: "hidden",
+                    overflowY: "auto",
+                    padding: "10px",
+                  }}
+                >
+                  {filteredProductsList.length === 0 ? (
+                    <Box
+                      width="100%"
+                      height="100%"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      padding={1}
+                    >
+                      <Typography variant="subtitle1">Nenhum produto escolhido</Typography>
+                    </Box>
+                  ) : (
+                    filteredProductsList.map((item, index) => (
+                      <OrderResumeProduct
+                        key={`order-resume-product-${item.uuid}`}
+                        orderProduct={item}
+                        itemUuid={item.uuid}
+                        index={index}
+                      />
+                    ))
+                  )}
+                </Box>
+                <Divider />
+                <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
+                  <Typography variant="h4">
+                    R$ {calculateTotalSelectedItemsPrice(selectedProducts)}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    endIcon={<ArrowForwardTwoTone />}
+                    disabled={selectedProducts.length === 0}
+                  >
+                    Confirmar
+                  </Button>
+                </Box>
               </Box>
             </Card>
           </Box>
