@@ -27,6 +27,42 @@ import ClearIcon from "@mui/icons-material/Clear"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
 const productOne = {
+  id: 1,
+  name: "Produto Um",
+  amount: {
+    value: 1000,
+    scale: 2,
+  },
+  extraItems: [
+    {
+      name: "Batata frita",
+      type: "additional",
+      amount: {
+        value: 0,
+        scale: 2,
+      },
+    },
+    {
+      name: "Suco Maracuja 300",
+      type: "additional",
+      amount: {
+        value: 0,
+        scale: 2,
+      },
+    },
+    {
+      name: "Ovo",
+      type: "additional",
+      amount: {
+        value: 50,
+        scale: 2,
+      },
+    },
+  ],
+}
+
+const selectedProductOne = {
+  id: 1,
   name: "Produto Um",
   amount: {
     value: 1000,
@@ -36,15 +72,20 @@ const productOne = {
     {
       name: "Batata frita",
       amount: {
-        value: 100,
+        value: 0,
         scale: 2,
       },
     },
   ],
   observations: "Nenhuma observação",
+  totalAmont: {
+    value: 1000,
+    scale: 2,
+  },
 }
 
 const productTwo = {
+  id: 2,
   name: "Produto Dois",
   amount: {
     value: 1000,
@@ -53,8 +94,17 @@ const productTwo = {
   extraItems: [
     {
       name: "Batata frita",
+      type: "additional",
       amount: {
         value: 100,
+        scale: 2,
+      },
+    },
+    {
+      name: "Suco Maracuja 300",
+      type: "additional",
+      amount: {
+        value: 0,
         scale: 2,
       },
     },
@@ -66,6 +116,7 @@ function NewOrderPage(): JSX.Element {
   const router = useRouter()
   const [createOrderMutation] = useMutation(createOrder)
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
+  console.log(selectedProducts)
 
   function addSelectedProduct(info: any) {
     setSelectedProducts((oldArray: any) => [...oldArray, info])
@@ -95,7 +146,7 @@ function NewOrderPage(): JSX.Element {
               >
                 R$ {formatScaledPriceToPtBr(amount.value, amount.scale)}
               </Typography>
-              <Button size="small" color="success">
+              <Button size="small" color="success" onClick={() => addSelectedProduct(info)}>
                 Adicionar
               </Button>
             </Box>
@@ -133,14 +184,21 @@ function NewOrderPage(): JSX.Element {
     )
   }
 
-  function OrderResumeProduct() {
+  function OrderResumeProduct({ orderProduct }: any) {
+    console.log(orderProduct)
+    const { id, name, amount, extraItems, observations } = orderProduct
     return (
       <Box p={2}>
         <Grid container>
           <Grid item xs={11}>
-            <Typography variant="h5">Big Cheddar</Typography>
-            <Typography variant="subtitle2">+ Queijo</Typography>
-            <Typography variant="subtitle2">+ Presunto</Typography>
+            <Typography variant="h5">{name}</Typography>
+
+            {extraItems.length > 0 &&
+              extraItems.map((item, index) => (
+                <Typography key={`order-${index}-id`} variant="subtitle2">
+                  + {item.name}
+                </Typography>
+              ))}
           </Grid>
           <Grid item xs={1}>
             <Box display="flex" flexDirection="column">
@@ -250,8 +308,8 @@ function NewOrderPage(): JSX.Element {
                   padding: "10px",
                 }}
               >
-                {[0, 1, 2, 3, 4].map((item, index) => (
-                  <OrderResumeProduct key={`order-resume-product-${index}`} />
+                {selectedProducts.map((item, index) => (
+                  <OrderResumeProduct key={`order-resume-product-${index}`} orderProduct={item} />
                 ))}
                 <Divider />
               </Box>
