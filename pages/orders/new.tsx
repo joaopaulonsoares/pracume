@@ -25,6 +25,7 @@ import { ArrowForwardTwoTone } from "@mui/icons-material"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
+import { mockedProducts } from "app/orders/mockedProducts"
 
 const productOne = {
   id: 1,
@@ -115,6 +116,7 @@ const productTwo = {
 function NewOrderPage(): JSX.Element {
   const router = useRouter()
   const [createOrderMutation] = useMutation(createOrder)
+  const productsList = mockedProducts
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
   console.log(selectedProducts)
 
@@ -185,16 +187,15 @@ function NewOrderPage(): JSX.Element {
   }
 
   function OrderResumeProduct({ orderProduct }: any) {
-    console.log(orderProduct)
-    const { id, name, amount, extraItems, observations } = orderProduct
+    const { id, name, amount, items, observations } = orderProduct
     return (
       <Box p={2}>
         <Grid container>
           <Grid item xs={11}>
             <Typography variant="h5">{name}</Typography>
 
-            {extraItems.length > 0 &&
-              extraItems.map((item, index) => (
+            {items.length > 0 &&
+              items.map((item, index) => (
                 <Typography key={`order-${index}-id`} variant="subtitle2">
                   + {item.name}
                 </Typography>
@@ -212,12 +213,21 @@ function NewOrderPage(): JSX.Element {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="subtitle1" align="right" margin={0}>
-              R$ 12,20
+              R$ {formatScaledPriceToPtBr(amount.value, amount.scale)}
             </Typography>
           </Grid>
         </Grid>
       </Box>
     )
+  }
+
+  function calculateTotalSelectedItemsPrice(listToSum: any) {
+    console.log(listToSum)
+    const sum = listToSum.reduce(
+      (previousValue, currentItem) => previousValue + currentItem.amount.value,
+      0
+    )
+    return formatScaledPriceToPtBr(sum, 2)
   }
 
   return (
@@ -268,26 +278,28 @@ function NewOrderPage(): JSX.Element {
                   }}
                 >
                   <Grid container spacing={1}>
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <ProductCard key={`produto-lanche-${index}`} info={productOne} />
+                    {productsList.combos.map((item, index) => (
+                      <ProductCard key={`product-combo-${index}`} info={item} />
                     ))}
                   </Grid>
-                  <Grid container spacing={1} paddingTop={1}>
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <ProductCard key={`produto-bebida-${index}`} info={productTwo} />
+                  <Grid container spacing={1} paddingTop={4}>
+                    {productsList.sandwiches.map((item, index) => (
+                      <ProductCard key={`product-sandwiches-${index}`} info={item} />
                     ))}
                   </Grid>
-                  <Grid container spacing={1} paddingTop={1}>
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                      <ProductCard key={`produto-adicional-${index}`} info={productOne} />
+                  <Grid container spacing={1} paddingTop={4}>
+                    {productsList.beverages.map((item, index) => (
+                      <ProductCard key={`product-beverage-${index}`} info={item} />
                     ))}
                   </Grid>
 
+                  {/*
                   <Grid container spacing={1} paddingTop={1}>
                     {[0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
                       <BeverageProductCard key={`produto-bebida-${index}`} info={productTwo} />
                     ))}
                   </Grid>
+                  */}
                 </Box>
               </Grid>
             </Grid>
@@ -314,7 +326,9 @@ function NewOrderPage(): JSX.Element {
                 <Divider />
               </Box>
               <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
-                <Typography variant="h4">R$ 23,20</Typography>
+                <Typography variant="h4">
+                  R$ {calculateTotalSelectedItemsPrice(selectedProducts)}
+                </Typography>
                 <Button variant="contained" color="success" endIcon={<ArrowForwardTwoTone />}>
                   Confirmar
                 </Button>

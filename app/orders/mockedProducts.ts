@@ -4,7 +4,7 @@ export const comboList = [
     name: "Combo Big Cheddar",
     type: "combo",
     amount: {
-      value: 1000,
+      value: 1700,
       scale: 2,
     },
     items: [
@@ -39,7 +39,7 @@ export const comboList = [
     name: "Combo Big Cheff",
     type: "combo",
     amount: {
-      value: 1000,
+      value: 1200,
       scale: 2,
     },
     items: [
@@ -71,13 +71,13 @@ export const comboList = [
   },
 ]
 
-export const sandwhichsList = [
+export const sandwichesList = [
   {
     id: 3,
     type: "sandwich",
     name: "Big Picanha",
     amount: {
-      value: 1000,
+      value: 2100,
       scale: 2,
     },
     items: [],
@@ -87,7 +87,7 @@ export const sandwhichsList = [
     type: "sandwich",
     name: "Big Cheddar",
     amount: {
-      value: 1000,
+      value: 2200,
       scale: 2,
     },
     items: [],
@@ -97,7 +97,7 @@ export const sandwhichsList = [
     type: "sandwich",
     name: "Big Filé",
     amount: {
-      value: 1000,
+      value: 700,
       scale: 2,
     },
     items: [],
@@ -110,7 +110,7 @@ export const beverageList = [
     type: "beverage",
     name: "Suco de Maracujá 300",
     amount: {
-      value: 1000,
+      value: 1200,
       scale: 2,
     },
     items: [],
@@ -120,7 +120,7 @@ export const beverageList = [
     type: "beverage",
     name: "Suco Maracujá 500",
     amount: {
-      value: 1000,
+      value: 1400,
       scale: 2,
     },
     items: [],
@@ -130,7 +130,7 @@ export const beverageList = [
     type: "beverage",
     name: "Coca KS",
     amount: {
-      value: 1000,
+      value: 500,
       scale: 2,
     },
     items: [],
@@ -140,9 +140,15 @@ export const beverageList = [
     type: "beverage",
     name: "Guaraná Lata",
     amount: {
-      value: 1000,
+      value: 400,
       scale: 2,
     },
     items: [],
   },
 ]
+
+export const mockedProducts = {
+  combos: comboList,
+  sandwiches: sandwichesList,
+  beverages: beverageList,
+}
