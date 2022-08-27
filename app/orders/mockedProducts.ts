@@ -108,7 +108,7 @@ export const beverageList = [
   {
     id: 6,
     type: "beverage",
-    name: "Suco de Maracujá 300",
+    name: "Cerveja Skol Lata",
     amount: {
       value: 1200,
       scale: 2,
@@ -118,7 +118,7 @@ export const beverageList = [
   {
     id: 7,
     type: "beverage",
-    name: "Suco Maracujá 500",
+    name: "Coca Cola Lata",
     amount: {
       value: 1400,
       scale: 2,
@@ -144,6 +144,10 @@ export const beverageList = [
       scale: 2,
     },
     items: [],
+    baseAmount: {
+      value: 500,
+      scale: 2,
+    },
   },
 ]
 
@@ -160,7 +164,7 @@ const mockedJuices = [
     sizeOptions: [
       {
         name: "300",
-        size: 300,
+        size: 500,
         amount: {
           value: 1200,
           scale: 2,

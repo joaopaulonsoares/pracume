@@ -34,11 +34,10 @@ function NewOrderPage(): JSX.Element {
   const [createOrderMutation] = useMutation(createOrder)
   const productsList = mockedProducts
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
-  const filteredProductsList = selectedProducts
-  console.log(filteredProductsList)
+  const [searchString, setSearchString] = useState<String>("")
+  console.log(selectedProducts)
 
   function addSelectedProduct(info: any) {
-    console.log(info)
     setSelectedProducts((oldArray: any) => [...oldArray, { uuid: v4(), ...info }])
   }
 
@@ -78,7 +77,7 @@ function NewOrderPage(): JSX.Element {
     )
   }
 
-  function BeverageProductCard({ info }: any) {
+  function CustomBeverageProductCard({ info }: any) {
     const { name, amount, extraItems, observations, sizeOptions } = info
 
     function handleBeverageClick(beverageInfos: any) {
@@ -224,7 +223,7 @@ function NewOrderPage(): JSX.Element {
               >
                 <Grid container alignItems="center">
                   <Grid item xs={9}>
-                    <Typography gutterBottom variant="h3" component="div">
+                    <Typography gutterBottom variant="h2" component="div">
                       Novo pedido
                     </Typography>
                   </Grid>
@@ -235,6 +234,7 @@ function NewOrderPage(): JSX.Element {
                       type="search"
                       variant="standard"
                       fullWidth
+                      value={searchString}
                     />
                   </Grid>
                 </Grid>
@@ -249,28 +249,46 @@ function NewOrderPage(): JSX.Element {
                 }}
               >
                 <Grid container spacing={1}>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom variant="h3" component="div" paddingBottom={1}>
+                      Combos
+                    </Typography>
+                  </Grid>
                   {productsList.combos.map((item, index) => (
                     <ProductCard key={`product-combo-${index}`} info={item} />
                   ))}
                 </Grid>
-                <Grid container spacing={1} paddingTop={4}>
+                <Grid container spacing={1} paddingTop={3}>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom variant="h3" component="div" paddingBottom={1}>
+                      Sanduíches
+                    </Typography>
+                  </Grid>
                   {productsList.sandwiches.map((item, index) => (
                     <ProductCard key={`product-sandwiches-${index}`} info={item} />
                   ))}
                 </Grid>
-                <Grid container spacing={1} paddingTop={4}>
+                <Grid container spacing={1} paddingTop={3}>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom variant="h3" component="div" paddingBottom={1}>
+                      Bebidas
+                    </Typography>
+                  </Grid>
                   {productsList.beverages.map((item, index) => (
                     <ProductCard key={`product-beverage-${index}`} info={item} />
                   ))}
                 </Grid>
 
-                {
-                  <Grid container spacing={1} paddingTop={1}>
-                    {productsList.juices.map((item, index) => (
-                      <BeverageProductCard key={`produto-bebida-${index}`} info={item} />
-                    ))}
+                <Grid container spacing={1} paddingTop={3}>
+                  <Grid item xs={12}>
+                    <Typography gutterBottom variant="h3" component="div" paddingBottom={1}>
+                      Sucos e cremes
+                    </Typography>
                   </Grid>
-                }
+                  {productsList.juices.map((item, index) => (
+                    <CustomBeverageProductCard key={`custom-beverage-${index}`} info={item} />
+                  ))}
+                </Grid>
               </Box>
             </Grid>
           </Grid>
@@ -291,7 +309,7 @@ function NewOrderPage(): JSX.Element {
                     padding: "10px",
                   }}
                 >
-                  {filteredProductsList.length === 0 ? (
+                  {selectedProducts.length === 0 ? (
                     <Box
                       width="100%"
                       height="100%"
@@ -303,7 +321,7 @@ function NewOrderPage(): JSX.Element {
                       <Typography variant="subtitle1">Nenhum produto escolhido</Typography>
                     </Box>
                   ) : (
-                    filteredProductsList.map((item, index) => (
+                    selectedProducts.map((item, index) => (
                       <OrderResumeProduct
                         key={`order-resume-product-${item.uuid}`}
                         orderProduct={item}
