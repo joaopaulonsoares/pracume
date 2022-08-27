@@ -14,6 +14,8 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Dialog,
+  DialogTitle,
   Divider,
   Grid,
   IconButton,
@@ -24,10 +26,83 @@ import { BoxCenter } from "app/core/components/BoxCenter"
 import { ArrowForwardTwoTone } from "@mui/icons-material"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
+import CloseIcon from "@mui/icons-material/Close"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import { mockedProducts } from "app/orders/mockedProducts"
 import { v4 } from "uuid"
 import Tooltip from "@mui/material/Tooltip"
+import { Form, Field } from "react-final-form"
+
+function SimpleDialog(props) {
+  const { onClose, selectedValue, open, infos } = props
+  console.log(infos)
+
+  const handleClose = () => {
+    onClose(selectedValue)
+  }
+
+  const handleListItemClick = (value) => {
+    onClose(value)
+  }
+  // https://www.npmjs.com/package/react-final-form-arrays
+  // https://codesandbox.io/s/react-final-form-field-arrays-vq9pz?file=/index.js:198-208
+
+  console.log(infos.items)
+  return (
+    <Dialog onClose={handleClose} open={open} fullWidth>
+      <DialogTitle>
+        <Box display="flex" justifyContent="space-between">
+          {infos.name}
+          <IconButton aria-label="Editar item" size="small" onClick={() => handleClose()}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      </DialogTitle>
+      <Box padding={1}>
+        <Form
+          initialValues={infos.items}
+          onSubmit={() => {}}
+          render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={2}>
+                {infos.items.map((item) => (
+                  <Grid item xs={12} key={`edit-item-input-${item.name}`}>
+                    <TextField
+                      id={`${item.type}`}
+                      label={item.type}
+                      variant="outlined"
+                      fullWidth
+                      name={item.type}
+                    />
+                  </Grid>
+                ))}
+                <Grid item xs={12}>
+                  {" "}
+                  <TextField
+                    id="outlined-basic4"
+                    label="Observações"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    fullWidth
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12} paddingTop={1}>
+                <Box width="100%" display="flex" justifyContent="center">
+                  <Button type="submit" variant="outlined">
+                    Salvar
+                  </Button>
+                </Box>
+              </Grid>
+            </form>
+          )}
+        />
+      </Box>
+    </Dialog>
+  )
+}
 
 function NewOrderPage(): JSX.Element {
   const router = useRouter()
@@ -35,10 +110,10 @@ function NewOrderPage(): JSX.Element {
   const productsList = mockedProducts
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
   const [searchString, setSearchString] = useState<String>("")
-  console.log(selectedProducts)
 
   function addSelectedProduct(info: any) {
-    setSelectedProducts((oldArray: any) => [...oldArray, { uuid: v4(), ...info }])
+    const generatedUuid = v4()
+    setSelectedProducts((oldArray: any) => [...oldArray, { uuid: generatedUuid, ...info }])
   }
 
   function removeSelectedProduct(itemUuid: string) {
@@ -149,8 +224,18 @@ function NewOrderPage(): JSX.Element {
   }
 
   function OrderResumeProduct({ orderProduct, itemUuid, index }: any) {
-    const { id, name, amount, items, observations } = orderProduct
+    const { productId, name, amount, items, observations } = orderProduct
     const listPosition = index + 1
+    const [openEdit, setOpenEdit] = useState(false)
+
+    const handleClickEditOpen = () => {
+      setOpenEdit(true)
+    }
+
+    const handleCloseEditOpen = () => {
+      setOpenEdit(false)
+      //setSelectedValue(value);
+    }
 
     return (
       <Box p={1}>
@@ -169,10 +254,19 @@ function NewOrderPage(): JSX.Element {
           </Grid>
           <Grid item xs={1}>
             <Box display="flex" flexDirection="column">
-              <IconButton aria-label="Editar item" size="small">
-                <EditIcon sx={{ fontSize: "15px" }} />
-              </IconButton>
-              <Tooltip title={`Remover produto ${listPosition}`}>
+              <Tooltip
+                title={`Editar/Adicionar item no produto ${listPosition}`}
+                placement="left-start"
+              >
+                <IconButton
+                  aria-label="Editar item"
+                  size="small"
+                  onClick={() => handleClickEditOpen()}
+                >
+                  <EditIcon sx={{ fontSize: "15px" }} />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={`Remover produto ${listPosition}`} placement="left-start">
                 <IconButton
                   aria-label="Remover produto"
                   size="small"
@@ -190,6 +284,7 @@ function NewOrderPage(): JSX.Element {
             </Typography>
           </Grid>
         </Grid>
+        <SimpleDialog open={openEdit} onClose={handleCloseEditOpen} infos={orderProduct} />
         <Divider />
       </Box>
     )

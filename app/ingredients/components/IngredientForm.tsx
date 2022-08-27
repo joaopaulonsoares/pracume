@@ -10,6 +10,7 @@ const selectOptions = [
 ]
 
 export function IngredientForm<S extends z.ZodType<any, any>>(props: FormProps<S>) {
+  console.log(props)
   return (
     <Box width="500px">
       <Form<S> {...props}>

@@ -1,6 +1,6 @@
 export const comboList = [
   {
-    id: 1,
+    productId: 1,
     name: "Combo Big Cheddar",
     type: "combo",
     amount: {
@@ -35,7 +35,7 @@ export const comboList = [
     ],
   },
   {
-    id: 2,
+    productId: 2,
     name: "Combo Big Cheff",
     type: "combo",
     amount: {
@@ -73,7 +73,7 @@ export const comboList = [
 
 export const sandwichesList = [
   {
-    id: 3,
+    productId: 3,
     type: "sandwich",
     name: "Big Picanha",
     amount: {
@@ -83,7 +83,7 @@ export const sandwichesList = [
     items: [],
   },
   {
-    id: 4,
+    productId: 4,
     type: "sandwich",
     name: "Big Cheddar",
     amount: {
@@ -93,7 +93,7 @@ export const sandwichesList = [
     items: [],
   },
   {
-    id: 5,
+    productId: 5,
     type: "sandwich",
     name: "Big Filé",
     amount: {
@@ -106,7 +106,7 @@ export const sandwichesList = [
 
 export const beverageList = [
   {
-    id: 6,
+    productId: 6,
     type: "beverage",
     name: "Cerveja Skol Lata",
     amount: {
@@ -116,7 +116,7 @@ export const beverageList = [
     items: [],
   },
   {
-    id: 7,
+    productId: 7,
     type: "beverage",
     name: "Coca Cola Lata",
     amount: {
@@ -126,7 +126,7 @@ export const beverageList = [
     items: [],
   },
   {
-    id: 8,
+    productId: 8,
     type: "beverage",
     name: "Coca KS",
     amount: {
@@ -136,7 +136,7 @@ export const beverageList = [
     items: [],
   },
   {
-    id: 9,
+    productId: 9,
     type: "beverage",
     name: "Guaraná Lata",
     amount: {
@@ -153,7 +153,7 @@ export const beverageList = [
 
 const mockedJuices = [
   {
-    id: 11,
+    productId: 11,
     type: "beverage",
     name: "Suco de Maracujá",
     amount: {
