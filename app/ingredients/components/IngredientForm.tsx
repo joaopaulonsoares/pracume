@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import { Form, FormProps } from "app/core/components/Form"
-import { MaterialTextField, SelectField } from "app/core/components/FormFields"
+import { MaterialTextField } from "app/core/components/FormFields"
 import { z } from "zod"
 export { FORM_ERROR } from "app/core/components/Form"
 
