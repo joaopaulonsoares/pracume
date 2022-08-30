@@ -1,15 +1,4 @@
-export const sandwichs = [
-  {
-    id: 1,
-    name: "Big Cheddar",
-    ingredients: [],
-  },
-  {
-    id: 2,
-    name: "Big Max",
-    ingredients: [],
-  },
-]
+// Categories: sandwich, beverage, additional, extra
 
 export const comboList = [
   {
@@ -237,3 +226,227 @@ export const mockedProducts = {
   beverages: beverageList,
   juices: mockedJuices,
 }
+
+export const items = {
+  1: {
+    id: 1,
+    category: "sandwich",
+    name: "Big Cheddar",
+    ingredients: [],
+  },
+  2: {
+    id: 2,
+    category: "sandwich",
+    name: "Big Mac",
+    ingredients: [],
+  },
+  3: {
+    id: 3,
+    category: "sandwich",
+    name: "Big Ervas",
+    ingredients: [],
+  },
+  4: {
+    id: 4,
+    category: "sandwich",
+    name: "Cheff Burger",
+    ingredients: [],
+  },
+  5: {
+    id: 5,
+    category: "additional",
+    name: "Batata Frita",
+    ingredients: [],
+  },
+  6: {
+    id: 6,
+    category: "additional",
+    name: "Batata Assada",
+    ingredients: [],
+  },
+  7: {
+    id: 7,
+    category: "beverage",
+    name: "Suco de Laranja",
+    ingredients: [],
+  },
+  8: {
+    id: 8,
+    category: "beverage",
+    name: "Guaraná Lata",
+    ingredients: [],
+  },
+  9: {
+    id: 9,
+    category: "beverage",
+    name: "Coca Cola Lata",
+    ingredients: [],
+  },
+  10: {
+    id: 10,
+    category: "beverage",
+    name: "Suco de Maracujá",
+    ingredients: [],
+  },
+  11: {
+    id: 11,
+    category: "beverage",
+    name: "Creme de Morango",
+    ingredients: [],
+  },
+}
+
+export const products = [
+  // Combos
+  {
+    id: 1,
+    name: "Combo Big Cheddar",
+    category: "combo",
+    items: {
+      item1: { type: "sandwich", title: "Sanduíche" },
+      item2: { type: "beverage", title: "Bebida" },
+      item3: { type: "additional", title: "Item complementar" },
+    },
+    defaultOptions: {
+      item1: 1,
+      item2: 7,
+      item3: 5,
+    },
+    options: {
+      item1: [1],
+      item2: [7, 8, 9, 10],
+      item3: [5],
+      extras: [],
+    },
+    value: {
+      amount: 3400,
+      scale: 2,
+    },
+  },
+  {
+    id: 2,
+    name: "Combo Big Cheff",
+    category: "combo",
+    items: {
+      item1: { type: "sandwich", required: true, title: "Sanduíche" },
+      item2: { type: "beverage", required: true, title: "Bebida" },
+      item3: { type: "additional", required: true, title: "Item complementar" },
+    },
+    defaultOptions: {
+      item1: 4,
+      item2: 7,
+      item3: 5,
+    },
+    options: {
+      item1: [4],
+      item2: [7, 8, 9, 10],
+      item3: [5],
+      extras: [],
+    },
+    value: {
+      amount: 4200,
+      scale: 2,
+    },
+  },
+  // Sanduiches
+  {
+    id: 3,
+    name: "Big Cheff",
+    category: "sandwich",
+    items: { item1: { type: "sandwich", required: true, title: "Sanduíche" } },
+    defaultOptions: {
+      item1: 4,
+    },
+    options: {
+      item1: [4],
+      extras: [],
+    },
+    value: {
+      amount: 2300,
+      scale: 2,
+    },
+  },
+  {
+    id: 4,
+    name: "Big Cheddar",
+    category: "sandwich",
+    items: { item1: { type: "sandwich", required: true, title: "Sanduíche" } },
+    defaultOptions: {
+      item1: 1,
+    },
+    options: {
+      item1: [4],
+      extras: [],
+    },
+    value: {
+      amount: 2300,
+      scale: 2,
+    },
+  },
+  // Custom Drinks
+  {
+    id: 5,
+    name: "Suco de Maracujá",
+    category: "customDrink",
+    items: [{ productId: 10, type: "juice", required: true, title: "Sabor" }],
+    options: [
+      {
+        size: "300",
+        measureUnit: "ml",
+        value: {
+          amount: 1000,
+          scale: 2,
+        },
+      },
+      {
+        size: "500",
+        measureUnit: "ml",
+        value: {
+          amount: 1400,
+          scale: 2,
+        },
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Creme de Morango",
+    category: "customDrink",
+    items: [{ productId: 11, type: "cream", required: true, title: "Sabor" }],
+    options: [
+      {
+        size: "300",
+        measureUnit: "ml",
+        value: {
+          amount: 1400,
+          scale: 2,
+        },
+      },
+      {
+        size: "500",
+        measureUnit: "ml",
+        value: {
+          amount: 1700,
+          scale: 2,
+        },
+      },
+    ],
+  },
+  // Industrialized drink
+  {
+    id: 6,
+    name: "Coca Cola Lata",
+    items: { item1: { type: "beverave", required: true, title: "Refrigerante" } },
+    defaultOptions: {
+      item1: 9,
+    },
+    options: {
+      item1: [9],
+      extras: [],
+    },
+    value: {
+      amount: 500,
+      scale: 2,
+    },
+  },
+]
