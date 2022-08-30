@@ -14,6 +14,7 @@ export function IngredientForm<S extends z.ZodType<any, any>>(props: FormProps<S
   return (
     <Box width="500px">
       <Form<S> {...props}>
+        {JSON.stringify(props.initialValues)}
         <MaterialTextField name="name" label="Name" placeholder="Name" />
         <MaterialTextField
           name="unitMeasurement"

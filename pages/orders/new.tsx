@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { Key, useState } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -32,6 +32,9 @@ import { mockedProducts } from "app/orders/mockedProducts"
 import { v4 } from "uuid"
 import Tooltip from "@mui/material/Tooltip"
 import { Form, Field } from "react-final-form"
+import { FieldArray } from "react-final-form-arrays"
+import arrayMutators from "final-form-arrays"
+import { MaterialTextField, SelectField } from "app/core/components/FormFields"
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open, infos } = props
@@ -48,6 +51,14 @@ function SimpleDialog(props) {
   // https://codesandbox.io/s/react-final-form-field-arrays-vq9pz?file=/index.js:198-208
 
   console.log(infos.items)
+
+  const castedInfos = {
+    sandwich: infos.items[0].name,
+    beverage: infos.items[2].name,
+    additional: infos.items[1].name,
+  }
+  console.log(castedInfos)
+
   return (
     <Dialog onClose={handleClose} open={open} fullWidth>
       <DialogTitle>
@@ -60,32 +71,32 @@ function SimpleDialog(props) {
       </DialogTitle>
       <Box padding={1}>
         <Form
-          initialValues={infos.items}
-          onSubmit={() => {}}
+          initialValues={castedInfos}
+          onSubmit={(values) => {
+            console.log(values)
+          }}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-                {infos.items.map((item) => (
-                  <Grid item xs={12} key={`edit-item-input-${item.name}`}>
-                    <TextField
-                      id={`${item.type}`}
-                      label={item.type}
-                      variant="outlined"
-                      fullWidth
+                {infos.items.map((item, index) => (
+                  <Grid item xs={12} key={`${item.type}-${index}`}>
+                    {" "}
+                    <MaterialTextField
                       name={item.type}
-                    />
+                      label={item.type}
+                      placeholder="teste"
+                    />{" "}
                   </Grid>
                 ))}
                 <Grid item xs={12}>
                   {" "}
-                  <TextField
-                    id="outlined-basic4"
+                  <MaterialTextField
+                    name="observations"
                     label="Observações"
-                    variant="outlined"
+                    placeholder="teste"
                     multiline
                     rows={4}
-                    fullWidth
-                  />
+                  />{" "}
                 </Grid>
               </Grid>
 

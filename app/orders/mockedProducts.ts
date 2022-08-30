@@ -104,6 +104,39 @@ export const sandwichesList = [
   },
 ]
 
+export const sandwichesObject = {
+  1: {
+    productId: 3,
+    type: "sandwich",
+    name: "Big Picanha",
+    amount: {
+      value: 2100,
+      scale: 2,
+    },
+    items: [],
+  },
+  2: {
+    productId: 4,
+    type: "sandwich",
+    name: "Big Cheddar",
+    amount: {
+      value: 2200,
+      scale: 2,
+    },
+    items: [],
+  },
+  3: {
+    productId: 5,
+    type: "sandwich",
+    name: "Big Filé",
+    amount: {
+      value: 700,
+      scale: 2,
+    },
+    items: [],
+  },
+}
+
 export const beverageList = [
   {
     productId: 6,
