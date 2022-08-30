@@ -1,6 +1,7 @@
 import { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
-import { TextField, MenuItem } from "@mui/material"
+import { TextField, InputAdornment } from "@mui/material"
+import MenuItem from "@mui/material/MenuItem"
 
 export interface TextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   /** Field name. */
@@ -10,13 +11,18 @@ export interface TextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["i
   placeholder: string
   required?: boolean
   rows?: number
-  selectOptions: Array<any>
+  multiline?: boolean
+  /** Field type. Doesn't include radio buttons and checkboxes */
+  type?: "text" | "password" | "email" | "number"
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
+  inputAdornmentText?: string
+  startInputAdornmentText?: string
+  options: Array<any>
 }
 
-export const SelectField = forwardRef<HTMLInputElement, TextFieldProps>(
+export const SelectTextField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
     {
       name,
@@ -26,28 +32,57 @@ export const SelectField = forwardRef<HTMLInputElement, TextFieldProps>(
       fieldProps,
       labelProps,
       required = false,
-      selectOptions,
+      rows = 0,
+      multiline = false,
+      type,
+      inputAdornmentText,
+      startInputAdornmentText,
+      options,
       ...props
     },
     ref
   ) => {
+    const {
+      input,
+      meta: { touched, error, submitError, submitting },
+    } = useField(name, {
+      parse:
+        type === "number"
+          ? (Number as any)
+          : // Converting `""` to `null` ensures empty values will be set to null in the DB
+            (v) => (v === null ? "" : v),
+      ...fieldProps,
+    })
+
+    const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
+    console.log(options)
     return (
       <div {...outerProps}>
         <TextField
-          select
+          disabled={submitting}
           fullWidth
+          select
           label={label}
           placeholder={placeholder}
           required={required}
-          name={name}
+          {...input}
+          error={touched && normalizedError}
         >
-          {selectOptions.map((option) => (
-            <MenuItem key={option.name} value={option.name}>
+          {options.map((option) => (
+            <MenuItem key={option.productId} value={option.productId}>
               {option.name}
             </MenuItem>
           ))}
         </TextField>
+
+        {touched && normalizedError && (
+          <div role="alert" style={{ color: "red" }}>
+            {normalizedError}
+          </div>
+        )}
       </div>
     )
   }
 )
+
+export default SelectTextField

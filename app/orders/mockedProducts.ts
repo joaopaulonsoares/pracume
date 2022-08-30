@@ -1,3 +1,16 @@
+export const sandwichs = [
+  {
+    id: 1,
+    name: "Big Cheddar",
+    ingredients: [],
+  },
+  {
+    id: 2,
+    name: "Big Max",
+    ingredients: [],
+  },
+]
+
 export const comboList = [
   {
     productId: 1,
@@ -9,6 +22,7 @@ export const comboList = [
     },
     items: [
       {
+        productId: 3,
         name: "Big Cheddar",
         type: "sandwich",
         amount: {
@@ -17,6 +31,7 @@ export const comboList = [
         },
       },
       {
+        productId: 10,
         name: "Batata frita",
         type: "additional",
         amount: {
@@ -25,6 +40,7 @@ export const comboList = [
         },
       },
       {
+        productId: 9,
         name: "Suco Laranja 300",
         type: "beverage",
         amount: {

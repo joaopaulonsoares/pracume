@@ -34,7 +34,7 @@ import Tooltip from "@mui/material/Tooltip"
 import { Form, Field } from "react-final-form"
 import { FieldArray } from "react-final-form-arrays"
 import arrayMutators from "final-form-arrays"
-import { MaterialTextField, SelectField } from "app/core/components/FormFields"
+import { MaterialTextField, SelectTextField } from "app/core/components/FormFields"
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open, infos } = props
@@ -53,9 +53,9 @@ function SimpleDialog(props) {
   console.log(infos.items)
 
   const castedInfos = {
-    sandwich: infos.items[0].name,
-    beverage: infos.items[2].name,
-    additional: infos.items[1].name,
+    sandwich: infos.items[0].productId,
+    beverage: infos.items[2].productId,
+    additional: infos.items[1].productId,
   }
   console.log(castedInfos)
 
@@ -78,14 +78,27 @@ function SimpleDialog(props) {
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  {/*
+
+                  <Field name="sandwich" component="select">
+                    <option />
+                    <option value="#ff0000">❤️ Red</option>
+                    <option value="#00ff00">💚 Green</option>
+                    <option value="#0000ff">💙 Blue</option>
+                  </Field>
+                  */}
+                  <SelectTextField
+                    name="sandwich"
+                    label="Sanduíche"
+                    placeholder="teste"
+                    options={mockedProducts.sandwiches}
+                  />
+                </Grid>
+
                 {infos.items.map((item, index) => (
                   <Grid item xs={12} key={`${item.type}-${index}`}>
-                    {" "}
-                    <MaterialTextField
-                      name={item.type}
-                      label={item.type}
-                      placeholder="teste"
-                    />{" "}
+                    <MaterialTextField name={item.type} label={item.type} placeholder="teste" />
                   </Grid>
                 ))}
                 <Grid item xs={12}>
@@ -123,6 +136,7 @@ function NewOrderPage(): JSX.Element {
   const [searchString, setSearchString] = useState<String>("")
 
   function addSelectedProduct(info: any) {
+    console.log(info)
     const generatedUuid = v4()
     setSelectedProducts((oldArray: any) => [...oldArray, { uuid: generatedUuid, ...info }])
   }
@@ -164,11 +178,12 @@ function NewOrderPage(): JSX.Element {
   }
 
   function CustomBeverageProductCard({ info }: any) {
-    const { name, amount, extraItems, observations, sizeOptions } = info
+    const { name, amount, productId, sizeOptions } = info
 
     function handleBeverageClick(beverageInfos: any) {
       addSelectedProduct({
         ...info,
+        productId,
         amount: beverageInfos.amount,
         items: [{ name: `${beverageInfos.name} ml`, type: beverageInfos.type }],
       })
