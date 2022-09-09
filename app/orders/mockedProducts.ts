@@ -133,17 +133,17 @@ export const productsNewList = [
     name: "Combo Big Cheddar",
     category: "combo",
     items: {
-      sandwich: { type: "sandwich", title: "Sanduíche Big Cheddar" },
+      main: { type: "sandwich", title: "Sanduíche Big Cheddar" },
       drink: { type: "beverage", title: "Bebida" },
       additional: { type: "additional", title: "Item complementar" },
     },
     defaultOptions: {
-      sandwich: 1,
+      main: 1,
       drink: 7,
       additional: 5,
     },
     options: {
-      sandwich: [1],
+      main: [1],
       drink: [7, 8, 9, 10],
       additional: [5],
     },
@@ -157,17 +157,17 @@ export const productsNewList = [
     name: "Combo Big Cheff",
     category: "combo",
     items: {
-      sandwich: { type: "sandwich", required: true, title: "Sanduíche Big Cheff" },
+      main: { type: "sandwich", required: true, title: "Sanduíche Big Cheff" },
       drink: { type: "beverage", required: true, title: "Bebida Maracujá 300ml" },
       additional: { type: "additional", required: true, title: "Item complementar" },
     },
     defaultOptions: {
-      sandwich: 4,
+      main: 4,
       drink: 7,
       additional: 5,
     },
     options: {
-      sandwich: [4],
+      main: [4],
       drink: [7, 8, 9, 10],
       additional: [5],
     },
