@@ -3,6 +3,7 @@ import { Box, Grid, Typography, Tooltip, IconButton, Divider } from "@mui/materi
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
+import { DefaultDialog } from "./DefaultDialog"
 
 export function DefaultOrderItem({ productInfo, itemUuid, index, handleRemove }: any) {
   const { productId, name, amount, items, observations } = productInfo
@@ -69,7 +70,7 @@ export function DefaultOrderItem({ productInfo, itemUuid, index, handleRemove }:
           </Typography>
         </Grid>
       </Grid>
-      {/*<SimpleDialog open={openEdit} onClose={handleCloseEditOpen} infos={orderProduct} />*/}
+      <DefaultDialog open={openEdit} onClose={handleCloseEditOpen} infos={productInfo} />
       <Divider />
     </Box>
   )

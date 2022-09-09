@@ -1,11 +1,25 @@
-import { Dialog, DialogTitle, Box, IconButton, Grid, Button } from "@mui/material"
+import {
+  Dialog,
+  DialogTitle,
+  Box,
+  IconButton,
+  Grid,
+  Button,
+  TextField,
+  MenuItem,
+} from "@mui/material"
 import { SelectTextField, MaterialTextField } from "app/core/components/FormFields"
-import { mockedProducts } from "app/orders/mockedProducts"
 import { Form } from "react-final-form"
 import CloseIcon from "@mui/icons-material/Close"
+import { useState } from "react"
+import { items } from "app/orders/mockedProducts"
+import { info } from "console"
+import { array } from "zod"
 
 export function DefaultDialog(props) {
   const { onClose, selectedValue, open, infos } = props
+  const [selectedItemId, setSelectedItemId] = useState(infos.item)
+  const [itemChoosedId, setItemChoosedId] = useState(infos.item)
   console.log(infos)
 
   const handleClose = () => {
@@ -18,15 +32,6 @@ export function DefaultDialog(props) {
   // https://www.npmjs.com/package/react-final-form-arrays
   // https://codesandbox.io/s/react-final-form-field-arrays-vq9pz?file=/index.js:198-208
 
-  console.log(infos.items)
-
-  const castedInfos = {
-    sandwich: infos.items[0].productId,
-    beverage: infos.items[2].productId,
-    additional: infos.items[1].productId,
-  }
-  console.log(castedInfos)
-
   return (
     <Dialog onClose={handleClose} open={open} fullWidth>
       <DialogTitle>
@@ -38,6 +43,22 @@ export function DefaultDialog(props) {
         </Box>
       </DialogTitle>
       <Box padding={1}>
+        <TextField
+          disabled
+          fullWidth
+          id="outlined-select-currency"
+          select
+          label="Selecione a variação do produto"
+          value={selectedItemId}
+          onChange={() => {}}
+        >
+          {items.map((item) => (
+            <MenuItem key={`item-select-product-dialog-${item.id}`} value={item.id}>
+              {item.name}
+            </MenuItem>
+          ))}
+        </TextField>
+        {/*
         <Form
           initialValues={castedInfos}
           onSubmit={(values) => {
@@ -47,7 +68,7 @@ export function DefaultDialog(props) {
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  {/*
+
 
                   <Field name="sandwich" component="select">
                     <option />
@@ -55,7 +76,7 @@ export function DefaultDialog(props) {
                     <option value="#00ff00">💚 Green</option>
                     <option value="#0000ff">💙 Blue</option>
                   </Field>
-                  */}
+
                   <SelectTextField
                     name="sandwich"
                     label="Sanduíche"
@@ -91,6 +112,7 @@ export function DefaultDialog(props) {
             </form>
           )}
         />
+*/}
       </Box>
     </Dialog>
   )

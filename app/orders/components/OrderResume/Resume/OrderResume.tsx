@@ -1,7 +1,6 @@
 import { ArrowForwardTwoTone } from "@mui/icons-material"
 import { Box, Card, CardHeader, Divider, Typography, Button } from "@mui/material"
 import { calculateTotalSelectedItemsPrice } from "app/core/utils/calculateTotalSelectedItemsPrice"
-import { SandwichOrderItem } from "app/orders/components/OrderResume/Items/Sandwich/SandwichItem"
 import { ComboOrderItem } from "app/orders/components/OrderResume/Items/Combo/ComboItem"
 import { DefaultOrderItem } from "app/orders/components/OrderResume/Items/Default/DefaultItem"
 

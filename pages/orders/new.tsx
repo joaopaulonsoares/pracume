@@ -28,7 +28,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
 import CloseIcon from "@mui/icons-material/Close"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
-import { mockedProducts, productsNewList } from "app/orders/mockedProducts"
+import { productsNewList } from "app/orders/mockedProducts"
 import { v4 } from "uuid"
 import Tooltip from "@mui/material/Tooltip"
 import { Form, Field } from "react-final-form"
@@ -40,97 +40,10 @@ import { ComboCard } from "app/orders/components/Products/Combo/ComboCard"
 import { OrderResume } from "app/orders/components/OrderResume/Resume/OrderResume"
 import { calculateTotalSelectedItemsPrice } from "app/core/utils/calculateTotalSelectedItemsPrice"
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open, infos } = props
-  const handleClose = () => {
-    onClose(selectedValue)
-  }
-
-  const handleListItemClick = (value) => {
-    onClose(value)
-  }
-  // https://www.npmjs.com/package/react-final-form-arrays
-  // https://codesandbox.io/s/react-final-form-field-arrays-vq9pz?file=/index.js:198-208
-
-  const castedInfos = {
-    sandwich: infos.items[0].productId,
-    beverage: infos.items[2].productId,
-    additional: infos.items[1].productId,
-  }
-
-  return (
-    <Dialog onClose={handleClose} open={open} fullWidth>
-      <DialogTitle>
-        <Box display="flex" justifyContent="space-between">
-          {infos.name}
-          <IconButton aria-label="Editar item" size="small" onClick={() => handleClose()}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-      </DialogTitle>
-      <Box padding={1}>
-        <Form
-          initialValues={castedInfos}
-          onSubmit={(values) => {
-            console.log(values)
-          }}
-          render={({ handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  {/*
-
-                  <Field name="sandwich" component="select">
-                    <option />
-                    <option value="#ff0000">❤️ Red</option>
-                    <option value="#00ff00">💚 Green</option>
-                    <option value="#0000ff">💙 Blue</option>
-                  </Field>
-                  */}
-                  <SelectTextField
-                    name="sandwich"
-                    label="Sanduíche"
-                    placeholder="teste"
-                    options={mockedProducts.sandwiches}
-                  />
-                </Grid>
-
-                {infos.items.map((item, index) => (
-                  <Grid item xs={12} key={`${item.type}-${index}`}>
-                    <MaterialTextField name={item.type} label={item.type} placeholder="teste" />
-                  </Grid>
-                ))}
-                <Grid item xs={12}>
-                  {" "}
-                  <MaterialTextField
-                    name="observations"
-                    label="Observações"
-                    placeholder="teste"
-                    multiline
-                    rows={4}
-                  />{" "}
-                </Grid>
-              </Grid>
-
-              <Grid item xs={12} paddingTop={1}>
-                <Box width="100%" display="flex" justifyContent="center">
-                  <Button type="submit" variant="outlined">
-                    Salvar
-                  </Button>
-                </Box>
-              </Grid>
-            </form>
-          )}
-        />
-      </Box>
-    </Dialog>
-  )
-}
-
 function NewOrderPage(): JSX.Element {
   const router = useRouter()
   const [createOrderMutation] = useMutation(createOrder)
-  const productsList = mockedProducts
+
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
   const [searchString, setSearchString] = useState<String>("")
 
@@ -141,7 +54,10 @@ function NewOrderPage(): JSX.Element {
 
   function addSelectedProduct(info: any) {
     const generatedUuid = v4()
-    setSelectedProducts((oldArray: any) => [...oldArray, { uuid: generatedUuid, ...info }])
+    setSelectedProducts((oldArray: any) => [
+      ...oldArray,
+      { uuid: generatedUuid, totalAmount: info.amount, ...info },
+    ])
   }
 
   function removeSelectedProduct(itemUuid: string) {
