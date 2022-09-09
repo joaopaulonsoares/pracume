@@ -35,9 +35,10 @@ import { Form, Field } from "react-final-form"
 import { FieldArray } from "react-final-form-arrays"
 import arrayMutators from "final-form-arrays"
 import { MaterialTextField, SelectTextField } from "app/core/components/FormFields"
-import { SandwichCard } from "app/orders/components/Products/Sandwich/SandwichCard"
+import { DefaultCard } from "app/orders/components/Products/Default/DefaultCard"
 import { ComboCard } from "app/orders/components/Products/Combo/ComboCard"
 import { OrderResume } from "app/orders/components/OrderResume/Resume/OrderResume"
+import { calculateTotalSelectedItemsPrice } from "app/core/utils/calculateTotalSelectedItemsPrice"
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open, infos } = props
@@ -179,14 +180,6 @@ function NewOrderPage(): JSX.Element {
     )
   }
 
-  function calculateTotalSelectedItemsPrice(listToSum: any) {
-    const sum = listToSum.reduce(
-      (previousValue, currentItem) => previousValue + currentItem.amount.value,
-      0
-    )
-    return formatScaledPriceToPtBr(sum, 2)
-  }
-
   return (
     <SidebarLayout>
       <p>
@@ -197,7 +190,7 @@ function NewOrderPage(): JSX.Element {
 
       <Grid container padding={2}>
         <Grid item xs={12} md={8} lg={9} paddingBottom={1}>
-          <Grid container xs={12} spacing={1}>
+          <Grid container spacing={1}>
             <Grid item xs={12}>
               <Box
                 display="flex"
@@ -240,7 +233,7 @@ function NewOrderPage(): JSX.Element {
                   </Grid>
                   {combosList.map((item, index) => (
                     <ComboCard
-                      key={`product-combo-${item.name}`}
+                      key={`product-combo-${item.name}-${index}`}
                       info={item}
                       handleSelection={addSelectedProduct}
                     />
@@ -253,8 +246,8 @@ function NewOrderPage(): JSX.Element {
                     </Typography>
                   </Grid>
                   {sandwichesList.map((item, index) => (
-                    <SandwichCard
-                      key={`product-sandwiches-${item.name}`}
+                    <DefaultCard
+                      key={`product-sandwiches-${item.name}-${index}`}
                       info={item}
                       handleSelection={addSelectedProduct}
                     />
@@ -267,7 +260,11 @@ function NewOrderPage(): JSX.Element {
                     </Typography>
                   </Grid>
                   {beverageList.map((item, index) => (
-                    <ProductCard key={`product-beverage-${index}`} info={item} />
+                    <DefaultCard
+                      key={`product-beverage-${index}-${index}`}
+                      info={item}
+                      handleSelection={addSelectedProduct}
+                    />
                   ))}
                 </Grid>
 

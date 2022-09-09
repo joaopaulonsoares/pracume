@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
-export function SandwichCard({ info, handleSelection }: any) {
+export function DefaultCard({ info, handleSelection }: any) {
   const { name, amount } = info
 
   function handleSelectItem() {
