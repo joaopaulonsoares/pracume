@@ -28,13 +28,15 @@ import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
 import CloseIcon from "@mui/icons-material/Close"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
-import { mockedProducts } from "app/orders/mockedProducts"
+import { mockedProducts, productsNewList } from "app/orders/mockedProducts"
 import { v4 } from "uuid"
 import Tooltip from "@mui/material/Tooltip"
 import { Form, Field } from "react-final-form"
 import { FieldArray } from "react-final-form-arrays"
 import arrayMutators from "final-form-arrays"
 import { MaterialTextField, SelectTextField } from "app/core/components/FormFields"
+import { SandwichCard } from "app/orders/components/Products/Sandwich/SandwichCard"
+import { ComboCard } from "app/orders/components/Products/Combo/ComboCard"
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open, infos } = props
@@ -135,8 +137,12 @@ function NewOrderPage(): JSX.Element {
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
   const [searchString, setSearchString] = useState<String>("")
 
+  const combosList = productsNewList.filter((p) => p.category === "combo")
+  const sandwichesList = productsNewList.filter((p) => p.category === "sandwich")
+  const customBeverageList = productsNewList.filter((p) => p.category === "customBeverage")
+  const beverageList = productsNewList.filter((p) => p.category === "beverage")
+
   function addSelectedProduct(info: any) {
-    console.log(info)
     const generatedUuid = v4()
     setSelectedProducts((oldArray: any) => [...oldArray, { uuid: generatedUuid, ...info }])
   }
@@ -375,8 +381,12 @@ function NewOrderPage(): JSX.Element {
                       Combos
                     </Typography>
                   </Grid>
-                  {productsList.combos.map((item, index) => (
-                    <ProductCard key={`product-combo-${index}`} info={item} />
+                  {combosList.map((item, index) => (
+                    <ComboCard
+                      key={`product-combo-${index}`}
+                      info={item}
+                      handleSelection={addSelectedProduct}
+                    />
                   ))}
                 </Grid>
                 <Grid container spacing={1} paddingTop={3}>
@@ -385,8 +395,12 @@ function NewOrderPage(): JSX.Element {
                       Sanduíches
                     </Typography>
                   </Grid>
-                  {productsList.sandwiches.map((item, index) => (
-                    <ProductCard key={`product-sandwiches-${index}`} info={item} />
+                  {sandwichesList.map((item, index) => (
+                    <SandwichCard
+                      key={`product-sandwiches-${index}`}
+                      info={item}
+                      handleSelection={addSelectedProduct}
+                    />
                   ))}
                 </Grid>
                 <Grid container spacing={1} paddingTop={3}>
@@ -395,7 +409,7 @@ function NewOrderPage(): JSX.Element {
                       Bebidas
                     </Typography>
                   </Grid>
-                  {productsList.beverages.map((item, index) => (
+                  {beverageList.map((item, index) => (
                     <ProductCard key={`product-beverage-${index}`} info={item} />
                   ))}
                 </Grid>

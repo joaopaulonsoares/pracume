@@ -296,30 +296,29 @@ export const items = {
   },
 }
 
-export const products = [
+export const productsNewList = [
   // Combos
   {
     id: 1,
     name: "Combo Big Cheddar",
     category: "combo",
     items: {
-      item1: { type: "sandwich", title: "Sanduíche" },
-      item2: { type: "beverage", title: "Bebida" },
-      item3: { type: "additional", title: "Item complementar" },
+      sandwich: { type: "sandwich", title: "Sanduíche Big Cheddar" },
+      drink: { type: "beverage", title: "Bebida" },
+      additional: { type: "additional", title: "Item complementar" },
     },
     defaultOptions: {
-      item1: 1,
-      item2: 7,
-      item3: 5,
+      sandwich: 1,
+      drink: 7,
+      additional: 5,
     },
     options: {
-      item1: [1],
-      item2: [7, 8, 9, 10],
-      item3: [5],
-      extras: [],
+      sandwich: [1],
+      drink: [7, 8, 9, 10],
+      additional: [5],
     },
-    value: {
-      amount: 3400,
+    amount: {
+      value: 3400,
       scale: 2,
     },
   },
@@ -328,23 +327,22 @@ export const products = [
     name: "Combo Big Cheff",
     category: "combo",
     items: {
-      item1: { type: "sandwich", required: true, title: "Sanduíche" },
-      item2: { type: "beverage", required: true, title: "Bebida" },
-      item3: { type: "additional", required: true, title: "Item complementar" },
+      sandwich: { type: "sandwich", required: true, title: "Sanduíche Big Cheff" },
+      drink: { type: "beverage", required: true, title: "Bebida Maracujá 300ml" },
+      additional: { type: "additional", required: true, title: "Item complementar" },
     },
     defaultOptions: {
-      item1: 4,
-      item2: 7,
-      item3: 5,
+      sandwich: 4,
+      drink: 7,
+      additional: 5,
     },
     options: {
-      item1: [4],
-      item2: [7, 8, 9, 10],
-      item3: [5],
-      extras: [],
+      sandwich: [4],
+      drink: [7, 8, 9, 10],
+      additional: [5],
     },
-    value: {
-      amount: 4200,
+    amount: {
+      value: 4200,
       scale: 2,
     },
   },
@@ -353,16 +351,9 @@ export const products = [
     id: 3,
     name: "Big Cheff",
     category: "sandwich",
-    items: { item1: { type: "sandwich", required: true, title: "Sanduíche" } },
-    defaultOptions: {
-      item1: 4,
-    },
-    options: {
-      item1: [4],
-      extras: [],
-    },
-    value: {
-      amount: 2300,
+    item: 4,
+    amount: {
+      value: 2300,
       scale: 2,
     },
   },
@@ -370,16 +361,9 @@ export const products = [
     id: 4,
     name: "Big Cheddar",
     category: "sandwich",
-    items: { item1: { type: "sandwich", required: true, title: "Sanduíche" } },
-    defaultOptions: {
-      item1: 1,
-    },
-    options: {
-      item1: [4],
-      extras: [],
-    },
-    value: {
-      amount: 2300,
+    item: 4,
+    amount: {
+      value: 2300,
       scale: 2,
     },
   },
@@ -387,22 +371,22 @@ export const products = [
   {
     id: 5,
     name: "Suco de Maracujá",
-    category: "customDrink",
-    items: [{ productId: 10, type: "juice", required: true, title: "Sabor" }],
+    category: "customBeverage",
+    item: 10,
     options: [
       {
         size: "300",
         measureUnit: "ml",
-        value: {
-          amount: 1000,
+        amount: {
+          value: 1000,
           scale: 2,
         },
       },
       {
         size: "500",
         measureUnit: "ml",
-        value: {
-          amount: 1400,
+        amount: {
+          value: 1400,
           scale: 2,
         },
       },
@@ -411,22 +395,22 @@ export const products = [
   {
     id: 6,
     name: "Creme de Morango",
-    category: "customDrink",
-    items: [{ productId: 11, type: "cream", required: true, title: "Sabor" }],
+    category: "customBeverage",
+    item: 11,
     options: [
       {
         size: "300",
         measureUnit: "ml",
-        value: {
-          amount: 1400,
+        amount: {
+          value: 1400,
           scale: 2,
         },
       },
       {
         size: "500",
         measureUnit: "ml",
-        value: {
-          amount: 1700,
+        amount: {
+          value: 1700,
           scale: 2,
         },
       },
@@ -436,16 +420,20 @@ export const products = [
   {
     id: 6,
     name: "Coca Cola Lata",
-    items: { item1: { type: "beverave", required: true, title: "Refrigerante" } },
-    defaultOptions: {
-      item1: 9,
+    item: 9,
+    category: "beverage",
+    amount: {
+      value: 500,
+      scale: 2,
     },
-    options: {
-      item1: [9],
-      extras: [],
-    },
-    value: {
-      amount: 500,
+  },
+  {
+    id: 7,
+    name: "Guaraná Lata",
+    category: "beverage",
+    item: 8,
+    amount: {
+      value: 500,
       scale: 2,
     },
   },
