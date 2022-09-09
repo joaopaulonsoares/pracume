@@ -3,30 +3,33 @@ import { Box, Card, CardHeader, Divider, Typography, Button } from "@mui/materia
 import { calculateTotalSelectedItemsPrice } from "app/core/utils/calculateTotalSelectedItemsPrice"
 import { SandwichOrderItem } from "app/orders/components/OrderResume/Items/Sandwich/SandwichItem"
 import { ComboOrderItem } from "app/orders/components/OrderResume/Items/Combo/ComboItem"
+import { DefaultOrderItem } from "app/orders/components/OrderResume/Items/Default/DefaultItem"
+
+import { Categories } from "app/core/enums/categories.enum"
 
 export function OrderResume({ selectedProducts, handleSelectedRemove, handleItemEdit }: any) {
-  function handleRemove() {
-    handleSelectedRemove()
+  function handleRemove(itemUuid: string) {
+    handleSelectedRemove(itemUuid)
   }
 
   function OrderSelectedProduct({ itemInfo, index }: any) {
-    const { itemUuid, ...productInfo } = itemInfo
+    const { uuid, ...productInfo } = itemInfo
 
-    switch (itemInfo.type) {
-      case "sandwich":
+    switch (productInfo.category) {
+      case Categories.COMBO:
         return (
-          <SandwichOrderItem
+          <ComboOrderItem
             productInfo={itemInfo}
-            itemUuid={itemUuid}
+            itemUuid={uuid}
             index={index}
             handleRemove={handleRemove}
           />
         )
-      case "combo":
+      default:
         return (
-          <ComboOrderItem
+          <DefaultOrderItem
             productInfo={itemInfo}
-            itemUuid={itemUuid}
+            itemUuid={uuid}
             index={index}
             handleRemove={handleRemove}
           />
@@ -35,52 +38,36 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
   }
 
   return (
-    <Box paddingTop="60px">
-      <Card sx={{ minHeight: { xs: 0, md: 0 } }}>
-        <CardHeader title="Resumo do Pedido" />
-        <Divider />
-        <Box display="flex" flexDirection="column" justifyContent="space-between">
-          <Box
-            paddingBottom={1}
-            maxHeight="580px" // fixed the height: ;
-            style={{
-              //border: "2px solid black",
-              overflow: "hidden",
-              overflowY: "auto",
-              padding: "10px",
-            }}
-          >
-            {selectedProducts.length === 0 ? (
-              <Box
-                width="100%"
-                height="100%"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                padding={1}
-              >
-                <Typography variant="subtitle1">Nenhum produto escolhido</Typography>
-              </Box>
-            ) : (
-              selectedProducts.map((item, index) => <div key={`index-${index}`}>oi</div>)
-            )}
-          </Box>
-          <Divider />
-          <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
-            <Typography variant="h4">
-              R$ {calculateTotalSelectedItemsPrice(selectedProducts)}
-            </Typography>
-            <Button
-              variant="contained"
-              color="success"
-              endIcon={<ArrowForwardTwoTone />}
-              disabled={selectedProducts.length === 0}
-            >
-              Confirmar
-            </Button>
-          </Box>
+    <Box
+      paddingBottom={1}
+      maxHeight="580px" // fixed the height: ;
+      style={{
+        //border: "2px solid black",
+        overflow: "hidden",
+        overflowY: "auto",
+        padding: "10px",
+      }}
+    >
+      {selectedProducts.length === 0 ? (
+        <Box
+          width="100%"
+          height="100%"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          padding={1}
+        >
+          <Typography variant="subtitle1">Nenhum produto escolhido</Typography>
         </Box>
-      </Card>
+      ) : (
+        selectedProducts.map((item, index) => (
+          <OrderSelectedProduct
+            key={`selected-product-${item.uuid}`}
+            itemInfo={item}
+            index={index}
+          />
+        ))
+      )}
     </Box>
   )
 }

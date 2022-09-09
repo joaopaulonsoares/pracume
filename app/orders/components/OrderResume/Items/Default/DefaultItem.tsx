@@ -4,7 +4,7 @@ import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
 
-export function SandwichOrderItem({ productInfo, itemUuid, index, handleRemove }: any) {
+export function DefaultOrderItem({ productInfo, itemUuid, index, handleRemove }: any) {
   const { productId, name, amount, items, observations } = productInfo
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)

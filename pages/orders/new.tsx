@@ -37,11 +37,10 @@ import arrayMutators from "final-form-arrays"
 import { MaterialTextField, SelectTextField } from "app/core/components/FormFields"
 import { SandwichCard } from "app/orders/components/Products/Sandwich/SandwichCard"
 import { ComboCard } from "app/orders/components/Products/Combo/ComboCard"
+import { OrderResume } from "app/orders/components/OrderResume/Resume/OrderResume"
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open, infos } = props
-  console.log(infos)
-
   const handleClose = () => {
     onClose(selectedValue)
   }
@@ -52,14 +51,11 @@ function SimpleDialog(props) {
   // https://www.npmjs.com/package/react-final-form-arrays
   // https://codesandbox.io/s/react-final-form-field-arrays-vq9pz?file=/index.js:198-208
 
-  console.log(infos.items)
-
   const castedInfos = {
     sandwich: infos.items[0].productId,
     beverage: infos.items[2].productId,
     additional: infos.items[1].productId,
   }
-  console.log(castedInfos)
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth>
@@ -183,145 +179,6 @@ function NewOrderPage(): JSX.Element {
     )
   }
 
-  function CustomBeverageProductCard({ info }: any) {
-    const { name, amount, productId, sizeOptions } = info
-
-    function handleBeverageClick(beverageInfos: any) {
-      addSelectedProduct({
-        ...info,
-        productId,
-        amount: beverageInfos.amount,
-        items: [{ name: `${beverageInfos.name} ml`, type: beverageInfos.type }],
-      })
-    }
-
-    return (
-      <Grid item xs={12} sm={6} md={6} lg={4} xl={2}>
-        <Card>
-          <CardContent>
-            <Typography sx={{ fontSize: 14 }} gutterBottom variant="h5" component="div">
-              {name}
-            </Typography>
-            <>
-              {sizeOptions.length > 0 ? (
-                <Box width="100%" display="flex" justifyContent="space-around" alignItems="center">
-                  {sizeOptions.map((sizeItem, index) => (
-                    <Typography
-                      key={`${index}-bebida-${name}-${sizeItem.name}`}
-                      sx={{ fontSize: 12 }}
-                      variant="h5"
-                      component="div"
-                      color="text.secondary"
-                    >
-                      {sizeItem.name} - R${" "}
-                      {formatScaledPriceToPtBr(sizeItem.amount.value, sizeItem.amount.scale)}
-                    </Typography>
-                  ))}
-                </Box>
-              ) : (
-                <Typography
-                  variant="subtitle2"
-                  color="text.secondary"
-                  fontWeight="bold"
-                  fontSize="14px"
-                >
-                  R$ {formatScaledPriceToPtBr(amount.value, amount.scale)}
-                </Typography>
-              )}
-            </>
-          </CardContent>
-
-          <CardActions>
-            {sizeOptions.length > 0 ? (
-              <Box width="100%" display="flex" justifyContent="space-around" alignItems="center">
-                {sizeOptions.map((sizeItem, index) => (
-                  <Button
-                    size="small"
-                    color="success"
-                    variant="outlined"
-                    key={`${name}-size-${sizeItem.size}`}
-                    onClick={() => handleBeverageClick(sizeItem)}
-                  >
-                    {sizeItem.name}
-                  </Button>
-                ))}
-              </Box>
-            ) : (
-              <button>teste</button>
-            )}
-          </CardActions>
-        </Card>
-      </Grid>
-    )
-  }
-
-  function OrderResumeProduct({ orderProduct, itemUuid, index }: any) {
-    const { productId, name, amount, items, observations } = orderProduct
-    const listPosition = index + 1
-    const [openEdit, setOpenEdit] = useState(false)
-
-    const handleClickEditOpen = () => {
-      setOpenEdit(true)
-    }
-
-    const handleCloseEditOpen = () => {
-      setOpenEdit(false)
-      //setSelectedValue(value);
-    }
-
-    return (
-      <Box p={1}>
-        <Grid container>
-          <Grid item xs={11}>
-            <Typography variant="h5">
-              {listPosition} - {name}
-            </Typography>
-
-            {items.length > 0 &&
-              items.map((item, index) => (
-                <Typography key={`order-${itemUuid}-${index}-id`} variant="subtitle2">
-                  + {item.name}
-                </Typography>
-              ))}
-          </Grid>
-          <Grid item xs={1}>
-            <Box display="flex" flexDirection="column">
-              <Tooltip
-                title={`Editar/Adicionar item no produto ${listPosition}`}
-                placement="left-start"
-              >
-                <IconButton
-                  aria-label="Editar item"
-                  size="small"
-                  onClick={() => handleClickEditOpen()}
-                >
-                  <EditIcon sx={{ fontSize: "15px" }} />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={`Remover produto ${listPosition}`} placement="left-start">
-                <IconButton
-                  aria-label="Remover produto"
-                  size="small"
-                  color="error"
-                  onClick={() => removeSelectedProduct(itemUuid)}
-                >
-                  <ClearIcon sx={{ fontSize: "15px" }} />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="subtitle1" align="right" margin={0}>
-              R$ {formatScaledPriceToPtBr(amount.value, amount.scale)}
-            </Typography>
-          </Grid>
-        </Grid>
-        <SimpleDialog open={openEdit} onClose={handleCloseEditOpen} infos={orderProduct} />
-        <Divider />
-      </Box>
-    )
-  }
-
   function calculateTotalSelectedItemsPrice(listToSum: any) {
     const sum = listToSum.reduce(
       (previousValue, currentItem) => previousValue + currentItem.amount.value,
@@ -383,7 +240,7 @@ function NewOrderPage(): JSX.Element {
                   </Grid>
                   {combosList.map((item, index) => (
                     <ComboCard
-                      key={`product-combo-${index}`}
+                      key={`product-combo-${item.name}`}
                       info={item}
                       handleSelection={addSelectedProduct}
                     />
@@ -397,7 +254,7 @@ function NewOrderPage(): JSX.Element {
                   </Grid>
                   {sandwichesList.map((item, index) => (
                     <SandwichCard
-                      key={`product-sandwiches-${index}`}
+                      key={`product-sandwiches-${item.name}`}
                       info={item}
                       handleSelection={addSelectedProduct}
                     />
@@ -414,7 +271,7 @@ function NewOrderPage(): JSX.Element {
                   ))}
                 </Grid>
 
-                <Grid container spacing={1} paddingTop={3}>
+                {/*                <Grid container spacing={1} paddingTop={3}>
                   <Grid item xs={12}>
                     <Typography gutterBottom variant="h3" component="div" paddingBottom={1}>
                       Sucos e cremes
@@ -423,7 +280,7 @@ function NewOrderPage(): JSX.Element {
                   {productsList.juices.map((item, index) => (
                     <CustomBeverageProductCard key={`custom-beverage-${index}`} info={item} />
                   ))}
-                </Grid>
+                </Grid> */}
               </Box>
             </Grid>
           </Grid>
@@ -434,38 +291,10 @@ function NewOrderPage(): JSX.Element {
               <CardHeader title="Resumo do Pedido" />
               <Divider />
               <Box display="flex" flexDirection="column" justifyContent="space-between">
-                <Box
-                  paddingBottom={1}
-                  maxHeight="580px" // fixed the height: ;
-                  style={{
-                    //border: "2px solid black",
-                    overflow: "hidden",
-                    overflowY: "auto",
-                    padding: "10px",
-                  }}
-                >
-                  {selectedProducts.length === 0 ? (
-                    <Box
-                      width="100%"
-                      height="100%"
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      padding={1}
-                    >
-                      <Typography variant="subtitle1">Nenhum produto escolhido</Typography>
-                    </Box>
-                  ) : (
-                    selectedProducts.map((item, index) => (
-                      <OrderResumeProduct
-                        key={`order-resume-product-${item.uuid}`}
-                        orderProduct={item}
-                        itemUuid={item.uuid}
-                        index={index}
-                      />
-                    ))
-                  )}
-                </Box>
+                <OrderResume
+                  selectedProducts={selectedProducts}
+                  handleSelectedRemove={removeSelectedProduct}
+                />
                 <Divider />
                 <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
                   <Typography variant="h4">
