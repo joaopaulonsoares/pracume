@@ -4,10 +4,18 @@ import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
 
+import { items } from "../../../../mockedProducts"
+
 export function ComboOrderItem({ productInfo, itemUuid, index, handleRemove }: any) {
-  const { productId, name, amount, items, observations } = productInfo
+  const { productId, name, amount, observations } = productInfo
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)
+
+  const mainItem = items.find((element) => element.id === productInfo?.defaultOptions?.main)
+  const drinkItem = items.find((element) => element.id === productInfo?.defaultOptions?.drink)
+  const additionalItem = items.find(
+    (element) => element.id === productInfo?.defaultOptions?.additional
+  )
 
   const handleClickEditOpen = () => {
     setOpenEdit(true)
@@ -30,12 +38,15 @@ export function ComboOrderItem({ productInfo, itemUuid, index, handleRemove }: a
             {listPosition} - {name}
           </Typography>
 
-          {items.length > 0 &&
-            items.map((item, index) => (
-              <Typography key={`order-${itemUuid}-${index}-id`} variant="subtitle2">
-                + {item.name}
-              </Typography>
-            ))}
+          <Typography key={`order-${itemUuid}-main`} variant="subtitle2" fontSize="small">
+            - {mainItem?.name}
+          </Typography>
+          <Typography key={`order-${itemUuid}-drink`} variant="subtitle2" fontSize="small">
+            - {drinkItem?.name}
+          </Typography>
+          <Typography key={`order-${itemUuid}-additional`} variant="subtitle2" fontSize="small">
+            - {additionalItem?.name}
+          </Typography>
         </Grid>
         <Grid item xs={1}>
           <Box display="flex" flexDirection="column">

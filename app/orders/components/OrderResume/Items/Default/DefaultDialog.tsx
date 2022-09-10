@@ -7,6 +7,9 @@ import {
   Button,
   TextField,
   MenuItem,
+  FormControlLabel,
+  Checkbox,
+  Autocomplete,
 } from "@mui/material"
 import { SelectTextField, MaterialTextField } from "app/core/components/FormFields"
 import { Form } from "react-final-form"
@@ -15,13 +18,26 @@ import { useState } from "react"
 import { items } from "app/orders/mockedProducts"
 import { info } from "console"
 import { array } from "zod"
+import { useForm, Controller } from "react-hook-form"
+import { mockedObservationsSandwich } from "../../../../mockedObservations"
 
 export function DefaultDialog(props) {
   const { onClose, selectedValue, open, infos } = props
   const [selectedItemId, setSelectedItemId] = useState(infos.item)
   const [itemChoosedId, setItemChoosedId] = useState(infos.item)
-  console.log(infos)
 
+  console.log(infos)
+  const { handleSubmit, control, reset } = useForm({
+    defaultValues: {
+      mainProduct: infos.item,
+      observations: [],
+    },
+  })
+
+  const onSubmit = (data) => {
+    console.log("entrou")
+    console.log(data)
+  }
   const handleClose = () => {
     onClose(selectedValue)
   }
@@ -43,21 +59,61 @@ export function DefaultDialog(props) {
         </Box>
       </DialogTitle>
       <Box padding={1}>
-        <TextField
-          disabled
-          fullWidth
-          id="outlined-select-currency"
-          select
-          label="Selecione a variação do produto"
-          value={selectedItemId}
-          onChange={() => {}}
-        >
-          {items.map((item) => (
-            <MenuItem key={`item-select-product-dialog-${item.id}`} value={item.id}>
-              {item.name}
-            </MenuItem>
-          ))}
-        </TextField>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Controller
+                name="mainProduct"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, value } }) => (
+                  <TextField
+                    onChange={onChange}
+                    value={value}
+                    fullWidth
+                    select
+                    label="Produto Principal"
+                    disabled
+                  >
+                    {items.map((item) => (
+                      <MenuItem key={`item-select-product-dialog-${item.id}`} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Controller
+                name="observations"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange, value } }) => (
+                  <Autocomplete
+                    multiple
+                    id="checkboxes-tags-demo"
+                    options={mockedObservationsSandwich}
+                    disableCloseOnSelect
+                    getOptionLabel={(option) => option.description}
+                    fullWidth
+                    renderOption={(props, option, { selected }) => (
+                      <li key={`list-item-${option.id}`} {...props}>
+                        <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                        {option.description}
+                      </li>
+                    )}
+                    renderInput={(params) => <TextField {...params} label="Observações" />}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+
+          <Button type="submit">Salvar</Button>
+        </form>
+
         {/*
         <Form
           initialValues={castedInfos}
