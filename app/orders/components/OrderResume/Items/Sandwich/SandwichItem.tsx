@@ -3,11 +3,23 @@ import { Box, Grid, Typography, Tooltip, IconButton, Divider } from "@mui/materi
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
-import { DefaultDialog } from "./DefaultDialog"
-import { SandwicheDialog } from "../Sandwich/SandwichDialog"
+import { SandwicheDialog } from "./SandwichDialog"
 
-export function DefaultOrderItem({ productInfo, itemUuid, index, handleRemove }: any) {
-  const { productId, name, amount, items, observations } = productInfo
+export function SandwichItem({
+  productInfo,
+  itemUuid,
+  index,
+  handleRemove,
+  updateObservations,
+}: any) {
+  const {
+    productId,
+    name,
+    amount,
+    items,
+    defaultObservations = [],
+    customObservations,
+  } = productInfo
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)
 
@@ -32,12 +44,12 @@ export function DefaultOrderItem({ productInfo, itemUuid, index, handleRemove }:
             {listPosition} - {name}
           </Typography>
 
-          {/*          {items.length > 0 &&
-            items.map((item, index) => (
-              <Typography key={`order-${itemUuid}-${index}-id`} variant="subtitle2">
-                + {item.name}
-              </Typography>
-            ))}  */}
+          {defaultObservations.length > 0 && (
+            <Typography key={`default-observation-${itemUuid}-${index}-id`} variant="caption">
+              - Obs: {defaultObservations.map((item, index) => `${item.description}, `)}
+              {customObservations}
+            </Typography>
+          )}
         </Grid>
         <Grid item xs={1}>
           <Box display="flex" flexDirection="column">
@@ -71,7 +83,12 @@ export function DefaultOrderItem({ productInfo, itemUuid, index, handleRemove }:
           </Typography>
         </Grid>
       </Grid>
-      <DefaultDialog open={openEdit} onClose={handleCloseEditOpen} infos={productInfo} />
+      <SandwicheDialog
+        open={openEdit}
+        onClose={handleCloseEditOpen}
+        infos={productInfo}
+        updateObservations={updateObservations}
+      />
       <Divider />
     </Box>
   )
