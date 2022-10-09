@@ -19,13 +19,19 @@ import { items } from "app/orders/mockedProducts"
 import { info } from "console"
 import { array } from "zod"
 import { useForm, Controller } from "react-hook-form"
+import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
+
 import { mockedObservationsSandwich } from "../../../../mockedObservations"
+import { extraItemsProducts } from "../../../../mockedProducts"
 
 export function SandwicheDialog(props) {
   const { onClose, selectedValue, open, infos, updateObservations } = props
   const [selectedObservations, setSelectedObservations] = useState([])
   const [customObservations, setCustomObservations] = useState<string>(infos.customObservations)
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
+
+  const additionalOptions = extraItemsProducts.filter((item) => item.forCategory === "sandwich")
+  console.log(additionalOptions)
 
   const handleClose = () => {
     onClose(selectedValue)
@@ -64,6 +70,27 @@ export function SandwicheDialog(props) {
               maxRows={4}
               disabled
               value={infos.name}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <Autocomplete
+              multiple
+              //defaultValue={infos.defaultObservations}
+              id="additional-items"
+              options={additionalOptions}
+              disableCloseOnSelect
+              getOptionLabel={(option) => option.name}
+              fullWidth
+              onChange={(event, value) => handleObservationsChange(value)}
+              renderOption={(props, option, { selected }) => (
+                <li key={`list-item-${option.id}`} {...props}>
+                  <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                  {option.name} - R${" "}
+                  {formatScaledPriceToPtBr(option.amount.value, option.amount.scale)}
+                </li>
+              )}
+              renderInput={(params) => <TextField {...params} label="Observações padrões" />}
             />
           </Grid>
 
