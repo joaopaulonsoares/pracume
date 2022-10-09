@@ -55,7 +55,6 @@ export const SelectTextField = forwardRef<HTMLInputElement, TextFieldProps>(
     })
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
-    console.log(options)
     return (
       <div {...outerProps}>
         <TextField

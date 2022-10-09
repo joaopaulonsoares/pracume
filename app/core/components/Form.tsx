@@ -24,7 +24,6 @@ export function Form<S extends z.ZodType<any, any>>({
   onSubmit,
   ...props
 }: FormProps<S>) {
-  console.log(initialValues)
   return (
     <FinalForm
       initialValues={initialValues}

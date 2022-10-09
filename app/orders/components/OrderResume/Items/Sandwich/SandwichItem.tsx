@@ -12,14 +12,8 @@ export function SandwichItem({
   handleRemove,
   updateObservations,
 }: any) {
-  const {
-    productId,
-    name,
-    amount,
-    items,
-    defaultObservations = [],
-    customObservations,
-  } = productInfo
+  console.log(`Product: ${JSON.stringify(productInfo)}`)
+  const { name, amount, defaultObservations = [], customObservation } = productInfo
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)
 
@@ -45,10 +39,14 @@ export function SandwichItem({
           </Typography>
 
           {defaultObservations.length > 0 && (
-            <Typography key={`default-observation-${itemUuid}-${index}-id`} variant="caption">
-              - Obs: {defaultObservations.map((item, index) => `${item.description}, `)}
-              {customObservations}
-            </Typography>
+            <>
+              <Typography key={`default-observation-${itemUuid}-${index}-id`} variant="caption">
+                - Obs: {defaultObservations.map((item, index) => `${item.description}, `)}
+              </Typography>
+              <Typography key={`custom-observation-${itemUuid}-${index}-id`} variant="caption">
+                {customObservation}
+              </Typography>
+            </>
           )}
         </Grid>
         <Grid item xs={1}>

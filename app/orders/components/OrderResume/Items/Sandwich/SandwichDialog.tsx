@@ -22,14 +22,10 @@ import { useForm, Controller } from "react-hook-form"
 import { mockedObservationsSandwich } from "../../../../mockedObservations"
 
 export function SandwicheDialog(props) {
-  console.log("===")
-  console.log(props.infos)
   const { onClose, selectedValue, open, infos, updateObservations } = props
-  const [selectedObservations, setSelectedObservations] = useState(infos.defaultObservations)
+  const [selectedObservations, setSelectedObservations] = useState([])
   const [customObservations, setCustomObservations] = useState<string>(infos.customObservations)
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
-
-  console.log(infos)
 
   const handleClose = () => {
     onClose(selectedValue)
@@ -74,6 +70,7 @@ export function SandwicheDialog(props) {
           <Grid item xs={12}>
             <Autocomplete
               multiple
+              defaultValue={infos.defaultObservations}
               id="sandwich-observationss"
               options={mockedObservationsSandwich}
               disableCloseOnSelect

@@ -26,7 +26,6 @@ export function DefaultDialog(props) {
   const [selectedItemId, setSelectedItemId] = useState(infos.item)
   const [itemChoosedId, setItemChoosedId] = useState(infos.item)
 
-  console.log(infos)
   const { handleSubmit, control, reset } = useForm({
     defaultValues: {
       mainProduct: infos.item,
@@ -35,8 +34,7 @@ export function DefaultDialog(props) {
   })
 
   const onSubmit = (data) => {
-    console.log("entrou")
-    console.log(data)
+    console.log("entrou default dialog")
   }
   const handleClose = () => {
     onClose(selectedValue)
