@@ -27,13 +27,18 @@ import { extraItemsProducts } from "../../../../mockedProducts"
 
 export function ComboEditDialog(props) {
   console.log(props.infos)
-  //console.log(props.infos)
   const { onClose, selectedValue, open, infos, updateObservations } = props
 
-  const [selectedBeveragem, setSelectedBeverage] = useState(infos.defaultOptions.drink)
+  const comboSandwich = items.filter((item) => item.id === infos.defaultOptions.main)[0]
+  const [selectedSandwichObservations, setSelectedSandwichObservations] = useState([])
+
+  const [selectedBeverage, setSelectedBeverage] = useState(infos.defaultOptions.drink)
+  const [selectedBeverageObservations, setSelectedBeverageObservations] = useState([])
+
   const [selectedAdditionalItem, setSelectedAdditionaltem] = useState(
     infos.defaultOptions.additional
   )
+  const [selectedAdditionalItemObservations, setSelectedAdditionalItemObservations] = useState([])
 
   const [selectedObservations, setSelectedObservations] = useState([])
   const [customObservations, setCustomObservations] = useState<string>(infos.customObservations)
@@ -50,7 +55,7 @@ export function ComboEditDialog(props) {
   })
 
   const additionals = items.filter((item) => item.category === "additional")
-  const additionalsComboOptions = props.infos.options.additionals.map((itemId) => {
+  const additionalsComboOptions = props.infos.options.additional.map((itemId) => {
     const found = additionals.find((item) => item.id === itemId)
     if (found) {
       return found
@@ -99,21 +104,21 @@ export function ComboEditDialog(props) {
               multiline
               maxRows={4}
               disabled
-              value={infos.name}
+              value={comboSandwich?.name || "Erro"}
             />
           </Grid>
 
           <Grid item xs={12}>
             <Autocomplete
               multiple
-              defaultValue={infos.defaultObservations}
               id="sandwich-observationss"
               options={mockedObservationsSandwich}
               disableCloseOnSelect
               getOptionLabel={(option) => option.description}
               filterSelectedOptions
               fullWidth
-              onChange={(event, value) => handleObservationsChange(value)}
+              value={selectedSandwichObservations}
+              onChange={(event, value) => setSelectedSandwichObservations(value as any)}
               renderOption={(props, option, { selected }) => (
                 <li key={`list-item-${option.id}`} {...props}>
                   <Checkbox style={{ marginRight: 8 }} checked={selected} />
@@ -134,7 +139,7 @@ export function ComboEditDialog(props) {
               <Select
                 labelId="beverage-select"
                 id="beverage-select"
-                value={selectedBeveragem}
+                value={selectedBeverage}
                 label="Bebida"
                 onChange={(event) => setSelectedBeverage(event.target.value)}
               >
@@ -145,6 +150,9 @@ export function ComboEditDialog(props) {
                     </MenuItem>
                   )
                 })}
+                <MenuItem key={`no-drink`} value={0}>
+                  Sem bebida
+                </MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -152,14 +160,15 @@ export function ComboEditDialog(props) {
           <Grid item xs={12}>
             <Autocomplete
               multiple
-              defaultValue={infos.defaultObservations}
               id="beverage-observations"
               options={mockedObservationsBeverage}
               disableCloseOnSelect
               getOptionLabel={(option) => option.description}
               filterSelectedOptions
               fullWidth
-              onChange={(event, value) => handleObservationsChange(value)}
+              disabled={selectedBeverage === 0}
+              value={selectedBeverageObservations}
+              onChange={(event, value) => setSelectedBeverageObservations(value as any)}
               renderOption={(props, option, { selected }) => (
                 <li key={`list-item-${option.id}`} {...props}>
                   <Checkbox style={{ marginRight: 8 }} checked={selected} />
@@ -175,29 +184,37 @@ export function ComboEditDialog(props) {
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
-              id="additional"
-              fullWidth
-              label="Item adicional"
-              variant="outlined"
-              multiline
-              maxRows={4}
-              disabled
-              value={infos.name}
-            />
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label"> Item extra</InputLabel>
+              <Select
+                labelId="additional-select"
+                id="additional-select"
+                value={selectedAdditionalItem}
+                label="Item extra"
+                onChange={(event) => setSelectedAdditionaltem(event.target.value)}
+              >
+                {additionalsComboOptions.map((additional) => {
+                  return (
+                    <MenuItem key={`additional-${additional.id}`} value={additional.id}>
+                      {additional.name}
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
           </Grid>
 
           <Grid item xs={12}>
             <Autocomplete
               multiple
-              defaultValue={infos.defaultObservations}
               id="additional-observations"
               options={mockedObservationsBeverage}
               disableCloseOnSelect
               getOptionLabel={(option) => option.description}
               filterSelectedOptions
               fullWidth
-              onChange={(event, value) => handleObservationsChange(value)}
+              value={selectedAdditionalItemObservations}
+              onChange={(event, value) => setSelectedAdditionalItemObservations(value as any)}
               renderOption={(props, option, { selected }) => (
                 <li key={`list-item-${option.id}`} {...props}>
                   <Checkbox style={{ marginRight: 8 }} checked={selected} />
