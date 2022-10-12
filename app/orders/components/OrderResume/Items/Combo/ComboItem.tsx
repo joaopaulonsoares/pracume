@@ -3,6 +3,7 @@ import { Box, Grid, Typography, Tooltip, IconButton, Divider } from "@mui/materi
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
+import { ComboEditDialog } from "./ComboEditDialog"
 
 import { items } from "../../../../mockedProducts"
 
@@ -80,7 +81,12 @@ export function ComboOrderItem({ productInfo, itemUuid, index, handleRemove }: a
           </Typography>
         </Grid>
       </Grid>
-      {/*<SimpleDialog open={openEdit} onClose={handleCloseEditOpen} infos={orderProduct} />*/}
+      <ComboEditDialog
+        open={openEdit}
+        onClose={handleCloseEditOpen}
+        infos={productInfo}
+        updateObservations={() => console.log("update")}
+      />
       <Divider />
     </Box>
   )

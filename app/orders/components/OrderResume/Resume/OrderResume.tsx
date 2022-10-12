@@ -16,7 +16,6 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
     const { uuid, ...productInfo } = itemInfo
 
     function updateObservations(defaultObservations, customObservation) {
-      console.log("Chegou", customObservation)
       for (const item of selectedProducts) {
         if (item.uuid === uuid) {
           ;(item.defaultObservations = defaultObservations),

@@ -62,7 +62,7 @@ export function BeverageDialog(props) {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              id="beverage"
+              id="sandwich"
               fullWidth
               label="Bebida"
               variant="outlined"

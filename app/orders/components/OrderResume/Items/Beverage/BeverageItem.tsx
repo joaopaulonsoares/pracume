@@ -12,7 +12,6 @@ export function BeverageItem({
   handleRemove,
   updateObservations,
 }: any) {
-  console.log(`Product: ${JSON.stringify(productInfo)}`)
   const { name, amount, defaultObservations = [], customObservation } = productInfo
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)
@@ -23,7 +22,6 @@ export function BeverageItem({
 
   const handleCloseEditOpen = () => {
     setOpenEdit(false)
-    //setSelectedValue(value);
   }
 
   function handleItemRemoval() {
