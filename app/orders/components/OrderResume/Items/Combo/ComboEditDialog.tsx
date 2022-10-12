@@ -23,8 +23,6 @@ import {
 } from "../../../../mockedObservations"
 import { items } from "../../../../mockedProducts"
 
-import { extraItemsProducts } from "../../../../mockedProducts"
-
 export function ComboEditDialog(props) {
   console.log(props.infos)
   const { onClose, selectedValue, open, infos, updateObservations } = props
