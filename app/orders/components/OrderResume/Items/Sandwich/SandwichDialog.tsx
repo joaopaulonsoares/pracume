@@ -73,26 +73,28 @@ export function SandwicheDialog(props) {
             />
           </Grid>
 
+          {/*
           <Grid item xs={12}>
-            <Autocomplete
-              multiple
-              //defaultValue={infos.defaultObservations}
-              id="additional-items"
-              options={additionalOptions}
-              disableCloseOnSelect
-              getOptionLabel={(option) => option.name}
-              fullWidth
-              onChange={(event, value) => handleObservationsChange(value)}
-              renderOption={(props, option, { selected }) => (
-                <li key={`list-item-${option.id}`} {...props}>
-                  <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                  {option.name} - R${" "}
-                  {formatScaledPriceToPtBr(option.amount.value, option.amount.scale)}
-                </li>
-              )}
-              renderInput={(params) => <TextField {...params} label="Observações padrões" />}
-            />
-          </Grid>
+          <Autocomplete
+            multiple
+            //defaultValue={infos.defaultObservations}
+            id="additional-items"
+            options={additionalOptions}
+            disableCloseOnSelect
+            getOptionLabel={(option) => option.name}
+            fullWidth
+            // onChange={(event, value) => handleObservationsChange(value)}
+            renderOption={(props, option, { selected }) => (
+              <li key={`list-item-${option.id}`} {...props}>
+                <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                {option.name} - R${" "}
+                {formatScaledPriceToPtBr(option.amount.value, option.amount.scale)}
+              </li>
+            )}
+            renderInput={(params) => <TextField {...params} label="Itens Adicionais" />}
+          />
+        </Grid>
+            */}
 
           <Grid item xs={12}>
             <Autocomplete
