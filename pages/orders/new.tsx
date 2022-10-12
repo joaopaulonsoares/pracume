@@ -24,15 +24,67 @@ function NewOrderPage(): JSX.Element {
 
   const combosList = productsNewList.filter((p) => p.category === "combo")
   const sandwichesList = productsNewList.filter((p) => p.category === "sandwich")
-  const customBeverageList = productsNewList.filter((p) => p.category === "customBeverage")
   const beverageList = productsNewList.filter((p) => p.category === "beverage")
 
-  function addSelectedProduct(info: any) {
+  function formatNormalSelectedItem(info: any) {
+    return {
+      productInformations: {
+        ...info,
+      },
+      selectedInfos: {
+        itemId: info.item,
+        itemName: info.name,
+        observations: [],
+      },
+      category: info.category,
+      totalPrice: info.amount,
+    }
+  }
+
+  async function formatComboSelectedItem(info: any) {
+    return {
+      productInformations: {
+        ...info,
+      },
+      selectedInfos: {
+        sandwich: {
+          itemId: info.defaultOptions.main,
+          observations: [],
+        },
+        beverage: {
+          itemId: info.defaultOptions.main,
+          observations: [],
+        },
+        extra: {
+          itemId: info.defaultOptions.main,
+          observations: [],
+        },
+        observations: "",
+      },
+      category: info.category,
+      totalPrice: info.amount,
+    }
+  }
+
+  async function addSelectedProduct(info: any) {
     const generatedUuid = v4()
-    setSelectedProducts((oldArray: any) => [
-      ...oldArray,
-      { uuid: generatedUuid, totalAmount: info.amount, ...info },
-    ])
+
+    if (info.category === "combo") {
+      const tempSelect = await formatComboSelectedItem(info)
+      console.log("combo")
+      console.log(tempSelect)
+      console.log("=====")
+      setSelectedProducts((oldArray: any) => [
+        ...oldArray,
+        { uuid: generatedUuid, totalAmount: info.amount, ...info, ...tempSelect },
+      ])
+    } else {
+      const tempSelect = formatNormalSelectedItem(info)
+      setSelectedProducts((oldArray: any) => [
+        ...oldArray,
+        { uuid: generatedUuid, totalAmount: info.amount, ...info, ...tempSelect },
+      ])
+    }
   }
 
   function removeSelectedProduct(itemUuid: string) {
