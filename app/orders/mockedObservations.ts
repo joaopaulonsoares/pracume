@@ -12,4 +12,5 @@ export const mockedObservationsBeverage = [
   { id: 8, description: "Com açucar" },
   { id: 9, description: "Sem açucar" },
   { id: 10, description: "Com adoçante" },
+  { id: 10, description: "Com rodelas de limão" },
 ]

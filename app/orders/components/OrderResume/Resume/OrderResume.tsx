@@ -4,6 +4,7 @@ import { calculateTotalSelectedItemsPrice } from "app/core/utils/calculateTotalS
 import { ComboOrderItem } from "app/orders/components/OrderResume/Items/Combo/ComboItem"
 import { DefaultOrderItem } from "app/orders/components/OrderResume/Items/Default/DefaultItem"
 import { SandwichItem } from "app/orders/components/OrderResume/Items/Sandwich/SandwichItem"
+import { BeverageItem } from "app/orders/components/OrderResume/Items/Beverage/BeverageItem"
 import { Categories } from "app/core/enums/categories.enum"
 
 export function OrderResume({ selectedProducts, handleSelectedRemove, handleItemEdit }: any) {
@@ -38,6 +39,16 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
       case Categories.SANDWICH:
         return (
           <SandwichItem
+            productInfo={itemInfo}
+            itemUuid={uuid}
+            index={index}
+            handleRemove={handleRemove}
+            updateObservations={updateObservations}
+          />
+        )
+      case Categories.BEVERAGE:
+        return (
+          <BeverageItem
             productInfo={itemInfo}
             itemUuid={uuid}
             index={index}
