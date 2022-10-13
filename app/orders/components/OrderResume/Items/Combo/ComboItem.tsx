@@ -7,16 +7,22 @@ import { ComboEditDialog } from "./ComboEditDialog"
 
 import { items } from "../../../../mockedProducts"
 
-export function ComboOrderItem({ productInfo, itemUuid, index, handleRemove }: any) {
+export function ComboOrderItem({
+  productInfo,
+  itemUuid,
+  index,
+  handleRemove,
+  orderItemResume,
+}: any) {
   const { productId, name, amount, observations } = productInfo
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)
 
-  const mainItem = items.find((element) => element.id === productInfo?.defaultOptions?.main)
-  const drinkItem = items.find((element) => element.id === productInfo?.defaultOptions?.drink)
-  const additionalItem = items.find(
-    (element) => element.id === productInfo?.defaultOptions?.additional
-  )
+  const { selectedInfos } = orderItemResume
+
+  const mainItem = items.find((element) => element.id === selectedInfos?.sandwich?.itemId)
+  const drinkItem = items.find((element) => element.id === selectedInfos?.beverage?.itemId)
+  const additionalItem = items.find((element) => element.id === selectedInfos?.extra?.itemId)
 
   const handleClickEditOpen = () => {
     setOpenEdit(true)

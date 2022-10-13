@@ -42,7 +42,7 @@ export function ComboEditDialog(props) {
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
 
   const drinks = items.filter((item) => item.category === "beverage")
-  const beverageComboOptions = props.infos.options.drink.map((itemId) => {
+  const beverageComboOptions = props.infos.options.beverage.map((itemId) => {
     const found = drinks.find((drink) => drink.id === itemId)
     if (found) {
       return found
@@ -52,7 +52,7 @@ export function ComboEditDialog(props) {
   })
 
   const additionals = items.filter((item) => item.category === "additional")
-  const additionalsComboOptions = props.infos.options.additional.map((itemId) => {
+  const additionalsComboOptions = props.infos.options.extra.map((itemId) => {
     const found = additionals.find((item) => item.id === itemId)
     if (found) {
       return found

@@ -53,11 +53,11 @@ function NewOrderPage(): JSX.Element {
           observations: [],
         },
         beverage: {
-          itemId: info.defaultOptions.main,
+          itemId: info.defaultOptions.beverage,
           observations: [],
         },
         extra: {
-          itemId: info.defaultOptions.main,
+          itemId: info.defaultOptions.extra,
           observations: [],
         },
         observations: "",

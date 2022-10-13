@@ -19,17 +19,9 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
     function updateObservations(defaultObservations = "", customObservation) {
       for (const item of selectedProducts) {
         if (item.uuid === uuid) {
-          ;(item.defaultObservations = defaultObservations),
-            (item.customObservation = customObservation)
-
-          if (item.category === Categories.COMBO) {
-          } else {
-            item.selectedInfos.observations = customObservation
-            item.selectedInfos.standardObservations = defaultObservations
-          }
-
+          item.selectedInfos.observations = customObservation
+          item.selectedInfos.standardObservations = defaultObservations
           toast.success("Observações atualizadas com sucesso!")
-
           break
         }
       }
@@ -43,6 +35,7 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
             itemUuid={uuid}
             index={index}
             handleRemove={handleRemove}
+            orderItemResume={itemInfo}
           />
         )
       case Categories.SANDWICH:
@@ -67,6 +60,7 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
         )
       default:
         return (
+          // Not been used
           <DefaultOrderItem
             productInfo={itemInfo}
             itemUuid={uuid}

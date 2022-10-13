@@ -134,18 +134,18 @@ export const productsNewList = [
     category: "combo",
     items: {
       main: { type: "sandwich" },
-      drink: { type: "beverage" },
-      additional: { type: "additional" },
+      beverage: { type: "beverage" },
+      extra: { type: "additional" },
     },
     defaultOptions: {
       main: 1,
-      drink: 7,
-      additional: 5,
+      beverage: 7,
+      extra: 5,
     },
     options: {
       main: [1],
-      drink: [7, 8, 9, 10],
-      additional: [5],
+      beverage: [7, 8, 9, 10],
+      extra: [5],
     },
     amount: {
       value: 3400,
@@ -158,18 +158,18 @@ export const productsNewList = [
     category: "combo",
     items: {
       main: { type: "sandwich", required: true },
-      drink: { type: "beverage", required: true },
-      additional: { type: "additional", required: true },
+      beverage: { type: "beverage", required: true },
+      extra: { type: "additional", required: true },
     },
     defaultOptions: {
       main: 4,
-      drink: 7,
-      additional: 5,
+      beverage: 7,
+      extra: 5,
     },
     options: {
       main: [4],
-      drink: [7, 8, 9, 10],
-      additional: [5],
+      beverage: [7, 8, 9, 10],
+      extra: [5],
     },
     amount: {
       value: 4200,
