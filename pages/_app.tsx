@@ -5,6 +5,7 @@ import React from "react"
 import { withBlitz } from "app/blitz-client"
 import ThemeProvider from "app/theme/ThemeProvider"
 import { SidebarProvider } from "app/contexts/SidebarContext"
+import { Toaster } from "react-hot-toast"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -32,6 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider>
         <HelmetProvider>
           <SidebarProvider>
+            <Toaster />
             <Component {...pageProps} />
           </SidebarProvider>
         </HelmetProvider>

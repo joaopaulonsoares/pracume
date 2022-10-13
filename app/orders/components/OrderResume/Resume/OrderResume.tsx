@@ -6,6 +6,7 @@ import { DefaultOrderItem } from "app/orders/components/OrderResume/Items/Defaul
 import { SandwichItem } from "app/orders/components/OrderResume/Items/Sandwich/SandwichItem"
 import { BeverageItem } from "app/orders/components/OrderResume/Items/Beverage/BeverageItem"
 import { Categories } from "app/core/enums/categories.enum"
+import toast from "react-hot-toast"
 
 export function OrderResume({ selectedProducts, handleSelectedRemove, handleItemEdit }: any) {
   function handleRemove(itemUuid: string) {
@@ -26,6 +27,9 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
             item.selectedInfos.observations = customObservation
             item.selectedInfos.standardObservations = defaultObservations
           }
+
+          toast.success("Observações atualizadas com sucesso!")
+
           break
         }
       }
