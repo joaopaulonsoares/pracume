@@ -48,7 +48,8 @@ export function BeverageItem({
             {listPosition} - {selectedInfos.itemName}
           </Typography>
 
-          {selectedInfos.standardObservations.length > 0 && (
+          {(selectedInfos.standardObservations.length > 0 ||
+            selectedInfos.observations.length > 0) && (
             <>
               <Typography key={`default-observation-${itemUuid}-${index}-id`} variant="caption">
                 - Obs:{" "}
