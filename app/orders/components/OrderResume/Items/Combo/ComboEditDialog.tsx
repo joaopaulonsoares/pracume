@@ -24,25 +24,23 @@ import {
 import { items } from "../../../../mockedProducts"
 
 export function ComboEditDialog(props) {
-  const { onClose, selectedValue, open, infos, updateObservations } = props
+  const { onClose, selectedValue, open, infos, updateCombo, orderItemResume } = props
 
-  const comboSandwich = items.filter((item) => item.id === infos.defaultOptions.main)[0]
+  const { productInformations, selectedInfos } = orderItemResume
+
   const [selectedSandwichObservations, setSelectedSandwichObservations] = useState([])
-
-  const [selectedBeverage, setSelectedBeverage] = useState(infos.defaultOptions.drink)
+  const [selectedBeverage, setSelectedBeverage] = useState(selectedInfos.beverage.itemId)
   const [selectedBeverageObservations, setSelectedBeverageObservations] = useState([])
-
-  const [selectedAdditionalItem, setSelectedAdditionaltem] = useState(
-    infos.defaultOptions.additional
-  )
+  const [selectedAdditionalItem, setSelectedAdditionaltem] = useState(selectedInfos.extra.itemId)
   const [selectedAdditionalItemObservations, setSelectedAdditionalItemObservations] = useState([])
 
-  const [selectedObservations, setSelectedObservations] = useState([])
   const [customObservations, setCustomObservations] = useState<string>(infos.customObservations)
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
 
+  const comboSandwich = items.filter((item) => item.id === selectedInfos.sandwich.itemId)[0]
+
   const drinks = items.filter((item) => item.category === "beverage")
-  const beverageComboOptions = props.infos.options.beverage.map((itemId) => {
+  const beverageComboOptions = productInformations.options.beverage.map((itemId) => {
     const found = drinks.find((drink) => drink.id === itemId)
     if (found) {
       return found
@@ -52,7 +50,7 @@ export function ComboEditDialog(props) {
   })
 
   const additionals = items.filter((item) => item.category === "additional")
-  const additionalsComboOptions = props.infos.options.extra.map((itemId) => {
+  const additionalsComboOptions = productInformations.options.extra.map((itemId) => {
     const found = additionals.find((item) => item.id === itemId)
     if (found) {
       return found
@@ -65,12 +63,22 @@ export function ComboEditDialog(props) {
     onClose(selectedValue)
   }
 
-  function handleObservationsChange(value: any) {
-    setSelectedObservations(value)
-  }
-
   function handleSubmit() {
-    updateObservations(selectedObservations, customObservations)
+    //updateObservations(selectedObservations, customObservations)
+    updateCombo({
+      sandwich: {
+        standardObservations: selectedSandwichObservations,
+      },
+      beverage: {
+        itemId: selectedBeverage,
+        standardObservations: selectedBeverageObservations,
+      },
+      extra: {
+        itemId: selectedAdditionalItem,
+        standardObservations: selectedAdditionalItemObservations,
+      },
+      observations: customObservations,
+    })
     handleClose()
   }
   // https://www.npmjs.com/package/react-final-form-arrays
@@ -80,7 +88,7 @@ export function ComboEditDialog(props) {
     <Dialog onClose={handleClose} open={open} fullWidth>
       <DialogTitle>
         <Box display="flex" justifyContent="space-between">
-          {infos.name}
+          {productInformations.name}
           <IconButton aria-label="Fechar dialogo" size="small" onClick={() => handleClose()}>
             <CloseIcon />
           </IconButton>

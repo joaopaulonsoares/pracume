@@ -13,6 +13,7 @@ export function ComboOrderItem({
   index,
   handleRemove,
   orderItemResume,
+  updateCombo,
 }: any) {
   const { productId, name, amount, observations } = productInfo
   const listPosition = index + 1
@@ -22,7 +23,7 @@ export function ComboOrderItem({
 
   const mainItem = items.find((element) => element.id === selectedInfos?.sandwich?.itemId)
   const drinkItem = items.find((element) => element.id === selectedInfos?.beverage?.itemId)
-  const additionalItem = items.find((element) => element.id === selectedInfos?.extra?.itemId)
+  const extraItem = items.find((element) => element.id === selectedInfos?.extra?.itemId)
 
   const handleClickEditOpen = () => {
     setOpenEdit(true)
@@ -52,7 +53,7 @@ export function ComboOrderItem({
             - {drinkItem?.name}
           </Typography>
           <Typography key={`order-${itemUuid}-additional`} variant="subtitle2" fontSize="small">
-            - {additionalItem?.name}
+            - {extraItem?.name}
           </Typography>
         </Grid>
         <Grid item xs={1}>
@@ -91,7 +92,8 @@ export function ComboOrderItem({
         open={openEdit}
         onClose={handleCloseEditOpen}
         infos={productInfo}
-        updateObservations={() => console.log("update")}
+        orderItemResume={orderItemResume}
+        updateCombo={updateCombo}
       />
       <Divider />
     </Box>

@@ -21,7 +21,22 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
         if (item.uuid === uuid) {
           item.selectedInfos.observations = customObservation
           item.selectedInfos.standardObservations = defaultObservations
-          toast.success("Observações atualizadas com sucesso!")
+          toast.success("Informações atualizadas com sucesso!")
+          break
+        }
+      }
+    }
+
+    function updateCombo(infos: any) {
+      for (const item of selectedProducts) {
+        if (item.uuid === uuid) {
+          item.selectedInfos.sandwich.standardObservations = infos.sandwich.standardObservations
+          item.selectedInfos.beverage.itemId = infos.beverage.itemId
+          item.selectedInfos.beverage.standardObservations = infos.beverage.standardObservations
+          item.selectedInfos.extra.itemId = infos.extra.itemId
+          item.selectedInfos.extra.standardObservations = infos.extra.standardObservations
+          item.selectedInfos.observations = infos.observations
+          toast.success("Informações atualizadas com sucesso!")
           break
         }
       }
@@ -36,6 +51,7 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
             index={index}
             handleRemove={handleRemove}
             orderItemResume={itemInfo}
+            updateCombo={updateCombo}
           />
         )
       case Categories.SANDWICH:
