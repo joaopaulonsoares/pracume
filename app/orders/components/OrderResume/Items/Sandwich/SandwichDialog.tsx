@@ -1,3 +1,4 @@
+import { useState } from "react"
 import {
   Dialog,
   DialogTitle,
@@ -6,35 +7,32 @@ import {
   Grid,
   Button,
   TextField,
-  MenuItem,
-  FormControlLabel,
   Checkbox,
   Autocomplete,
 } from "@mui/material"
-import { SelectTextField, MaterialTextField } from "app/core/components/FormFields"
-import { Form } from "react-final-form"
 import CloseIcon from "@mui/icons-material/Close"
-import { useState } from "react"
-import { items } from "app/orders/mockedProducts"
-import { info } from "console"
-import { array } from "zod"
-import { useForm, Controller } from "react-hook-form"
-import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
-
 import { mockedObservationsSandwich } from "../../../../mockedObservations"
-import { extraItemsProducts } from "../../../../mockedProducts"
+import { OrderResumeItemInterface, SandwichResumeItem } from "../../Resume/orderResume.interface"
 
-export function SandwicheDialog(props) {
-  const { onClose, selectedValue, open, infos, updateObservations } = props
-  const [selectedObservations, setSelectedObservations] = useState([])
-  const [customObservations, setCustomObservations] = useState<string>(infos.customObservations)
-  const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
+interface SandwichDialogPropsInterface {
+  onClose: () => void
+  open: boolean
+  updateObservations: (selectedObservations: Record<any, any>[], customObservations: string) => void
+  orderItemResume: OrderResumeItemInterface
+}
 
-  const additionalOptions = extraItemsProducts.filter((item) => item.forCategory === "sandwich")
-  console.log(additionalOptions)
+export function SandwichDialog(props: SandwichDialogPropsInterface) {
+  const { onClose, open, updateObservations, orderItemResume } = props
+
+  const selectedInfos = orderItemResume.selectedInfos as SandwichResumeItem
+
+  const [selectedObservations, setSelectedObservations] = useState(
+    selectedInfos.standardObservations
+  )
+  const [customObservations, setCustomObservations] = useState<string>(selectedInfos.observations)
 
   const handleClose = () => {
-    onClose(selectedValue)
+    onClose()
   }
 
   function handleObservationsChange(value: any) {
@@ -45,14 +43,12 @@ export function SandwicheDialog(props) {
     updateObservations(selectedObservations, customObservations)
     handleClose()
   }
-  // https://www.npmjs.com/package/react-final-form-arrays
-  // https://codesandbox.io/s/react-final-form-field-arrays-vq9pz?file=/index.js:198-208
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth>
       <DialogTitle>
         <Box display="flex" justifyContent="space-between">
-          {infos.name}
+          {selectedInfos.itemName}
           <IconButton aria-label="Editar item" size="small" onClick={() => handleClose()}>
             <CloseIcon />
           </IconButton>
@@ -69,43 +65,20 @@ export function SandwicheDialog(props) {
               multiline
               maxRows={4}
               disabled
-              value={infos.name}
+              value={selectedInfos.itemName}
             />
           </Grid>
-
-          {/*
-          <Grid item xs={12}>
-          <Autocomplete
-            multiple
-            //defaultValue={infos.defaultObservations}
-            id="additional-items"
-            options={additionalOptions}
-            disableCloseOnSelect
-            getOptionLabel={(option) => option.name}
-            fullWidth
-            // onChange={(event, value) => handleObservationsChange(value)}
-            renderOption={(props, option, { selected }) => (
-              <li key={`list-item-${option.id}`} {...props}>
-                <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                {option.name} - R${" "}
-                {formatScaledPriceToPtBr(option.amount.value, option.amount.scale)}
-              </li>
-            )}
-            renderInput={(params) => <TextField {...params} label="Itens Adicionais" />}
-          />
-        </Grid>
-            */}
 
           <Grid item xs={12}>
             <Autocomplete
               multiple
-              defaultValue={infos.defaultObservations}
-              id="sandwich-observationss"
+              id="sandwichStandardObservations"
               options={mockedObservationsSandwich}
               disableCloseOnSelect
               getOptionLabel={(option) => option.description}
               filterSelectedOptions
               fullWidth
+              value={selectedObservations}
               onChange={(event, value) => handleObservationsChange(value)}
               renderOption={(props, option, { selected }) => (
                 <li key={`list-item-${option.id}`} {...props}>
@@ -119,7 +92,7 @@ export function SandwicheDialog(props) {
 
           <Grid item xs={12}>
             <TextField
-              id="custom-observation"
+              id="sandwichObservation"
               fullWidth
               label="Outras observações"
               variant="outlined"
@@ -132,13 +105,8 @@ export function SandwicheDialog(props) {
 
           <Grid item xs={12}>
             <Box width="100%" display="flex" alignItems="center" justifyContent="center">
-              <Button
-                type="submit"
-                variant="outlined"
-                onClick={() => handleSubmit()}
-                disabled={isSubmiting}
-              >
-                {!isSubmiting ? "Salvar" : "Processando"}
+              <Button type="submit" variant="outlined" onClick={() => handleSubmit()}>
+                Salvar
               </Button>
             </Box>
           </Grid>

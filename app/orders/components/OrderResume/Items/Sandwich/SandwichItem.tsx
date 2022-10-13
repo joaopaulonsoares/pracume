@@ -3,7 +3,18 @@ import { Box, Grid, Typography, Tooltip, IconButton, Divider } from "@mui/materi
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
-import { SandwicheDialog } from "./SandwichDialog"
+import { SandwichDialog } from "./SandwichDialog"
+
+import { OrderResumeItemInterface, SandwichResumeItem } from "../../Resume/orderResume.interface"
+
+interface SandwichItemInterface {
+  productInfo: any
+  itemUuid: string
+  index: number
+  handleRemove: any
+  updateObservations: any
+  orderItemResume: OrderResumeItemInterface
+}
 
 export function SandwichItem({
   productInfo,
@@ -11,9 +22,12 @@ export function SandwichItem({
   index,
   handleRemove,
   updateObservations,
-}: any) {
-  console.log(`Product: ${JSON.stringify(productInfo)}`)
+  orderItemResume,
+}: SandwichItemInterface) {
   const { name, amount, defaultObservations = [], customObservation } = productInfo
+
+  const selectedInfos = orderItemResume.selectedInfos as SandwichResumeItem
+
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)
 
@@ -23,7 +37,6 @@ export function SandwichItem({
 
   const handleCloseEditOpen = () => {
     setOpenEdit(false)
-    //setSelectedValue(value);
   }
 
   function handleItemRemoval() {
@@ -35,16 +48,17 @@ export function SandwichItem({
       <Grid container>
         <Grid item xs={11}>
           <Typography variant="h5">
-            {listPosition} - {name}
+            {listPosition} - {selectedInfos.itemName}
           </Typography>
 
-          {defaultObservations.length > 0 && (
+          {selectedInfos.standardObservations.length > 0 && (
             <>
               <Typography key={`default-observation-${itemUuid}-${index}-id`} variant="caption">
-                - Obs: {defaultObservations.map((item, index) => `${item.description}, `)}
+                - Obs:{" "}
+                {selectedInfos.standardObservations.map((item, index) => `${item.description}, `)}
               </Typography>
               <Typography key={`custom-observation-${itemUuid}-${index}-id`} variant="caption">
-                {customObservation}
+                {selectedInfos.observations}
               </Typography>
             </>
           )}
@@ -81,11 +95,11 @@ export function SandwichItem({
           </Typography>
         </Grid>
       </Grid>
-      <SandwicheDialog
+      <SandwichDialog
         open={openEdit}
         onClose={handleCloseEditOpen}
-        infos={productInfo}
         updateObservations={updateObservations}
+        orderItemResume={orderItemResume}
       />
       <Divider />
     </Box>
