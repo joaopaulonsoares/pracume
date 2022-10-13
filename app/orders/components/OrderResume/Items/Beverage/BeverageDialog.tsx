@@ -1,3 +1,4 @@
+import { useState } from "react"
 import {
   Dialog,
   DialogTitle,
@@ -6,32 +7,20 @@ import {
   Grid,
   Button,
   TextField,
-  MenuItem,
-  FormControlLabel,
   Checkbox,
   Autocomplete,
 } from "@mui/material"
-import { SelectTextField, MaterialTextField } from "app/core/components/FormFields"
-import { Form } from "react-final-form"
 import CloseIcon from "@mui/icons-material/Close"
-import { useState } from "react"
-import { items } from "app/orders/mockedProducts"
-import { info } from "console"
-import { array } from "zod"
-import { useForm, Controller } from "react-hook-form"
-import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
-
 import { mockedObservationsBeverage } from "../../../../mockedObservations"
-import { extraItemsProducts } from "../../../../mockedProducts"
 
 export function BeverageDialog(props) {
-  const { onClose, selectedValue, open, infos, updateObservations } = props
-  const [selectedObservations, setSelectedObservations] = useState([])
-  const [customObservations, setCustomObservations] = useState<string>(infos.customObservations)
-  const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
+  const { onClose, selectedValue, open, infos, updateObservations, orderItemResume } = props
 
-  const additionalOptions = extraItemsProducts.filter((item) => item.forCategory === "sandwich")
-  console.log(additionalOptions)
+  const { productInformations, selectedInfos } = orderItemResume
+  const [selectedObservations, setSelectedObservations] = useState(
+    selectedInfos.standardObservations
+  )
+  const [customObservations, setCustomObservations] = useState<string>(selectedInfos.observations)
 
   const handleClose = () => {
     onClose(selectedValue)
@@ -45,8 +34,6 @@ export function BeverageDialog(props) {
     updateObservations(selectedObservations, customObservations)
     handleClose()
   }
-  // https://www.npmjs.com/package/react-final-form-arrays
-  // https://codesandbox.io/s/react-final-form-field-arrays-vq9pz?file=/index.js:198-208
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth>
@@ -73,39 +60,16 @@ export function BeverageDialog(props) {
             />
           </Grid>
 
-          {/*
-          <Grid item xs={12}>
-          <Autocomplete
-            multiple
-            //defaultValue={infos.defaultObservations}
-            id="additional-items"
-            options={additionalOptions}
-            disableCloseOnSelect
-            getOptionLabel={(option) => option.name}
-            fullWidth
-            // onChange={(event, value) => handleObservationsChange(value)}
-            renderOption={(props, option, { selected }) => (
-              <li key={`list-item-${option.id}`} {...props}>
-                <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                {option.name} - R${" "}
-                {formatScaledPriceToPtBr(option.amount.value, option.amount.scale)}
-              </li>
-            )}
-            renderInput={(params) => <TextField {...params} label="Itens Adicionais" />}
-          />
-        </Grid>
-            */}
-
           <Grid item xs={12}>
             <Autocomplete
               multiple
-              defaultValue={infos.defaultObservations}
               id="beverage-observationss"
               options={mockedObservationsBeverage}
               disableCloseOnSelect
               getOptionLabel={(option) => option.description}
               filterSelectedOptions
               fullWidth
+              value={selectedObservations}
               onChange={(event, value) => handleObservationsChange(value)}
               renderOption={(props, option, { selected }) => (
                 <li key={`list-item-${option.id}`} {...props}>
@@ -132,13 +96,8 @@ export function BeverageDialog(props) {
 
           <Grid item xs={12}>
             <Box width="100%" display="flex" alignItems="center" justifyContent="center">
-              <Button
-                type="submit"
-                variant="outlined"
-                onClick={() => handleSubmit()}
-                disabled={isSubmiting}
-              >
-                {!isSubmiting ? "Salvar" : "Processando"}
+              <Button type="submit" variant="outlined" onClick={() => handleSubmit()}>
+                Salvar
               </Button>
             </Box>
           </Grid>

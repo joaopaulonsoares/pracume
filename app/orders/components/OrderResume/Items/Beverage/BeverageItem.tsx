@@ -5,14 +5,31 @@ import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
 import { BeverageDialog } from "./BeverageDialog"
 
+import { OrderResumeItemInterface, BeverageResumeItem } from "../../Resume/orderResume.interface"
+
+interface BeverageItemInterface {
+  productInfo: any
+  itemUuid: string
+  index: number
+  handleRemove: any
+  updateObservations: any
+  orderItemResume: OrderResumeItemInterface
+}
+
 export function BeverageItem({
   productInfo,
   itemUuid,
   index,
   handleRemove,
   updateObservations,
-}: any) {
+  orderItemResume,
+}: BeverageItemInterface) {
   const { name, amount, defaultObservations = [], customObservation } = productInfo
+
+  //const { selectedInfos }: { selectedInfos: BeverageResumeItem } = orderItemResume
+  console.log(orderItemResume)
+  const selectedInfos = orderItemResume.selectedInfos as BeverageResumeItem
+
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)
 
@@ -33,16 +50,17 @@ export function BeverageItem({
       <Grid container>
         <Grid item xs={11}>
           <Typography variant="h5">
-            {listPosition} - {name}
+            {listPosition} - {selectedInfos.itemName}
           </Typography>
 
-          {defaultObservations.length > 0 && (
+          {selectedInfos.standardObservations.length > 0 && (
             <>
               <Typography key={`default-observation-${itemUuid}-${index}-id`} variant="caption">
-                - Obs: {defaultObservations.map((item, index) => `${item.description}, `)}
+                - Obs:{" "}
+                {selectedInfos.standardObservations.map((item, index) => `${item.description}, `)}
               </Typography>
               <Typography key={`custom-observation-${itemUuid}-${index}-id`} variant="caption">
-                {customObservation}
+                {selectedInfos.observations}
               </Typography>
             </>
           )}
@@ -84,6 +102,7 @@ export function BeverageItem({
         onClose={handleCloseEditOpen}
         infos={productInfo}
         updateObservations={updateObservations}
+        orderItemResume={orderItemResume}
       />
       <Divider />
     </Box>

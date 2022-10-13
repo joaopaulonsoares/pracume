@@ -15,11 +15,17 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
   function OrderSelectedProduct({ itemInfo, index }: any) {
     const { uuid, ...productInfo } = itemInfo
 
-    function updateObservations(defaultObservations, customObservation) {
+    function updateObservations(defaultObservations = "", customObservation) {
       for (const item of selectedProducts) {
         if (item.uuid === uuid) {
           ;(item.defaultObservations = defaultObservations),
             (item.customObservation = customObservation)
+
+          if (item.category === Categories.COMBO) {
+          } else {
+            item.selectedInfos.observations = customObservation
+            item.selectedInfos.standardObservations = defaultObservations
+          }
           break
         }
       }
@@ -43,6 +49,7 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
             index={index}
             handleRemove={handleRemove}
             updateObservations={updateObservations}
+            orderItemResume={itemInfo}
           />
         )
       case Categories.BEVERAGE:
@@ -53,6 +60,7 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
             index={index}
             handleRemove={handleRemove}
             updateObservations={updateObservations}
+            orderItemResume={itemInfo}
           />
         )
       default:

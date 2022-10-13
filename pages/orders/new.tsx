@@ -34,7 +34,8 @@ function NewOrderPage(): JSX.Element {
       selectedInfos: {
         itemId: info.item,
         itemName: info.name,
-        observations: [],
+        observations: "",
+        standardObservations: [],
       },
       category: info.category,
       totalPrice: info.amount,
@@ -71,9 +72,6 @@ function NewOrderPage(): JSX.Element {
 
     if (info.category === "combo") {
       const tempSelect = await formatComboSelectedItem(info)
-      console.log("combo")
-      console.log(tempSelect)
-      console.log("=====")
       setSelectedProducts((oldArray: any) => [
         ...oldArray,
         { uuid: generatedUuid, totalAmount: info.amount, ...info, ...tempSelect },

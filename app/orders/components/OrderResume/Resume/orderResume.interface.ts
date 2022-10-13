@@ -1,34 +1,36 @@
 export interface ComboResumeItem {
   sandwich: {
     itemId: number
-    observations: Array<string>
+    standardObservations: Array<Record<any, any>>
   }
   beverage: {
     itemId: number
-    observations: Array<string>
+    standardObservations: Array<Record<any, any>>
   }
   extra: {
     itemId: number
-    observations: Array<string>
+    standardObservations: Array<Record<any, any>>
   }
-  observations: Array<string>
+  observations: string
 }
 
 export interface SandwichResumeItem {
   itemId: number
-  observations: Array<string>
+  observations: string
+  standardObservations: Array<Record<any, any>>
   itemName: string
 }
 
 export interface BeverageResumeItem {
   itemId: number
-  observations: Array<string>
+  observations: string
+  standardObservations: Array<Record<any, any>>
   itemName: string
 }
 
 export interface OrderResumeItemInterface {
   productInformations: Record<any, any>
-  selectedInfos: ComboResumeItem | SandwichResumeItem | BeverageResumeItem
+  selectedInfos: BeverageResumeItem | ComboResumeItem | SandwichResumeItem
   category: "beverage" | "sandwich" | "combo"
   totalPrice: {
     amount: number
