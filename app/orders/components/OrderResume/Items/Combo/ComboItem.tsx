@@ -4,22 +4,31 @@ import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 import EditIcon from "@mui/icons-material/Edit"
 import ClearIcon from "@mui/icons-material/Clear"
 import { ComboEditDialog } from "./ComboEditDialog"
-
+import {
+  OrderResumeItemInterface,
+  ComboResumeItemInterface,
+} from "../../Resume/orderResume.interface"
 import { items } from "../../../../mockedProducts"
 
+interface ComboOrderItemInterface {
+  itemUuid: string
+  index: number
+  handleRemove: (itemUuid: string) => void
+  orderItemResume: OrderResumeItemInterface
+  updateCombo: (infos: any) => void
+}
+
 export function ComboOrderItem({
-  productInfo,
   itemUuid,
   index,
   handleRemove,
   orderItemResume,
   updateCombo,
-}: any) {
-  const { productId, name, amount, observations } = productInfo
+}: ComboOrderItemInterface) {
   const listPosition = index + 1
   const [openEdit, setOpenEdit] = useState(false)
 
-  const { selectedInfos } = orderItemResume
+  const selectedInfos = orderItemResume.selectedInfos as ComboResumeItemInterface
 
   const mainItem = items.find((element) => element.id === selectedInfos?.sandwich?.itemId)
   const drinkItem = items.find((element) => element.id === selectedInfos?.beverage?.itemId)
@@ -43,7 +52,7 @@ export function ComboOrderItem({
       <Grid container>
         <Grid item xs={11}>
           <Typography variant="h5">
-            {listPosition} - {name}
+            {listPosition} - {orderItemResume.productInformations.name}
           </Typography>
 
           <Typography key={`order-${itemUuid}-main`} variant="subtitle2" fontSize="small">
@@ -84,14 +93,17 @@ export function ComboOrderItem({
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle1" align="right" margin={0}>
-            R$ {formatScaledPriceToPtBr(amount.value, amount.scale)}
+            R${" "}
+            {formatScaledPriceToPtBr(
+              orderItemResume.totalPrice.value,
+              orderItemResume.totalPrice.scale
+            )}
           </Typography>
         </Grid>
       </Grid>
       <ComboEditDialog
         open={openEdit}
         onClose={handleCloseEditOpen}
-        infos={productInfo}
         orderItemResume={orderItemResume}
         updateCombo={updateCombo}
       />

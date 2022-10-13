@@ -16,15 +16,25 @@ import {
 } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { useState } from "react"
-
+import {
+  OrderResumeItemInterface,
+  ComboResumeItemInterface,
+} from "../../Resume/orderResume.interface"
 import {
   mockedObservationsBeverage,
   mockedObservationsSandwich,
 } from "../../../../mockedObservations"
 import { items } from "../../../../mockedProducts"
 
-export function ComboEditDialog(props) {
-  const { onClose, selectedValue, open, infos, updateCombo, orderItemResume } = props
+interface ComboEditDialogInterface {
+  onClose: () => void
+  open: boolean
+  updateCombo: (info: any) => void
+  orderItemResume: OrderResumeItemInterface
+}
+
+export function ComboEditDialog(props: ComboEditDialogInterface) {
+  const { onClose, open, updateCombo, orderItemResume } = props
 
   const { productInformations, selectedInfos } = orderItemResume
 
@@ -34,7 +44,7 @@ export function ComboEditDialog(props) {
   const [selectedAdditionalItem, setSelectedAdditionaltem] = useState(selectedInfos.extra.itemId)
   const [selectedAdditionalItemObservations, setSelectedAdditionalItemObservations] = useState([])
 
-  const [customObservations, setCustomObservations] = useState<string>(infos.customObservations)
+  const [customObservations, setCustomObservations] = useState<string>(selectedInfos.observations)
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
 
   const comboSandwich = items.filter((item) => item.id === selectedInfos.sandwich.itemId)[0]
@@ -60,7 +70,7 @@ export function ComboEditDialog(props) {
   })
 
   const handleClose = () => {
-    onClose(selectedValue)
+    onClose()
   }
 
   function handleSubmit() {

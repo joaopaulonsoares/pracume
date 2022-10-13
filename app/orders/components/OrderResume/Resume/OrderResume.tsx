@@ -46,7 +46,6 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
       case Categories.COMBO:
         return (
           <ComboOrderItem
-            productInfo={itemInfo}
             itemUuid={uuid}
             index={index}
             handleRemove={handleRemove}
