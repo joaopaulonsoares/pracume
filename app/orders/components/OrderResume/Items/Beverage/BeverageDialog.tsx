@@ -12,18 +12,27 @@ import {
 } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import { mockedObservationsBeverage } from "../../../../mockedObservations"
+import { OrderResumeItemInterface, BeverageResumeItem } from "../../Resume/orderResume.interface"
 
-export function BeverageDialog(props) {
-  const { onClose, selectedValue, open, updateObservations, orderItemResume } = props
+interface BeverageDialogPropsInterface {
+  onClose: () => void
+  open: boolean
+  updateObservations: (selectedObservations: Record<any, any>[], customObservations: string) => void
+  orderItemResume: OrderResumeItemInterface
+}
 
-  const { selectedInfos } = orderItemResume
+export function BeverageDialog(props: BeverageDialogPropsInterface) {
+  const { onClose, open, updateObservations, orderItemResume } = props
+
+  const selectedInfos = orderItemResume.selectedInfos as BeverageResumeItem
+
   const [selectedObservations, setSelectedObservations] = useState(
     selectedInfos.standardObservations
   )
   const [customObservations, setCustomObservations] = useState<string>(selectedInfos.observations)
 
   const handleClose = () => {
-    onClose(selectedValue)
+    onClose()
   }
 
   function handleObservationsChange(value: any) {
