@@ -36,7 +36,8 @@ interface ComboEditDialogInterface {
 export function ComboEditDialog(props: ComboEditDialogInterface) {
   const { onClose, open, updateCombo, orderItemResume } = props
 
-  const { productInformations, selectedInfos } = orderItemResume
+  const { productInformations } = orderItemResume
+  const selectedInfos = orderItemResume.selectedInfos as ComboResumeItemInterface
 
   const [selectedSandwichObservations, setSelectedSandwichObservations] = useState([])
   const [selectedBeverage, setSelectedBeverage] = useState(selectedInfos.beverage.itemId)
@@ -156,7 +157,7 @@ export function ComboEditDialog(props: ComboEditDialogInterface) {
                 id="beverage-select"
                 value={selectedBeverage}
                 label="Bebida"
-                onChange={(event) => setSelectedBeverage(event.target.value)}
+                onChange={(event) => setSelectedBeverage(event.target.value as number)}
               >
                 {beverageComboOptions.map((drink) => {
                   return (
@@ -206,7 +207,7 @@ export function ComboEditDialog(props: ComboEditDialogInterface) {
                 id="additional-select"
                 value={selectedAdditionalItem}
                 label="Item extra"
-                onChange={(event) => setSelectedAdditionaltem(event.target.value)}
+                onChange={(event) => setSelectedAdditionaltem(event.target.value as number)}
               >
                 {additionalsComboOptions.map((additional) => {
                   return (
