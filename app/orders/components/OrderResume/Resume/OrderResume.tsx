@@ -48,7 +48,6 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
       case Categories.SANDWICH:
         return (
           <SandwichItem
-            productInfo={itemInfo}
             itemUuid={uuid}
             index={index}
             handleRemove={handleRemove}
@@ -59,7 +58,6 @@ export function OrderResume({ selectedProducts, handleSelectedRemove, handleItem
       case Categories.BEVERAGE:
         return (
           <BeverageItem
-            productInfo={itemInfo}
             itemUuid={uuid}
             index={index}
             handleRemove={handleRemove}

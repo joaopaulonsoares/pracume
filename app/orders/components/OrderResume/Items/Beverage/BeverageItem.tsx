@@ -8,7 +8,6 @@ import { BeverageDialog } from "./BeverageDialog"
 import { OrderResumeItemInterface, BeverageResumeItem } from "../../Resume/orderResume.interface"
 
 interface BeverageItemInterface {
-  productInfo: any
   itemUuid: string
   index: number
   handleRemove: any
@@ -17,15 +16,13 @@ interface BeverageItemInterface {
 }
 
 export function BeverageItem({
-  productInfo,
   itemUuid,
   index,
   handleRemove,
   updateObservations,
   orderItemResume,
 }: BeverageItemInterface) {
-  const { name, amount, defaultObservations = [], customObservation } = productInfo
-
+  const amount = orderItemResume.totalPrice
   const selectedInfos = orderItemResume.selectedInfos as BeverageResumeItem
 
   const listPosition = index + 1

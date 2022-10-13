@@ -8,7 +8,6 @@ import { SandwichDialog } from "./SandwichDialog"
 import { OrderResumeItemInterface, SandwichResumeItem } from "../../Resume/orderResume.interface"
 
 interface SandwichItemInterface {
-  productInfo: any
   itemUuid: string
   index: number
   handleRemove: any
@@ -17,14 +16,13 @@ interface SandwichItemInterface {
 }
 
 export function SandwichItem({
-  productInfo,
   itemUuid,
   index,
   handleRemove,
   updateObservations,
   orderItemResume,
 }: SandwichItemInterface) {
-  const { name, amount, defaultObservations = [], customObservation } = productInfo
+  const amount = orderItemResume.totalPrice
 
   const selectedInfos = orderItemResume.selectedInfos as SandwichResumeItem
 

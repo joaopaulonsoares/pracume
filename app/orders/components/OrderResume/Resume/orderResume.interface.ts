@@ -33,7 +33,7 @@ export interface OrderResumeItemInterface {
   selectedInfos: BeverageResumeItem | ComboResumeItem | SandwichResumeItem
   category: "beverage" | "sandwich" | "combo"
   totalPrice: {
-    amount: number
+    value: number
     scale: number
   }
 }
