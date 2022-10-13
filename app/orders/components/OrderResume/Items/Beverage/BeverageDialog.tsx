@@ -14,9 +14,9 @@ import CloseIcon from "@mui/icons-material/Close"
 import { mockedObservationsBeverage } from "../../../../mockedObservations"
 
 export function BeverageDialog(props) {
-  const { onClose, selectedValue, open, infos, updateObservations, orderItemResume } = props
+  const { onClose, selectedValue, open, updateObservations, orderItemResume } = props
 
-  const { productInformations, selectedInfos } = orderItemResume
+  const { selectedInfos } = orderItemResume
   const [selectedObservations, setSelectedObservations] = useState(
     selectedInfos.standardObservations
   )
@@ -39,7 +39,7 @@ export function BeverageDialog(props) {
     <Dialog onClose={handleClose} open={open} fullWidth>
       <DialogTitle>
         <Box display="flex" justifyContent="space-between">
-          {infos.name}
+          {selectedInfos.itemName}
           <IconButton aria-label="Editar item" size="small" onClick={() => handleClose()}>
             <CloseIcon />
           </IconButton>
@@ -56,7 +56,7 @@ export function BeverageDialog(props) {
               multiline
               maxRows={4}
               disabled
-              value={infos.name}
+              value={selectedInfos.itemName}
             />
           </Grid>
 

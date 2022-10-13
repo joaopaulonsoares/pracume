@@ -100,7 +100,6 @@ export function BeverageItem({
       <BeverageDialog
         open={openEdit}
         onClose={handleCloseEditOpen}
-        infos={productInfo}
         updateObservations={updateObservations}
         orderItemResume={orderItemResume}
       />
