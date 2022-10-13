@@ -26,8 +26,6 @@ export function BeverageItem({
 }: BeverageItemInterface) {
   const { name, amount, defaultObservations = [], customObservation } = productInfo
 
-  //const { selectedInfos }: { selectedInfos: BeverageResumeItem } = orderItemResume
-  console.log(orderItemResume)
   const selectedInfos = orderItemResume.selectedInfos as BeverageResumeItem
 
   const listPosition = index + 1

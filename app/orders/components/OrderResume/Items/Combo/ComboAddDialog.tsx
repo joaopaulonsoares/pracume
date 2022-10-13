@@ -31,7 +31,6 @@ export function BeverageDialog(props) {
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
 
   const additionalOptions = extraItemsProducts.filter((item) => item.forCategory === "sandwich")
-  console.log(additionalOptions)
 
   const handleClose = () => {
     onClose(selectedValue)

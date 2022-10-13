@@ -24,7 +24,6 @@ import {
 import { items } from "../../../../mockedProducts"
 
 export function ComboEditDialog(props) {
-  console.log(props.infos)
   const { onClose, selectedValue, open, infos, updateObservations } = props
 
   const comboSandwich = items.filter((item) => item.id === infos.defaultOptions.main)[0]
