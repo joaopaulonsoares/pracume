@@ -91,6 +91,15 @@ function NewOrderPage(): JSX.Element {
     })
   }
 
+  async function handleSubmitButtonClick() {
+    console.log(selectedProducts)
+    try {
+      await createOrderMutation(selectedProducts)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
   return (
     <SidebarLayout>
       <p>
@@ -202,6 +211,7 @@ function NewOrderPage(): JSX.Element {
                     color="success"
                     endIcon={<ArrowForwardTwoTone />}
                     disabled={selectedProducts.length === 0}
+                    onClick={() => handleSubmitButtonClick()}
                   >
                     Confirmar
                   </Button>
