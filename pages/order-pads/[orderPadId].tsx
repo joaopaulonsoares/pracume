@@ -20,11 +20,13 @@ export const OrderPad = () => {
   return (
     <>
       <Head>
-        <title>OrderPad {orderPad.id}</title>
+        <title>Comanda #{orderPad.id}</title>
       </Head>
 
       <div>
-        <h1>OrderPad {orderPad.id}</h1>
+        <h1>
+          Comanda #{orderPad.id} - {orderPad.holderName}
+        </h1>
         <pre>{JSON.stringify(orderPad, null, 2)}</pre>
 
         <Link href={Routes.EditOrderPadPage({ orderPadId: orderPad.id })}>
@@ -36,7 +38,7 @@ export const OrderPad = () => {
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteOrderPadMutation({ id: orderPad.id })
-              router.push(Routes.OrderPadsPage())
+              void router.push(Routes.OrderPadsPage())
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -54,7 +56,7 @@ const ShowOrderPadPage = () => {
       <div>
         <p>
           <Link href={Routes.OrderPadsPage()}>
-            <a>OrderPads</a>
+            <a>Ver comandas em aberto</a>
           </Link>
         </p>
 

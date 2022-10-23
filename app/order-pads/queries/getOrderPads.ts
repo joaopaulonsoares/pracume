@@ -1,12 +1,9 @@
-import { paginate } from "blitz";
-import { resolver } from "@blitzjs/rpc";
-import db, { Prisma } from "db";
+import { paginate } from "blitz"
+import { resolver } from "@blitzjs/rpc"
+import db, { Prisma } from "db"
 
 interface GetOrderPadsInput
-  extends Pick<
-    Prisma.OrderPadFindManyArgs,
-    "where" | "orderBy" | "skip" | "take"
-  > {}
+  extends Pick<Prisma.OrderPadFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
 
 export default resolver.pipe(
   resolver.authorize(),
@@ -21,15 +18,14 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.orderPad.count({ where }),
-      query: (paginateArgs) =>
-        db.orderPad.findMany({ ...paginateArgs, where, orderBy }),
-    });
+      query: (paginateArgs) => db.orderPad.findMany({ ...paginateArgs, where, orderBy }),
+    })
 
     return {
       orderPads,
       nextPage,
       hasMore,
       count,
-    };
+    }
   }
-);
+)

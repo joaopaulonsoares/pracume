@@ -120,6 +120,7 @@ export default resolver.pipe(resolver.authorize(), async (input: any) => {
       tableReference: "",
       deliveryReference: "456",
       products: itemsParsedArray,
+      orderPadId: 1,
     },
   })
 
