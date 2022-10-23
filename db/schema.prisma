@@ -152,6 +152,7 @@ enum ORDER_TYPES {
 }
 
 // delivery types: deliveryType : place, delivery, takeout
+
 model Order {
   id                Int              @id @default(autoincrement())
   createdAt         DateTime         @default(now())
