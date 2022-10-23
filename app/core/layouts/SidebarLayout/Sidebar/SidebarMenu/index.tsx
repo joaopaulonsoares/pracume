@@ -216,11 +216,10 @@ function SidebarMenu() {
               </ListItem>
               <ListItem component="div">
                 <Button
-                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="#"
+                  to="/order-pads"
                   startIcon={<BallotIcon />}
                 >
                   Comandas

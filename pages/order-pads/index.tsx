@@ -1,25 +1,26 @@
-import { Suspense } from "react";
-import { Routes } from "@blitzjs/next";
-import Head from "next/head";
-import Link from "next/link";
-import { usePaginatedQuery } from "@blitzjs/rpc";
-import { useRouter } from "next/router";
-import Layout from "app/core/layouts/Layout";
-import getOrderPads from "app/order-pads/queries/getOrderPads";
+import { Suspense } from "react"
+import { Routes } from "@blitzjs/next"
+import Head from "next/head"
+import Link from "next/link"
+import { usePaginatedQuery } from "@blitzjs/rpc"
+import { useRouter } from "next/router"
+import Layout from "app/core/layouts/Layout"
+import getOrderPads from "app/order-pads/queries/getOrderPads"
+import SidebarLayout from "app/core/layouts/SidebarLayout"
 
-const ITEMS_PER_PAGE = 100;
+const ITEMS_PER_PAGE = 100
 
 export const OrderPadsList = () => {
-  const router = useRouter();
-  const page = Number(router.query.page) || 0;
+  const router = useRouter()
+  const page = Number(router.query.page) || 0
   const [{ orderPads, hasMore }] = usePaginatedQuery(getOrderPads, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
-  });
+  })
 
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } });
-  const goToNextPage = () => router.push({ query: { page: page + 1 } });
+  const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
+  const goToNextPage = () => router.push({ query: { page: page + 1 } })
 
   return (
     <div>
@@ -40,12 +41,12 @@ export const OrderPadsList = () => {
         Next
       </button>
     </div>
-  );
-};
+  )
+}
 
 const OrderPadsPage = () => {
   return (
-    <Layout>
+    <SidebarLayout>
       <Head>
         <title>OrderPads</title>
       </Head>
@@ -61,8 +62,8 @@ const OrderPadsPage = () => {
           <OrderPadsList />
         </Suspense>
       </div>
-    </Layout>
-  );
-};
+    </SidebarLayout>
+  )
+}
 
-export default OrderPadsPage;
+export default OrderPadsPage
