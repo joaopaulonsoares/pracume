@@ -1,20 +1,21 @@
-import { Suspense } from "react";
-import { Routes } from "@blitzjs/next";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useQuery, useMutation } from "@blitzjs/rpc";
-import { useParam } from "@blitzjs/next";
+import { Suspense } from "react"
+import { Routes } from "@blitzjs/next"
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useQuery, useMutation } from "@blitzjs/rpc"
+import { useParam } from "@blitzjs/next"
 
-import Layout from "app/core/layouts/Layout";
-import getOrderPad from "app/order-pads/queries/getOrderPad";
-import deleteOrderPad from "app/order-pads/mutations/deleteOrderPad";
+import Layout from "app/core/layouts/Layout"
+import getOrderPad from "app/order-pads/queries/getOrderPad"
+import deleteOrderPad from "app/order-pads/mutations/deleteOrderPad"
+import SidebarLayout from "app/core/layouts/SidebarLayout"
 
 export const OrderPad = () => {
-  const router = useRouter();
-  const orderPadId = useParam("orderPadId", "number");
-  const [deleteOrderPadMutation] = useMutation(deleteOrderPad);
-  const [orderPad] = useQuery(getOrderPad, { id: orderPadId });
+  const router = useRouter()
+  const orderPadId = useParam("orderPadId", "number")
+  const [deleteOrderPadMutation] = useMutation(deleteOrderPad)
+  const [orderPad] = useQuery(getOrderPad, { id: orderPadId })
 
   return (
     <>
@@ -34,8 +35,8 @@ export const OrderPad = () => {
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
-              await deleteOrderPadMutation({ id: orderPad.id });
-              router.push(Routes.OrderPadsPage());
+              await deleteOrderPadMutation({ id: orderPad.id })
+              router.push(Routes.OrderPadsPage())
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -44,26 +45,28 @@ export const OrderPad = () => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
 const ShowOrderPadPage = () => {
   return (
-    <div>
-      <p>
-        <Link href={Routes.OrderPadsPage()}>
-          <a>OrderPads</a>
-        </Link>
-      </p>
+    <SidebarLayout>
+      <div>
+        <p>
+          <Link href={Routes.OrderPadsPage()}>
+            <a>OrderPads</a>
+          </Link>
+        </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
-        <OrderPad />
-      </Suspense>
-    </div>
-  );
-};
+        <Suspense fallback={<div>Loading...</div>}>
+          <OrderPad />
+        </Suspense>
+      </div>
+    </SidebarLayout>
+  )
+}
 
-ShowOrderPadPage.authenticate = true;
-ShowOrderPadPage.getLayout = (page) => <Layout>{page}</Layout>;
+ShowOrderPadPage.authenticate = true
+//ShowOrderPadPage.getLayout = (page) => <SidebarLayout>{page}</SidebarLayout>
 
-export default ShowOrderPadPage;
+export default ShowOrderPadPage

@@ -28,7 +28,7 @@ export const OrderPadsList = () => {
         {orderPads.map((orderPad) => (
           <li key={orderPad.id}>
             <Link href={Routes.ShowOrderPadPage({ orderPadId: orderPad.id })}>
-              <a>{orderPad.name}</a>
+              <a>{`${orderPad.holderName}- Mesa ${orderPad.tableReference}`} </a>
             </Link>
           </li>
         ))}
@@ -48,7 +48,7 @@ const OrderPadsPage = () => {
   return (
     <SidebarLayout>
       <Head>
-        <title>OrderPads</title>
+        <title>Comandas</title>
       </Head>
 
       <div>

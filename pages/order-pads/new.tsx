@@ -1,20 +1,18 @@
-import { Routes } from "@blitzjs/next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useMutation } from "@blitzjs/rpc";
-import Layout from "app/core/layouts/Layout";
-import createOrderPad from "app/order-pads/mutations/createOrderPad";
-import {
-  OrderPadForm,
-  FORM_ERROR,
-} from "app/order-pads/components/OrderPadForm";
+import { Routes } from "@blitzjs/next"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useMutation } from "@blitzjs/rpc"
+import Layout from "app/core/layouts/Layout"
+import createOrderPad from "app/order-pads/mutations/createOrderPad"
+import { OrderPadForm, FORM_ERROR } from "app/order-pads/components/OrderPadForm"
+import SidebarLayout from "app/core/layouts/SidebarLayout"
 
 const NewOrderPadPage = () => {
-  const router = useRouter();
-  const [createOrderPadMutation] = useMutation(createOrderPad);
+  const router = useRouter()
+  const [createOrderPadMutation] = useMutation(createOrderPad)
 
   return (
-    <Layout title={"Create New OrderPad"}>
+    <SidebarLayout>
       <h1>Create New OrderPad</h1>
 
       <OrderPadForm
@@ -26,13 +24,13 @@ const NewOrderPadPage = () => {
         // initialValues={{}}
         onSubmit={async (values) => {
           try {
-            const orderPad = await createOrderPadMutation(values);
-            router.push(Routes.ShowOrderPadPage({ orderPadId: orderPad.id }));
+            const orderPad = await createOrderPadMutation(values)
+            router.push(Routes.ShowOrderPadPage({ orderPadId: orderPad.id }))
           } catch (error: any) {
-            console.error(error);
+            console.error(error)
             return {
               [FORM_ERROR]: error.toString(),
-            };
+            }
           }
         }}
       />
@@ -42,10 +40,10 @@ const NewOrderPadPage = () => {
           <a>OrderPads</a>
         </Link>
       </p>
-    </Layout>
-  );
-};
+    </SidebarLayout>
+  )
+}
 
-NewOrderPadPage.authenticate = true;
+NewOrderPadPage.authenticate = true
 
-export default NewOrderPadPage;
+export default NewOrderPadPage
