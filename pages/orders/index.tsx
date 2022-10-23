@@ -9,6 +9,15 @@ import getOrders from "app/orders/queries/getOrders"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
 import { Box, Button } from "@mui/material"
 
+import Board from "@asseinfo/react-kanban"
+import "@asseinfo/react-kanban/dist/styles.css"
+
+import dynamic from "next/dynamic"
+
+const DynamicComponentWithNoSSR = dynamic(() => import("app/core/components/KanbanBoard"), {
+  ssr: false,
+})
+
 const ITEMS_PER_PAGE = 100
 
 export const OrdersList = () => {
@@ -41,6 +50,9 @@ export const OrdersList = () => {
       <button disabled={!hasMore} onClick={goToNextPage}>
         Next
       </button>
+      <>
+        <DynamicComponentWithNoSSR />
+      </>
     </div>
   )
 }
