@@ -4,9 +4,10 @@ import Head from "next/head"
 import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
-import Layout from "app/core/layouts/Layout"
 import getOrderPads from "app/order-pads/queries/getOrderPads"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
+import { OrderPadCard } from "app/order-pads/components/OrderPadCard"
+import { Grid } from "@mui/material"
 
 const ITEMS_PER_PAGE = 100
 
@@ -33,13 +34,22 @@ export const OrderPadsList = () => {
           </li>
         ))}
       </ul>
-
+      OrderPadCard
       <button disabled={page === 0} onClick={goToPreviousPage}>
         Previous
       </button>
       <button disabled={!hasMore} onClick={goToNextPage}>
         Next
       </button>
+      <>
+        <Grid container spacing={1}>
+          {orderPads.map((orderPad, index) => (
+            <Grid item xs={12} md={6} lg={4} xl={3} key={orderPad.id}>
+              <OrderPadCard orderPadInfo={orderPad} />
+            </Grid>
+          ))}
+        </Grid>
+      </>
     </div>
   )
 }
