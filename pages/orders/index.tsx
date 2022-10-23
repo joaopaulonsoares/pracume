@@ -7,7 +7,10 @@ import { useRouter } from "next/router"
 import Layout from "app/core/layouts/Layout"
 import getOrders from "app/orders/queries/getOrders"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
-import { Box, Button } from "@mui/material"
+import { Box, Button, Grid } from "@mui/material"
+
+import dynamic from "next/dynamic"
+import { OrderCard } from "app/orders/components/Root/OrderCard"
 
 const ITEMS_PER_PAGE = 100
 
@@ -34,6 +37,15 @@ export const OrdersList = () => {
           </li>
         ))}
       </ul>
+      <>
+        <Grid container spacing={1}>
+          {orders.map((order) => (
+            <Grid item xs={12} md={6} lg={4} xl={3} key={order.id}>
+              <OrderCard info={order} />
+            </Grid>
+          ))}
+        </Grid>
+      </>
 
       <button disabled={page === 0} onClick={goToPreviousPage}>
         Previous

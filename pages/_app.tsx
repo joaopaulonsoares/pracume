@@ -1,12 +1,46 @@
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { HelmetProvider } from "react-helmet-async"
-import React from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 import { withBlitz } from "app/blitz-client"
 import ThemeProvider from "app/theme/ThemeProvider"
 import { SidebarProvider } from "app/contexts/SidebarContext"
 import { Toaster } from "react-hot-toast"
+import { useRouter } from "next/router"
+import { Backdrop, CircularProgress } from "@mui/material"
 
+function Loading(): ReactNode {
+  const router = useRouter()
+
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const handleStart = (url) => url !== router.asPath && setLoading(true)
+    const handleComplete = (url) =>
+      url === router.asPath &&
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
+
+    router.events.on("routeChangeStart", handleStart)
+    router.events.on("routeChangeComplete", handleComplete)
+    router.events.on("routeChangeError", handleComplete)
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart)
+      router.events.off("routeChangeComplete", handleComplete)
+      router.events.off("routeChangeError", handleComplete)
+    }
+  })
+
+  return (
+    loading && (
+      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    )
+  )
+}
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
     return <div>Error: You are not authenticated</div>
@@ -33,6 +67,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider>
         <HelmetProvider>
           <SidebarProvider>
+            <Loading />
             <Toaster />
             <Component {...pageProps} />
           </SidebarProvider>

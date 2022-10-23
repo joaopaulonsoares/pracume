@@ -15,6 +15,8 @@ import { ComboCard } from "app/orders/components/Products/Combo/ComboCard"
 import { OrderResume } from "app/orders/components/OrderResume/Resume/OrderResume"
 import { calculateTotalSelectedItemsPrice } from "app/core/utils/calculateTotalSelectedItemsPrice"
 
+import toast from "react-hot-toast"
+
 function NewOrderPage(): JSX.Element {
   const router = useRouter()
   const [createOrderMutation] = useMutation(createOrder)
@@ -89,6 +91,17 @@ function NewOrderPage(): JSX.Element {
     setSelectedProducts((prevState: any) => {
       return prevState.filter((data) => data.uuid != itemUuid)
     })
+  }
+
+  async function handleSubmitButtonClick() {
+    console.log(selectedProducts)
+    try {
+      const orderCreated = await createOrderMutation(selectedProducts)
+      toast.success(`Pedido #${orderCreated.id} criado com sucesso`)
+      void router.push(Routes.OrdersPage())
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 
   return (
@@ -202,6 +215,7 @@ function NewOrderPage(): JSX.Element {
                     color="success"
                     endIcon={<ArrowForwardTwoTone />}
                     disabled={selectedProducts.length === 0}
+                    onClick={() => handleSubmitButtonClick()}
                   >
                     Confirmar
                   </Button>
