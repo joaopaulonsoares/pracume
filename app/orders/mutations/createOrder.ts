@@ -1,8 +1,9 @@
 import { resolver } from "@blitzjs/rpc"
-import db from "db"
+import db, { Prisma } from "db"
 import { z } from "zod"
 import { calculateTotalSelectedItemsPrice } from "app/core/utils/calculateTotalSelectedItemsPrice"
 import { items } from "../mockedProducts"
+import { e } from "@blitzjs/auth/dist/index-57d74361"
 
 interface OrderItem {
   itemId: number
@@ -40,13 +41,13 @@ interface SearchedComboItem {
 }
 
 function comboParser(orderItem: any): Array<OrderItem> {
-  let parsedItems = []
-
-  const { id, totalAmount, name, category, selectedInfos } = orderItem
+  const { selectedInfos } = orderItem
+  console.log()
 
   const mainItem = items.find(
     (element) => element.id === selectedInfos?.sandwich?.itemId
   ) as SearchedComboItem
+
   const drinkItem = items.find(
     (element) => element.id === selectedInfos?.beverage?.itemId
   ) as SearchedComboItem
@@ -56,32 +57,25 @@ function comboParser(orderItem: any): Array<OrderItem> {
 
   return [
     {
-      itemId: id,
-      itemName: name,
-      observations: "",
-      category,
-      amount: totalAmount.value,
-    },
-    {
       itemId: mainItem.id,
       itemName: mainItem.name,
       observations: "",
       category: mainItem.category,
-      amount: 0,
+      amount: orderItem.totalAmount.value * 0.4,
     },
     {
       itemId: drinkItem.id,
       itemName: drinkItem.name,
       observations: "",
       category: drinkItem.category,
-      amount: 0,
+      amount: orderItem.totalAmount.value * 0.3,
     },
     {
       itemId: extraItem.id,
       itemName: extraItem.name,
       observations: "",
       category: extraItem.category,
-      amount: 0,
+      amount: orderItem.totalAmount.value * 0.3,
     },
   ]
 }
@@ -101,19 +95,32 @@ function itemParser(item: any): OrderItem {
 }
 
 export default resolver.pipe(resolver.authorize(), async (input: any) => {
-  // Somar todos os itens
-  let totalAmount = 0
+  const itemsParsedArray = input.reduce((previousValue, currentItem) => {
+    if (currentItem.category === "combo") {
+      const item = comboParser(currentItem)
+      const temp = [...previousValue, ...item]
+      return temp
+    } else {
+      const item = itemParser(currentItem)
+      const temp = [...previousValue, item]
+      return temp
+    }
+  }, []) as Prisma.JsonArray
 
-  const sum = input.reduce(
+  const itensAmount = await input.reduce(
     (previousValue, currentItem) => previousValue + currentItem.amount.value,
     0
   )
-  console.log(sum)
 
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  //const order = await db.order.create({ data: input })
-  console.log("oi")
-  console.log(input)
-  //return order
-  return {}
+  const order = await db.order.create({
+    data: {
+      deliveryType: "place",
+      amount: itensAmount,
+      tableReference: "15",
+      products: itemsParsedArray,
+    },
+  })
+
+  return order
 })
