@@ -6,10 +6,12 @@ import { useRouter } from "next/router"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
-import Layout from "app/core/layouts/Layout"
 import getOrderPad from "app/order-pads/queries/getOrderPad"
 import deleteOrderPad from "app/order-pads/mutations/deleteOrderPad"
+import { CollapsibleTable } from "app/order-pads/components/CollapsibleTable"
+
 import SidebarLayout from "app/core/layouts/SidebarLayout"
+import { Container } from "@mui/material"
 
 export const OrderPad = () => {
   const router = useRouter()
@@ -18,7 +20,7 @@ export const OrderPad = () => {
   const [orderPad] = useQuery(getOrderPad, { id: orderPadId })
 
   return (
-    <>
+    <Container>
       <Head>
         <title>Comanda #{orderPad.id}</title>
       </Head>
@@ -45,8 +47,10 @@ export const OrderPad = () => {
         >
           Delete
         </button>
+
+        <CollapsibleTable />
       </div>
-    </>
+    </Container>
   )
 }
 
