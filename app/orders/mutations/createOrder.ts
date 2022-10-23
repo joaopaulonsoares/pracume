@@ -115,9 +115,10 @@ export default resolver.pipe(resolver.authorize(), async (input: any) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
   const order = await db.order.create({
     data: {
-      deliveryType: "place",
+      deliveryType: "delivery",
       amount: itensAmount,
-      tableReference: "15",
+      tableReference: "",
+      deliveryReference: "456",
       products: itemsParsedArray,
     },
   })
