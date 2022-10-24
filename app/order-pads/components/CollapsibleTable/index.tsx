@@ -12,29 +12,14 @@ import Typography from "@mui/material/Typography"
 import Paper from "@mui/material/Paper"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
-import { Chip } from "@mui/material"
-import CheckIcon from "@mui/icons-material/Check"
-import AccessTimeIcon from "@mui/icons-material/AccessTime"
-import CloseIcon from "@mui/icons-material/Close"
 import moment from "moment"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
-function renderStatusChip(status: string) {
-  switch (status) {
-    case "OPEN":
-      return <Chip icon={<AccessTimeIcon />} color="warning" label="Preparando" />
-    case "DELIVERIED":
-      return <Chip icon={<CheckIcon />} color="success" label="Entregue" />
-    case "CANCELED":
-      return <Chip icon={<CloseIcon />} color="error" label="Cancelado" />
-    default:
-      return <Chip label="Error" />
-  }
-}
+import { OrderStatusChip } from "app/core/components/Chips/OrderStatusChip"
+import { OrderCategoryChip } from "app/core/components/Chips/OrderCategoryChip"
 
 function Row(props: { row }) {
   const { row } = props
-  console.log(row)
   const { products, amount, id, createdAt, deliveryTime, status } = row
   const [open, setOpen] = React.useState(false)
 
@@ -45,7 +30,7 @@ function Row(props: { row }) {
         <TableCell align="center">{moment(createdAt).format("LTS")}</TableCell>
         <TableCell align="center">-</TableCell>
         <TableCell align="center">{products.length} items</TableCell>
-        <TableCell>{renderStatusChip(status)}</TableCell>
+        <TableCell>{OrderStatusChip(status)}</TableCell>
         <TableCell align="center">{formatScaledPriceToPtBr(amount)}</TableCell>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
@@ -74,7 +59,7 @@ function Row(props: { row }) {
                       <TableCell component="th" scope="row">
                         {historyRow.itemName}
                       </TableCell>
-                      <TableCell>{historyRow.category}</TableCell>
+                      <TableCell>{OrderCategoryChip(historyRow.category)}</TableCell>
                       <TableCell align="right">
                         {formatScaledPriceToPtBr(historyRow.amount)}
                       </TableCell>

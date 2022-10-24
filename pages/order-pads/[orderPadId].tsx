@@ -11,13 +11,19 @@ import deleteOrderPad from "app/order-pads/mutations/deleteOrderPad"
 import { CollapsibleTable } from "app/order-pads/components/CollapsibleTable"
 
 import SidebarLayout from "app/core/layouts/SidebarLayout"
-import { Container } from "@mui/material"
+import { Box, Container, Typography } from "@mui/material"
+import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
 export const OrderPad = () => {
   const router = useRouter()
   const orderPadId = useParam("orderPadId", "number")
   const [deleteOrderPadMutation] = useMutation(deleteOrderPad)
   const [orderPad] = useQuery(getOrderPad, { id: orderPadId })
+
+  const orderPadCurrentSum = orderPad.orders.reduce(
+    (previousValue, currentItem) => previousValue + currentItem.amount,
+    0
+  )
 
   return (
     <Container>
@@ -29,7 +35,7 @@ export const OrderPad = () => {
         <h1>
           Comanda #{orderPad.id} - {orderPad.holderName}
         </h1>
-        <pre>{JSON.stringify(orderPad, null, 2)}</pre>
+        {/*<pre>{JSON.stringify(orderPad, null, 2)}</pre>*/}
 
         <Link href={Routes.EditOrderPadPage({ orderPadId: orderPad.id })}>
           <a>Edit</a>
@@ -49,6 +55,12 @@ export const OrderPad = () => {
         </button>
 
         {!orderPad ? <div>Loading</div> : <CollapsibleTable orderPadInfo={orderPad} />}
+        <Box width="100%" display="flex" justifyContent="right" paddingTop={1}>
+          <Typography style={{ fontSize: "2rem" }}>Total: </Typography>
+          <Typography style={{ fontSize: "2rem" }}>
+            {formatScaledPriceToPtBr(orderPadCurrentSum)}{" "}
+          </Typography>
+        </Box>
       </div>
     </Container>
   )
