@@ -43,11 +43,15 @@ function renderChip(info: any) {
 
   switch (deliveryType) {
     case "place":
-      return <Chip icon={<TableBarIcon />} label={`Mesa ${tableReference}`} />
+      return <Chip icon={<TableBarIcon />} size="small" label={`Mesa ${tableReference}`} />
     case "delivery":
-      return <Chip icon={<DeliveryDiningIcon />} label={`Delivery ${deliveryReference}`} />
+      return (
+        <Chip icon={<DeliveryDiningIcon />} size="small" label={`Delivery ${deliveryReference}`} />
+      )
     case "takeout":
-      return <Chip icon={<TakeoutDiningIcon />} label={`Retirada ${deliveryReference}`} />
+      return (
+        <Chip icon={<TakeoutDiningIcon />} size="small" label={`Retirada ${deliveryReference}`} />
+      )
     default:
       return <Chip icon={<FaceIcon />} label="erro" />
   }

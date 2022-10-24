@@ -58,7 +58,7 @@ export const OrderPad = () => {
         <Box width="100%" display="flex" justifyContent="right" paddingTop={1}>
           <Typography style={{ fontSize: "2rem" }}>Total: </Typography>
           <Typography style={{ fontSize: "2rem" }}>
-            {formatScaledPriceToPtBr(orderPadCurrentSum)}{" "}
+            R$ {formatScaledPriceToPtBr(orderPadCurrentSum)}{" "}
           </Typography>
         </Box>
       </div>
