@@ -48,7 +48,7 @@ export const OrderPad = () => {
           Delete
         </button>
 
-        <CollapsibleTable />
+        {!orderPad ? <div>Loading</div> : <CollapsibleTable orderPadInfo={orderPad} />}
       </div>
     </Container>
   )

@@ -12,50 +12,41 @@ import Typography from "@mui/material/Typography"
 import Paper from "@mui/material/Paper"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
+import { Chip } from "@mui/material"
+import CheckIcon from "@mui/icons-material/Check"
+import AccessTimeIcon from "@mui/icons-material/AccessTime"
+import CloseIcon from "@mui/icons-material/Close"
+import moment from "moment"
+import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-  price: number
-) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: "2020-01-05",
-        customerId: "11091700",
-        amount: 3,
-      },
-      {
-        date: "2020-01-02",
-        customerId: "Anonymous",
-        amount: 1,
-      },
-    ],
+function renderStatusChip(status: string) {
+  switch (status) {
+    case "OPEN":
+      return <Chip icon={<AccessTimeIcon />} color="warning" label="Preparando" />
+    case "DELIVERIED":
+      return <Chip icon={<CheckIcon />} color="success" label="Entregue" />
+    case "CANCELED":
+      return <Chip icon={<CloseIcon />} color="error" label="Cancelado" />
+    default:
+      return <Chip label="Error" />
   }
 }
 
-function Row(props: { row: ReturnType<typeof createData> }) {
+function Row(props: { row }) {
   const { row } = props
+  console.log(row)
+  const { products, amount, id, createdAt, deliveryTime, status } = row
   const [open, setOpen] = React.useState(false)
 
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>1</TableCell>
-        <TableCell>20:17</TableCell>
-        <TableCell>20:40</TableCell>
-        <TableCell>3 items</TableCell>
-        <TableCell>Entregue</TableCell>
-        <TableCell>R$ 22,30</TableCell>
+        <TableCell># {id}</TableCell>
+        <TableCell align="center">{moment(createdAt).format("LTS")}</TableCell>
+        <TableCell align="center">-</TableCell>
+        <TableCell align="center">{products.length} items</TableCell>
+        <TableCell>{renderStatusChip(status)}</TableCell>
+        <TableCell align="center">{formatScaledPriceToPtBr(amount)}</TableCell>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -78,15 +69,14 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
+                  {products.map((historyRow, index) => (
+                    <TableRow key={`product-item-${id}-${index}`}>
                       <TableCell component="th" scope="row">
-                        {historyRow.date}
+                        {historyRow.itemName}
                       </TableCell>
-
-                      <TableCell>{historyRow.amount}</TableCell>
+                      <TableCell>{historyRow.category}</TableCell>
                       <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                        {formatScaledPriceToPtBr(historyRow.amount)}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -100,15 +90,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   )
 }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99),
-  createData("Eclair", 262, 16.0, 24, 6.0, 3.79),
-  createData("Cupcake", 305, 3.7, 67, 4.3, 2.5),
-  createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5),
-]
-
-export function CollapsibleTable() {
+export function CollapsibleTable({ orderPadInfo }: any) {
+  const { orders } = orderPadInfo
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -119,13 +102,13 @@ export function CollapsibleTable() {
             <TableCell>Hora da entrega</TableCell>
             <TableCell>Quantidade de itens</TableCell>
             <TableCell>Situação</TableCell>
-            <TableCell>Preço</TableCell>
+            <TableCell>Preço(R$)</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
+          {orders.map((row, index) => (
+            <Row key={`index-${index}`} row={row} />
           ))}
         </TableBody>
       </Table>
