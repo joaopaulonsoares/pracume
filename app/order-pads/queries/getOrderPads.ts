@@ -2,35 +2,35 @@ import { paginate } from "blitz"
 import { resolver } from "@blitzjs/rpc"
 import db, { Prisma } from "db"
 
-interface GetOrdersInput
-  extends Pick<Prisma.OrderFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
+interface GetOrderPadsInput
+  extends Pick<Prisma.OrderPadFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
 
 export default resolver.pipe(
   resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }: GetOrdersInput) => {
+  async ({ where, orderBy, skip = 0, take = 100 }: GetOrderPadsInput) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
-      items: orders,
+      items: orderPads,
       hasMore,
       nextPage,
       count,
     } = await paginate({
       skip,
       take,
-      count: () =>
-        db.order.count({
-          where,
-        }),
+      count: () => db.orderPad.count({ where }),
       query: (paginateArgs) =>
-        db.order.findMany({
+        db.orderPad.findMany({
           ...paginateArgs,
           where,
           orderBy,
+          include: {
+            orders: true,
+          },
         }),
     })
 
     return {
-      orders,
+      orderPads,
       nextPage,
       hasMore,
       count,

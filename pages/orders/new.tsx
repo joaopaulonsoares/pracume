@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Routes } from "@blitzjs/next"
+import { Routes, useParam } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
@@ -19,6 +19,10 @@ import toast from "react-hot-toast"
 
 function NewOrderPage(): JSX.Element {
   const router = useRouter()
+  const deliveryType = router.query.type
+  const tableReference = router.query.table
+  const orderPadId = router.query.orderPad
+
   const [createOrderMutation] = useMutation(createOrder)
 
   const [selectedProducts, setSelectedProducts] = useState<Array<any>>([])
@@ -96,7 +100,12 @@ function NewOrderPage(): JSX.Element {
   async function handleSubmitButtonClick() {
     console.log(selectedProducts)
     try {
-      const orderCreated = await createOrderMutation(selectedProducts)
+      const orderCreated = await createOrderMutation({
+        selectedProducts: selectedProducts,
+        deliveryType: deliveryType || "",
+        tableReference: tableReference || "",
+        orderPadId: orderPadId || "",
+      })
       toast.success(`Pedido #${orderCreated.id} criado com sucesso`)
       void router.push(Routes.OrdersPage())
     } catch (e) {

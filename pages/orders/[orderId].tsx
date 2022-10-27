@@ -1,20 +1,20 @@
-import { Suspense } from "react";
-import { Routes } from "@blitzjs/next";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useQuery, useMutation } from "@blitzjs/rpc";
-import { useParam } from "@blitzjs/next";
+import { Suspense } from "react"
+import { Routes } from "@blitzjs/next"
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useQuery, useMutation } from "@blitzjs/rpc"
+import { useParam } from "@blitzjs/next"
 
-import Layout from "app/core/layouts/Layout";
-import getOrder from "app/orders/queries/getOrder";
-import deleteOrder from "app/orders/mutations/deleteOrder";
+import Layout from "app/core/layouts/Layout"
+import getOrder from "app/orders/queries/getOrder"
+import deleteOrder from "app/orders/mutations/deleteOrder"
 
 export const Order = () => {
-  const router = useRouter();
-  const orderId = useParam("orderId", "number");
-  const [deleteOrderMutation] = useMutation(deleteOrder);
-  const [order] = useQuery(getOrder, { id: orderId });
+  const router = useRouter()
+  const orderId = useParam("orderId", "number")
+  const [deleteOrderMutation] = useMutation(deleteOrder)
+  const [order] = useQuery(getOrder, { id: orderId })
 
   return (
     <>
@@ -34,8 +34,8 @@ export const Order = () => {
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
-              await deleteOrderMutation({ id: order.id });
-              router.push(Routes.OrdersPage());
+              await deleteOrderMutation({ id: order.id })
+              void router.push(Routes.OrdersPage())
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -44,8 +44,8 @@ export const Order = () => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
 const ShowOrderPage = () => {
   return (
@@ -60,10 +60,10 @@ const ShowOrderPage = () => {
         <Order />
       </Suspense>
     </div>
-  );
-};
+  )
+}
 
-ShowOrderPage.authenticate = true;
-ShowOrderPage.getLayout = (page) => <Layout>{page}</Layout>;
+ShowOrderPage.authenticate = true
+ShowOrderPage.getLayout = (page) => <Layout>{page}</Layout>
 
-export default ShowOrderPage;
+export default ShowOrderPage
