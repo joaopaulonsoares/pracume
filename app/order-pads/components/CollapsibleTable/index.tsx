@@ -95,6 +95,7 @@ export function CollapsibleTable({ orderPadInfo }: any) {
           {orders.map((row, index) => (
             <Row key={`index-${index}`} row={row} />
           ))}
+          <Box paddingBottom={1} />
         </TableBody>
       </Table>
     </TableContainer>

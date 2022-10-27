@@ -11,7 +11,7 @@ import deleteOrderPad from "app/order-pads/mutations/deleteOrderPad"
 import { CollapsibleTable } from "app/order-pads/components/CollapsibleTable"
 
 import SidebarLayout from "app/core/layouts/SidebarLayout"
-import { Box, Button, Container, Typography } from "@mui/material"
+import { Box, Button, Container, Divider, Paper, Typography } from "@mui/material"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
 export const OrderPad = () => {
@@ -20,7 +20,7 @@ export const OrderPad = () => {
   const [deleteOrderPadMutation] = useMutation(deleteOrderPad)
   const [orderPad] = useQuery(getOrderPad, { id: orderPadId })
 
-  const orderPadCurrentSum = orderPad.orders.reduce(
+  const orderPadGrossValueSum = orderPad.orders.reduce(
     (previousValue, currentItem) => previousValue + currentItem.amount,
     0
   )
@@ -65,11 +65,35 @@ export const OrderPad = () => {
         </Link>
 
         {!orderPad ? <div>Loading</div> : <CollapsibleTable orderPadInfo={orderPad} />}
-        <Box width="100%" display="flex" justifyContent="right" paddingTop={1}>
-          <Typography style={{ fontSize: "2rem" }}>Total: </Typography>
-          <Typography style={{ fontSize: "2rem" }}>
-            R$ {formatScaledPriceToPtBr(orderPadCurrentSum)}{" "}
-          </Typography>
+
+        <Box paddingTop={1} display="flex" justifyContent="right" alignItems="center">
+          <Paper style={{ width: "350px" }}>
+            <Box width="100%" display="flex" justifyContent="space-between">
+              <Typography align="left" style={{ fontSize: "1.2rem" }}>
+                Total bruto:{" "}
+              </Typography>
+              <Typography style={{ fontSize: "1.2rem" }}>
+                R$ {formatScaledPriceToPtBr(orderPadGrossValueSum)}{" "}
+              </Typography>
+            </Box>
+            <Box width="100%" display="flex" justifyContent="space-between">
+              <Typography align="left" style={{ fontSize: "1.2rem" }}>
+                Descontos:{" "}
+              </Typography>
+              <Typography style={{ fontSize: "1.2rem" }}>
+                R$ {formatScaledPriceToPtBr(orderPadGrossValueSum)}{" "}
+              </Typography>
+            </Box>
+            <Divider variant="middle" />
+            <Box width="100%" display="flex" justifyContent="space-between">
+              <Typography align="left" style={{ fontSize: "1.4rem" }} fontWeight="bold">
+                Total:{" "}
+              </Typography>
+              <Typography style={{ fontSize: "1.4rem" }} fontWeight="bold">
+                R$ {formatScaledPriceToPtBr(orderPadGrossValueSum)}{" "}
+              </Typography>
+            </Box>
+          </Paper>
         </Box>
       </div>
     </Container>
