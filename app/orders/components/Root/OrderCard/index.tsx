@@ -70,7 +70,7 @@ export function OrderCard({ info }: any) {
         title={`Pedido #${info?.id}`}
         subheader={`Solicitado: ${moment(info?.createdAt).fromNow()}`}
       />
-      <CardContent>
+      <CardContent style={{ height: "120px", overflow: "auto" }}>
         <Typography variant="body2" color="text.secondary">
           Items:
         </Typography>
