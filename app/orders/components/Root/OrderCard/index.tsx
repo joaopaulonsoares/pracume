@@ -13,6 +13,7 @@ import {
   CardContent,
   CardHeader,
   Card,
+  Stack,
 } from "@mui/material"
 
 import FaceIcon from "@mui/icons-material/Face"
@@ -26,6 +27,7 @@ import DoneAllIcon from "@mui/icons-material/DoneAll"
 import AccessTimeIcon from "@mui/icons-material/AccessTime"
 import CloseIcon from "@mui/icons-material/Close"
 import toast from "react-hot-toast"
+import { OrderStatusChip } from "app/core/components/Chips/OrderStatusChip"
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean
@@ -74,6 +76,7 @@ export function OrderCard({ info }: any) {
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
+  const [orderInfos, setOrderInfos] = React.useState(info)
 
   const [updateOrderStatusMutation] = useMutation(updateOrderStatus)
 
@@ -83,6 +86,7 @@ export function OrderCard({ info }: any) {
         id: info.id,
         status: status,
       })
+      await setOrderInfos(updated)
       toast.success(
         `Status do pedido #${updated.id} atualizado para ${updated.status} com sucesso!`
       )
@@ -96,7 +100,12 @@ export function OrderCard({ info }: any) {
   return (
     <Card>
       <CardHeader
-        action={renderChip(info)}
+        action={
+          <Stack spacing={1}>
+            {renderChip(orderInfos)}
+            {OrderStatusChip(orderInfos.status)}
+          </Stack>
+        }
         title={`Pedido #${info?.id}`}
         subheader={`Solicitado: ${moment(info?.createdAt).fromNow()}`}
       />
@@ -104,7 +113,7 @@ export function OrderCard({ info }: any) {
         <Typography variant="body2" color="text.secondary">
           Items:
         </Typography>
-        {info.products.map((product, index) => {
+        {orderInfos.products.map((product, index) => {
           return (
             <Typography
               variant="body2"
