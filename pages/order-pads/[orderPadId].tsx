@@ -11,7 +11,7 @@ import deleteOrderPad from "app/order-pads/mutations/deleteOrderPad"
 import { CollapsibleTable } from "app/order-pads/components/CollapsibleTable"
 
 import SidebarLayout from "app/core/layouts/SidebarLayout"
-import { Box, Container, Typography } from "@mui/material"
+import { Box, Button, Container, Typography } from "@mui/material"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
 
 export const OrderPad = () => {
@@ -53,6 +53,16 @@ export const OrderPad = () => {
         >
           Delete
         </button>
+
+        <Link
+          href={Routes.NewOrderPage({
+            type: "place",
+            table: orderPad.tableReference,
+            orderPad: orderPad.id,
+          })}
+        >
+          <Button variant="contained">Novo pedido</Button>
+        </Link>
 
         {!orderPad ? <div>Loading</div> : <CollapsibleTable orderPadInfo={orderPad} />}
         <Box width="100%" display="flex" justifyContent="right" paddingTop={1}>

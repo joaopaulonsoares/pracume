@@ -95,7 +95,7 @@ function itemParser(item: any): OrderItem {
 }
 
 export default resolver.pipe(resolver.authorize(), async (input: any) => {
-  const itemsParsedArray = input.reduce((previousValue, currentItem) => {
+  const itemsParsedArray = input.selectedProducts.reduce((previousValue, currentItem) => {
     if (currentItem.category === "combo") {
       const item = comboParser(currentItem)
       const temp = [...previousValue, ...item]
@@ -107,7 +107,7 @@ export default resolver.pipe(resolver.authorize(), async (input: any) => {
     }
   }, []) as Prisma.JsonArray
 
-  const itensAmount = await input.reduce(
+  const itensAmount = await input.selectedProducts.reduce(
     (previousValue, currentItem) => previousValue + currentItem.amount.value,
     0
   )
@@ -115,12 +115,12 @@ export default resolver.pipe(resolver.authorize(), async (input: any) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
   const order = await db.order.create({
     data: {
-      deliveryType: "delivery",
+      deliveryType: input.deliveryType,
       amount: itensAmount,
-      tableReference: "",
-      deliveryReference: "456",
+      tableReference: input.tableReference,
+      deliveryReference: "",
       products: itemsParsedArray,
-      orderPadId: 1,
+      orderPadId: Number(input.orderPadId),
     },
   })
 

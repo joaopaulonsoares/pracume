@@ -66,7 +66,7 @@ const OrdersPage = () => {
         </Head>
 
         <Box width="100%" display="flex" justifyContent="right">
-          <Link href={Routes.NewOrderPage()}>
+          <Link href={Routes.NewOrderPage({ type: "delivery" })}>
             <Button variant="contained">Novo pedido</Button>
           </Link>
         </Box>
