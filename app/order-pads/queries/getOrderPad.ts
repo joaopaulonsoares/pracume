@@ -13,7 +13,11 @@ export default resolver.pipe(resolver.zod(GetOrderPad), resolver.authorize(), as
   const orderPad = await db.orderPad.findFirst({
     where: { id },
     include: {
-      orders: true,
+      orders: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   })
 

@@ -152,19 +152,26 @@ enum ORDER_TYPES {
 }
 
 // delivery types: deliveryType : place, delivery, takeout
+enum ORDER_STATUS {
+  OPEN
+  PREPARING
+  READY
+  DELIVERED
+  CANCELED
+}
 
 model Order {
-  id                Int              @id @default(autoincrement())
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  id                Int          @id @default(autoincrement())
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
   deliveryTime      DateTime?
   deliveryType      String
-  amount            Int              @default(0)
-  amountScale       Int              @default(2)
-  status            ORDER_PAD_STATUS @default(OPEN)
+  amount            Int          @default(0)
+  amountScale       Int          @default(2)
+  status            ORDER_STATUS @default(PREPARING)
   tableReference    String?
   deliveryReference String?
-  OrderPad          OrderPad?        @relation(fields: [orderPadId], references: [id])
+  OrderPad          OrderPad?    @relation(fields: [orderPadId], references: [id])
   orderPadId        Int?
   products          Json?
 }

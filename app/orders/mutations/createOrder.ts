@@ -120,7 +120,7 @@ export default resolver.pipe(resolver.authorize(), async (input: any) => {
       tableReference: input.tableReference,
       deliveryReference: "",
       products: itemsParsedArray,
-      orderPadId: Number(input.orderPadId),
+      ...(input.orderPadId > 0 && { orderPadId: Number(input.orderPadId) }),
     },
   })
 

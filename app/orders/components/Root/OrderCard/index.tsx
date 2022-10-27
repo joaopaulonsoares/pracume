@@ -1,27 +1,31 @@
 import * as React from "react"
 import { styled } from "@mui/material/styles"
-import Card from "@mui/material/Card"
-import CardHeader from "@mui/material/CardHeader"
-import CardMedia from "@mui/material/CardMedia"
-import CardContent from "@mui/material/CardContent"
-import CardActions from "@mui/material/CardActions"
-import Collapse from "@mui/material/Collapse"
-import Avatar from "@mui/material/Avatar"
 import IconButton, { IconButtonProps } from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
-import { red } from "@mui/material/colors"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import ShareIcon from "@mui/icons-material/Share"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
 import moment from "moment"
+import {
+  Button,
+  Tooltip,
+  Chip,
+  Collapse,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Card,
+} from "@mui/material"
 
-import Chip from "@mui/material/Chip"
 import FaceIcon from "@mui/icons-material/Face"
 import TakeoutDiningIcon from "@mui/icons-material/TakeoutDining"
 import TableBarIcon from "@mui/icons-material/TableBar"
 import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining"
-import { Divider } from "@mui/material"
+import { useMutation } from "@blitzjs/rpc"
+import updateOrderStatus from "app/orders/mutations/updateOrderStatus"
+import DoneIcon from "@mui/icons-material/Done"
+import DoneAllIcon from "@mui/icons-material/DoneAll"
+import AccessTimeIcon from "@mui/icons-material/AccessTime"
+import CloseIcon from "@mui/icons-material/Close"
+import toast from "react-hot-toast"
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean
@@ -57,10 +61,36 @@ function renderChip(info: any) {
   }
 }
 
+enum ORDER_STATUS {
+  OPEN = "OPEN",
+  PREPARING = "PREPARING",
+  READY = "READY",
+  DELIVERED = "DELIVERED",
+  CANCELED = "CANCELED",
+}
+
 export function OrderCard({ info }: any) {
   const [expanded, setExpanded] = React.useState(false)
   const handleExpandClick = () => {
     setExpanded(!expanded)
+  }
+
+  const [updateOrderStatusMutation] = useMutation(updateOrderStatus)
+
+  async function handleOrderStatusChange(status: ORDER_STATUS) {
+    try {
+      const updated = await updateOrderStatusMutation({
+        id: info.id,
+        status: status,
+      })
+      toast.success(
+        `Status do pedido #${updated.id} atualizado para ${updated.status} com sucesso!`
+      )
+    } catch (error: any) {
+      toast.success(
+        `Um erro ocorreu para atualizar o status do pedido #${info.id}. Tente novamente!`
+      )
+    }
   }
 
   return (
@@ -87,9 +117,39 @@ export function OrderCard({ info }: any) {
         })}
       </CardContent>
       <CardActions disableSpacing>
-        <Typography variant="body2" color="text.secondary">
-          Registrado por: João
-        </Typography>
+        <Tooltip title="Marcar como cancelado">
+          <IconButton
+            aria-label="Marcar como cancelado"
+            onClick={() => handleOrderStatusChange(ORDER_STATUS.CANCELED)}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Marcar como em preparo">
+          <IconButton
+            aria-label="Marcar em preparo"
+            onClick={() => handleOrderStatusChange(ORDER_STATUS.PREPARING)}
+          >
+            <AccessTimeIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Marcar como pronto">
+          <IconButton
+            aria-label="Marcar como pronto"
+            onClick={() => handleOrderStatusChange(ORDER_STATUS.READY)}
+          >
+            <DoneIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Marcar como entregue">
+          <IconButton
+            aria-label="Marcar como entregue"
+            onClick={() => handleOrderStatusChange(ORDER_STATUS.DELIVERED)}
+          >
+            <DoneAllIcon />
+          </IconButton>
+        </Tooltip>
+
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -100,9 +160,7 @@ export function OrderCard({ info }: any) {
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography>{JSON.stringify(info)}</Typography>
-        </CardContent>
+        <CardContent>{/*<Typography>{JSON.stringify(info)}</Typography>*/}</CardContent>
       </Collapse>
     </Card>
   )

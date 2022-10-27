@@ -1,14 +1,17 @@
 import { Chip } from "@mui/material"
-import CheckIcon from "@mui/icons-material/Check"
 import AccessTimeIcon from "@mui/icons-material/AccessTime"
 import CloseIcon from "@mui/icons-material/Close"
+import DoneIcon from "@mui/icons-material/Done"
+import DoneAllIcon from "@mui/icons-material/DoneAll"
 
 export function OrderStatusChip(status: string) {
   switch (status) {
-    case "OPEN":
+    case "PREPARING":
       return <Chip icon={<AccessTimeIcon />} size="small" color="warning" label="Preparando" />
-    case "DELIVERIED":
-      return <Chip icon={<CheckIcon />} size="small" color="success" label="Entregue" />
+    case "READY":
+      return <Chip icon={<DoneIcon />} size="small" color="info" label="Pronto" />
+    case "DELIVERED":
+      return <Chip icon={<DoneAllIcon />} size="small" color="success" label="Entregue" />
     case "CANCELED":
       return <Chip icon={<CloseIcon />} size="small" color="error" label="Cancelado" />
     default:
