@@ -8,6 +8,7 @@ import { SidebarProvider } from "app/contexts/SidebarContext"
 import { Toaster } from "react-hot-toast"
 import { useRouter } from "next/router"
 import { Backdrop, CircularProgress } from "@mui/material"
+import { CashRegisterProvider } from "app/contexts/CashRegister"
 
 function Loading(): ReactNode {
   const router = useRouter()
@@ -66,11 +67,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <ThemeProvider>
         <HelmetProvider>
-          <SidebarProvider>
-            <Loading />
-            <Toaster />
-            <Component {...pageProps} />
-          </SidebarProvider>
+          <CashRegisterProvider>
+            <SidebarProvider>
+              <Loading />
+              <Toaster />
+              <Component {...pageProps} />
+            </SidebarProvider>
+          </CashRegisterProvider>
         </HelmetProvider>
       </ThemeProvider>
     </ErrorBoundary>

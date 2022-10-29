@@ -71,6 +71,14 @@ enum ORDER_STATUS {
   CANCELED = "CANCELED",
 }
 
+const ORDER_STATUS_TRANSLATIONS = {
+  OPEN: "ABERTO",
+  PREPARING: "PREPARANDO",
+  READY: "PRONTO",
+  DELIVERED: "ENTREGUE",
+  CANCELED: "CANCELADO",
+}
+
 export function OrderCard({ info }: any) {
   const [expanded, setExpanded] = React.useState(false)
   const handleExpandClick = () => {
@@ -88,7 +96,9 @@ export function OrderCard({ info }: any) {
       })
       await setOrderInfos(updated)
       toast.success(
-        `Status do pedido #${updated.id} atualizado para ${updated.status} com sucesso!`
+        `Status do pedido #${updated.id} atualizado para ${
+          ORDER_STATUS_TRANSLATIONS[updated.status]
+        } com sucesso!`
       )
     } catch (error: any) {
       toast.success(

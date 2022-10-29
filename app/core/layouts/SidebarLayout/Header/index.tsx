@@ -10,6 +10,8 @@ import {
   Tooltip,
   styled,
   useTheme,
+  Chip,
+  Typography,
 } from "@mui/material"
 import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone"
 import { SidebarContext } from "app/contexts/SidebarContext"
@@ -18,6 +20,8 @@ import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone"
 import HeaderButtons from "./Buttons"
 import HeaderUserbox from "./Userbox"
 import HeaderMenu from "./Menu"
+
+import { useCashRegister } from "app/contexts/CashRegister"
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -37,6 +41,19 @@ const HeaderWrapper = styled(Box)(
         }
 `
 )
+
+function CashRegisterIndicator() {
+  const cashRegisterInfos = useCashRegister()
+  return (
+    <Stack direction="row" alignItems="center" spacing={2}>
+      {cashRegisterInfos.isOpen ? (
+        <Chip color="success" label="Caixa Aberto" style={{ fontWeight: "bold" }} />
+      ) : (
+        <Chip color="error" label="Caixa Fechado" style={{ fontWeight: "bold" }} />
+      )}
+    </Stack>
+  )
+}
 
 function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext)
@@ -66,10 +83,12 @@ function Header() {
         spacing={2}
       >
         <HeaderMenu />
+        <CashRegisterIndicator />
       </Stack>
       <Box display="flex" alignItems="center">
         <HeaderButtons />
         <HeaderUserbox />
+
         <Box
           component="span"
           sx={{
