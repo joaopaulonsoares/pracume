@@ -31,7 +31,6 @@ export const OrderPadsList = () => {
             <Link
               href={Routes.ShowOrderPadPage({
                 orderPadId: orderPad.id,
-                teste: "teste",
               })}
             >
               <a>{`${orderPad.holderName}- Mesa ${orderPad.tableReference}`} </a>
@@ -39,13 +38,6 @@ export const OrderPadsList = () => {
           </li>
         ))}
       </ul>
-      OrderPadCard
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
       <>
         <Grid container spacing={1}>
           {orderPads.map((orderPad, index) => (
@@ -55,6 +47,12 @@ export const OrderPadsList = () => {
           ))}
         </Grid>
       </>
+      <button disabled={page === 0} onClick={goToPreviousPage}>
+        Previous
+      </button>
+      <button disabled={!hasMore} onClick={goToNextPage}>
+        Next
+      </button>
     </div>
   )
 }
