@@ -145,6 +145,15 @@ model Product {
   // saleId Int?
 }
 
+model CashRegister {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  closedAt  DateTime   @updatedAt
+  isClosed  Boolean
+  Order     Order[]
+  OrderPad  OrderPad[]
+}
+
 enum ORDER_TYPES {
   WITHDRAWAL
   LOCAL
@@ -161,19 +170,21 @@ enum ORDER_STATUS {
 }
 
 model Order {
-  id                Int          @id @default(autoincrement())
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
+  id                Int           @id @default(autoincrement())
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
   deliveryTime      DateTime?
   deliveryType      String
-  amount            Int          @default(0)
-  amountScale       Int          @default(2)
-  status            ORDER_STATUS @default(PREPARING)
+  amount            Int           @default(0)
+  amountScale       Int           @default(2)
+  status            ORDER_STATUS  @default(PREPARING)
   tableReference    String?
   deliveryReference String?
-  OrderPad          OrderPad?    @relation(fields: [orderPadId], references: [id])
+  OrderPad          OrderPad?     @relation(fields: [orderPadId], references: [id])
   orderPadId        Int?
   products          Json?
+  CashRegister      CashRegister? @relation(fields: [cashRegisterId], references: [id])
+  cashRegisterId    Int?
 }
 
 enum ORDER_PAD_STATUS {
@@ -192,6 +203,8 @@ model OrderPad {
   holderName     String
   tableReference String?
   orders         Order[]
+  CashRegister   CashRegister?    @relation(fields: [cashRegisterId], references: [id])
+  cashRegisterId Int?
 }
 
 enum SALE_STATUS {
