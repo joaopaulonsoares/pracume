@@ -205,11 +205,10 @@ function SidebarMenu() {
             <List component="div">
               <ListItem component="div">
                 <Button
-                  disabled={true}
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
-                  to="#"
+                  to="/cash-registers"
                   startIcon={<BalanceIcon />}
                 >
                   Caixa

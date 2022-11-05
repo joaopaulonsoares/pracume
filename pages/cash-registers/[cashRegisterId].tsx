@@ -1,20 +1,19 @@
-import { Suspense } from "react";
-import { Routes } from "@blitzjs/next";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useQuery, useMutation } from "@blitzjs/rpc";
-import { useParam } from "@blitzjs/next";
-
-import Layout from "app/core/layouts/Layout";
-import getCashRegister from "app/cash-registers/queries/getCashRegister";
-import deleteCashRegister from "app/cash-registers/mutations/deleteCashRegister";
+import { Suspense } from "react"
+import { Routes } from "@blitzjs/next"
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useQuery, useMutation } from "@blitzjs/rpc"
+import { useParam } from "@blitzjs/next"
+import getCashRegister from "app/cash-registers/queries/getCashRegister"
+import deleteCashRegister from "app/cash-registers/mutations/deleteCashRegister"
+import SidebarLayout from "app/core/layouts/SidebarLayout"
 
 export const CashRegister = () => {
-  const router = useRouter();
-  const cashRegisterId = useParam("cashRegisterId", "number");
-  const [deleteCashRegisterMutation] = useMutation(deleteCashRegister);
-  const [cashRegister] = useQuery(getCashRegister, { id: cashRegisterId });
+  const router = useRouter()
+  const cashRegisterId = useParam("cashRegisterId", "number")
+  const [deleteCashRegisterMutation] = useMutation(deleteCashRegister)
+  const [cashRegister] = useQuery(getCashRegister, { id: cashRegisterId })
 
   return (
     <>
@@ -38,8 +37,8 @@ export const CashRegister = () => {
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
-              await deleteCashRegisterMutation({ id: cashRegister.id });
-              router.push(Routes.CashRegistersPage());
+              await deleteCashRegisterMutation({ id: cashRegister.id })
+              router.push(Routes.CashRegistersPage())
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -48,8 +47,8 @@ export const CashRegister = () => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
 const ShowCashRegisterPage = () => {
   return (
@@ -64,10 +63,10 @@ const ShowCashRegisterPage = () => {
         <CashRegister />
       </Suspense>
     </div>
-  );
-};
+  )
+}
 
-ShowCashRegisterPage.authenticate = true;
-ShowCashRegisterPage.getLayout = (page) => <Layout>{page}</Layout>;
+ShowCashRegisterPage.authenticate = true
+ShowCashRegisterPage.getLayout = (page) => <SidebarLayout>{page}</SidebarLayout>
 
-export default ShowCashRegisterPage;
+export default ShowCashRegisterPage

@@ -1,20 +1,18 @@
-import { Routes } from "@blitzjs/next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useMutation } from "@blitzjs/rpc";
-import Layout from "app/core/layouts/Layout";
-import createCashRegister from "app/cash-registers/mutations/createCashRegister";
-import {
-  CashRegisterForm,
-  FORM_ERROR,
-} from "app/cash-registers/components/CashRegisterForm";
+import { Routes } from "@blitzjs/next"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useMutation } from "@blitzjs/rpc"
+import Layout from "app/core/layouts/Layout"
+import createCashRegister from "app/cash-registers/mutations/createCashRegister"
+import { CashRegisterForm, FORM_ERROR } from "app/cash-registers/components/CashRegisterForm"
+import SidebarLayout from "app/core/layouts/SidebarLayout"
 
 const NewCashRegisterPage = () => {
-  const router = useRouter();
-  const [createCashRegisterMutation] = useMutation(createCashRegister);
+  const router = useRouter()
+  const [createCashRegisterMutation] = useMutation(createCashRegister)
 
   return (
-    <Layout title={"Create New CashRegister"}>
+    <SidebarLayout>
       <h1>Create New CashRegister</h1>
 
       <CashRegisterForm
@@ -26,15 +24,13 @@ const NewCashRegisterPage = () => {
         // initialValues={{}}
         onSubmit={async (values) => {
           try {
-            const cashRegister = await createCashRegisterMutation(values);
-            router.push(
-              Routes.ShowCashRegisterPage({ cashRegisterId: cashRegister.id })
-            );
+            const cashRegister = await createCashRegisterMutation(values)
+            void router.push(Routes.ShowCashRegisterPage({ cashRegisterId: cashRegister.id }))
           } catch (error: any) {
-            console.error(error);
+            console.error(error)
             return {
               [FORM_ERROR]: error.toString(),
-            };
+            }
           }
         }}
       />
@@ -44,10 +40,10 @@ const NewCashRegisterPage = () => {
           <a>CashRegisters</a>
         </Link>
       </p>
-    </Layout>
-  );
-};
+    </SidebarLayout>
+  )
+}
 
-NewCashRegisterPage.authenticate = true;
+NewCashRegisterPage.authenticate = true
 
-export default NewCashRegisterPage;
+export default NewCashRegisterPage

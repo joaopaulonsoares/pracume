@@ -1,22 +1,20 @@
-import { Suspense } from "react";
-import { Routes } from "@blitzjs/next";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useQuery, useMutation } from "@blitzjs/rpc";
-import { useParam } from "@blitzjs/next";
+import { Suspense } from "react"
+import { Routes } from "@blitzjs/next"
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useQuery, useMutation } from "@blitzjs/rpc"
+import { useParam } from "@blitzjs/next"
 
-import Layout from "app/core/layouts/Layout";
-import getCashRegister from "app/cash-registers/queries/getCashRegister";
-import updateCashRegister from "app/cash-registers/mutations/updateCashRegister";
-import {
-  CashRegisterForm,
-  FORM_ERROR,
-} from "app/cash-registers/components/CashRegisterForm";
+import Layout from "app/core/layouts/Layout"
+import getCashRegister from "app/cash-registers/queries/getCashRegister"
+import updateCashRegister from "app/cash-registers/mutations/updateCashRegister"
+import { CashRegisterForm, FORM_ERROR } from "app/cash-registers/components/CashRegisterForm"
+import SidebarLayout from "app/core/layouts/SidebarLayout"
 
 export const EditCashRegister = () => {
-  const router = useRouter();
-  const cashRegisterId = useParam("cashRegisterId", "number");
+  const router = useRouter()
+  const cashRegisterId = useParam("cashRegisterId", "number")
   const [cashRegister, { setQueryData }] = useQuery(
     getCashRegister,
     { id: cashRegisterId },
@@ -24,8 +22,8 @@ export const EditCashRegister = () => {
       // This ensures the query never refreshes and overwrites the form data while the user is editing.
       staleTime: Infinity,
     }
-  );
-  const [updateCashRegisterMutation] = useMutation(updateCashRegister);
+  )
+  const [updateCashRegisterMutation] = useMutation(updateCashRegister)
 
   return (
     <>
@@ -49,23 +47,21 @@ export const EditCashRegister = () => {
               const updated = await updateCashRegisterMutation({
                 id: cashRegister.id,
                 ...values,
-              });
-              await setQueryData(updated);
-              router.push(
-                Routes.ShowCashRegisterPage({ cashRegisterId: updated.id })
-              );
+              })
+              await setQueryData(updated)
+              router.push(Routes.ShowCashRegisterPage({ cashRegisterId: updated.id }))
             } catch (error: any) {
-              console.error(error);
+              console.error(error)
               return {
                 [FORM_ERROR]: error.toString(),
-              };
+              }
             }
           }}
         />
       </div>
     </>
-  );
-};
+  )
+}
 
 const EditCashRegisterPage = () => {
   return (
@@ -80,10 +76,10 @@ const EditCashRegisterPage = () => {
         </Link>
       </p>
     </div>
-  );
-};
+  )
+}
 
-EditCashRegisterPage.authenticate = true;
-EditCashRegisterPage.getLayout = (page) => <Layout>{page}</Layout>;
+EditCashRegisterPage.authenticate = true
+EditCashRegisterPage.getLayout = (page) => <SidebarLayout>{page}</SidebarLayout>
 
-export default EditCashRegisterPage;
+export default EditCashRegisterPage
