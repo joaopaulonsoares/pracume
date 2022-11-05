@@ -205,6 +205,18 @@ function SidebarMenu() {
             <List component="div">
               <ListItem component="div">
                 <Button
+                  disabled={true}
+                  disableRipple
+                  component={NavLink}
+                  onClick={closeSidebar}
+                  to="#"
+                  startIcon={<BalanceIcon />}
+                >
+                  Caixa
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
                   disableRipple
                   component={NavLink}
                   onClick={closeSidebar}
@@ -223,18 +235,6 @@ function SidebarMenu() {
                   startIcon={<BallotIcon />}
                 >
                   Comandas
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disabled={true}
-                  disableRipple
-                  component={NavLink}
-                  onClick={closeSidebar}
-                  to="#"
-                  startIcon={<BalanceIcon />}
-                >
-                  Resumo caixa
                 </Button>
               </ListItem>
               <ListItem component="div">
