@@ -6,10 +6,12 @@ import Layout from "app/core/layouts/Layout"
 import createOrderPad from "app/order-pads/mutations/createOrderPad"
 import { OrderPadForm, FORM_ERROR } from "app/order-pads/components/OrderPadForm"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
+import { useCashRegister } from "app/contexts/CashRegister"
 
 const NewOrderPadPage = () => {
   const router = useRouter()
   const [createOrderPadMutation] = useMutation(createOrderPad)
+  const cashRegisterContext = useCashRegister()
 
   return (
     <SidebarLayout>
@@ -24,8 +26,11 @@ const NewOrderPadPage = () => {
         // initialValues={{}}
         onSubmit={async (values) => {
           try {
-            const orderPad = await createOrderPadMutation(values)
-            router.push(Routes.ShowOrderPadPage({ orderPadId: orderPad.id }))
+            const orderPad = await createOrderPadMutation({
+              ...values,
+              cashRegisterId: cashRegisterContext.cashRegisterId,
+            })
+            void router.push(Routes.ShowOrderPadPage({ orderPadId: orderPad.id }))
           } catch (error: any) {
             console.error(error)
             return {

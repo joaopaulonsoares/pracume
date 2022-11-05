@@ -18,21 +18,6 @@ interface Order {
   items: Array<OrderItem>
 }
 
-/*
-category
-:
-"sandwich"
-id
-:
-4
-ingredients
-:
-[]
-name
-:
-"Cheff Burger"
-*/
-
 interface SearchedComboItem {
   category: string
   id: number
@@ -115,6 +100,7 @@ export default resolver.pipe(resolver.authorize(), async (input: any) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
   const order = await db.order.create({
     data: {
+      cashRegisterId: input.cashRegisterId,
       deliveryType: input.deliveryType,
       amount: itensAmount,
       tableReference: input.tableReference,

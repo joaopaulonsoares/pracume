@@ -5,6 +5,7 @@ import { z } from "zod"
 const CreateOrderPad = z.object({
   holderName: z.string(),
   tableReference: z.string().optional(),
+  cashRegisterId: z.number(),
 })
 
 export default resolver.pipe(resolver.zod(CreateOrderPad), resolver.authorize(), async (input) => {

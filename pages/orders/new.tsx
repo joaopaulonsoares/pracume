@@ -16,12 +16,15 @@ import { OrderResume } from "app/orders/components/OrderResume/Resume/OrderResum
 import { calculateTotalSelectedItemsPrice } from "app/core/utils/calculateTotalSelectedItemsPrice"
 
 import toast from "react-hot-toast"
+import { useCashRegister } from "app/contexts/CashRegister"
 
 function NewOrderPage(): JSX.Element {
   const router = useRouter()
   const deliveryType = router.query.type
   const tableReference = router.query.table
   const orderPadId = router.query.orderPad
+
+  const cashRegisterContext = useCashRegister()
 
   const [createOrderMutation] = useMutation(createOrder)
 
@@ -105,6 +108,7 @@ function NewOrderPage(): JSX.Element {
         deliveryType: deliveryType || "",
         tableReference: tableReference || "",
         orderPadId: orderPadId || "",
+        cashRegisterId: cashRegisterContext.cashRegisterId,
       })
       toast.success(`Pedido #${orderCreated.id} criado com sucesso`)
       void router.push(Routes.OrdersPage())

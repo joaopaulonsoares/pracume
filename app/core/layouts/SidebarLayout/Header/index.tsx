@@ -47,7 +47,11 @@ function CashRegisterIndicator() {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       {cashRegisterInfos.isOpen ? (
-        <Chip color="success" label="Caixa Aberto" style={{ fontWeight: "bold" }} />
+        <Chip
+          color="success"
+          label={`Caixa Aberto ${cashRegisterInfos.cashRegisterOpenHour}`}
+          style={{ fontWeight: "bold" }}
+        />
       ) : (
         <Chip color="error" label="Caixa Fechado" style={{ fontWeight: "bold" }} />
       )}
