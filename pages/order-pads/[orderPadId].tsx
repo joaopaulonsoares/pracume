@@ -13,6 +13,7 @@ import { CollapsibleTable } from "app/order-pads/components/CollapsibleTable"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
 import { Box, Button, Container, Divider, Paper, Typography } from "@mui/material"
 import { formatScaledPriceToPtBr } from "app/core/utils/formatScaledPriceToPtBr"
+import MenuOrderPad from "app/order-pads/components/MenuOrderPad"
 
 export const OrderPad = () => {
   const router = useRouter()
@@ -24,6 +25,17 @@ export const OrderPad = () => {
     (previousValue, currentItem) => previousValue + currentItem.amount,
     0
   )
+
+  async function handleDeleteOrderPad() {
+    if (window.confirm("This will be deleted")) {
+      await deleteOrderPadMutation({ id: orderPad.id })
+      void router.push(Routes.OrderPadsPage())
+    }
+  }
+
+  async function handleEditOrderPad() {
+    void router.push(Routes.EditOrderPadPage({ orderPadId: orderPad.id }))
+  }
 
   return (
     <Container>
@@ -37,32 +49,21 @@ export const OrderPad = () => {
         </h1>
         {/*<pre>{JSON.stringify(orderPad, null, 2)}</pre>*/}
 
-        <Link href={Routes.EditOrderPadPage({ orderPadId: orderPad.id })}>
-          <a>Edit</a>
-        </Link>
-
-        <button
-          type="button"
-          onClick={async () => {
-            if (window.confirm("This will be deleted")) {
-              await deleteOrderPadMutation({ id: orderPad.id })
-              void router.push(Routes.OrderPadsPage())
-            }
-          }}
-          style={{ marginLeft: "0.5rem" }}
-        >
-          Delete
-        </button>
-
-        <Link
-          href={Routes.NewOrderPage({
-            type: "place",
-            table: orderPad.tableReference,
-            orderPad: orderPad.id,
-          })}
-        >
-          <Button variant="contained">Novo pedido</Button>
-        </Link>
+        <Box display="flex" width="100%" justifyContent="right" paddingBottom={1}>
+          <Link
+            href={Routes.NewOrderPage({
+              type: "place",
+              table: orderPad.tableReference,
+              orderPad: orderPad.id,
+            })}
+          >
+            <Button>Novo pedido</Button>
+          </Link>
+          <MenuOrderPad
+            onClickEditOptionAction={handleEditOrderPad}
+            onClickDeleteOptionAction={handleDeleteOrderPad}
+          />
+        </Box>
 
         {!orderPad ? <div>Loading</div> : <CollapsibleTable orderPadInfo={orderPad} />}
 
