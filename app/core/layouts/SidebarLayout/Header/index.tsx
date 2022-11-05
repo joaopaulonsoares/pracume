@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { Suspense, useContext, useEffect } from "react"
 
 import {
   Box,
@@ -22,6 +22,9 @@ import HeaderUserbox from "./Userbox"
 import HeaderMenu from "./Menu"
 
 import { useCashRegister } from "app/contexts/CashRegister"
+import { useQuery } from "@blitzjs/rpc"
+
+import getOpenCashRegister from "app/cash-registers/queries/getOpenCashRegister"
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -43,15 +46,19 @@ const HeaderWrapper = styled(Box)(
 )
 
 function CashRegisterIndicator() {
-  const cashRegisterInfos = useCashRegister()
+  const [cashRegister] = useQuery(getOpenCashRegister, {})
+  const cashRegisterContext = useCashRegister()
+  const { id, isClosed, createdAt } = cashRegister
+  const isOpen = !isClosed
+
+  useEffect(() => {
+    cashRegisterContext.updateCashRegisterInfos(cashRegister)
+  }, [cashRegister, cashRegisterContext])
+
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
-      {cashRegisterInfos.isOpen ? (
-        <Chip
-          color="success"
-          label={`Caixa Aberto ${cashRegisterInfos.cashRegisterOpenHour}`}
-          style={{ fontWeight: "bold" }}
-        />
+      {isOpen ? (
+        <Chip color="success" label={`Caixa Aberto #${id}`} style={{ fontWeight: "bold" }} />
       ) : (
         <Chip color="error" label="Caixa Fechado" style={{ fontWeight: "bold" }} />
       )}
@@ -87,7 +94,9 @@ function Header() {
         spacing={2}
       >
         <HeaderMenu />
-        <CashRegisterIndicator />
+        <Suspense fallback="Loading...">
+          <CashRegisterIndicator />
+        </Suspense>
       </Stack>
       <Box display="flex" alignItems="center">
         <HeaderButtons />

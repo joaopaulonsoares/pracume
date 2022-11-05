@@ -80,6 +80,18 @@ function itemParser(item: any): OrderItem {
 }
 
 export default resolver.pipe(resolver.authorize(), async (input: any) => {
+  //productsResumed
+  console.log(input.selectedProducts)
+
+  const productsResumed = input.selectedProducts.map((item) => {
+    return {
+      id: item.id,
+      name: item.name,
+      category: item.category,
+      amount: item.totalAmount,
+    }
+  }) as Prisma.JsonArray
+
   const itemsParsedArray = input.selectedProducts.reduce((previousValue, currentItem) => {
     if (currentItem.category === "combo") {
       const item = comboParser(currentItem)
@@ -106,6 +118,7 @@ export default resolver.pipe(resolver.authorize(), async (input: any) => {
       tableReference: input.tableReference,
       deliveryReference: "",
       products: itemsParsedArray,
+      productsResumed: productsResumed,
       ...(input.orderPadId > 0 && { orderPadId: Number(input.orderPadId) }),
     },
   })

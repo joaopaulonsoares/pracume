@@ -183,6 +183,7 @@ model Order {
   deliveryReference String?
   OrderPad          OrderPad?     @relation(fields: [orderPadId], references: [id])
   orderPadId        Int?
+  productsResumed   Json?
   products          Json?
   CashRegister      CashRegister? @relation(fields: [cashRegisterId], references: [id])
   cashRegisterId    Int?
