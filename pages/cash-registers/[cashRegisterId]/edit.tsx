@@ -49,7 +49,7 @@ export const EditCashRegister = () => {
                 ...values,
               })
               await setQueryData(updated)
-              router.push(Routes.ShowCashRegisterPage({ cashRegisterId: updated.id }))
+              void router.push(Routes.ShowCashRegisterPage({ cashRegisterId: updated.id }))
             } catch (error: any) {
               console.error(error)
               return {

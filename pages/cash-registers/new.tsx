@@ -6,10 +6,12 @@ import Layout from "app/core/layouts/Layout"
 import createCashRegister from "app/cash-registers/mutations/createCashRegister"
 import { CashRegisterForm, FORM_ERROR } from "app/cash-registers/components/CashRegisterForm"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
+import { useCashRegister } from "app/contexts/CashRegister"
 
 const NewCashRegisterPage = () => {
   const router = useRouter()
   const [createCashRegisterMutation] = useMutation(createCashRegister)
+  const cashRegisterContext = useCashRegister()
 
   return (
     <SidebarLayout>
@@ -22,9 +24,10 @@ const NewCashRegisterPage = () => {
         //         then import and use it here
         // schema={CreateCashRegister}
         // initialValues={{}}
-        onSubmit={async (values) => {
+        onSubmit={async () => {
           try {
-            const cashRegister = await createCashRegisterMutation(values)
+            const cashRegister = await createCashRegisterMutation()
+            await cashRegisterContext.updateCashRegisterInfos(cashRegister)
             void router.push(Routes.ShowCashRegisterPage({ cashRegisterId: cashRegister.id }))
           } catch (error: any) {
             console.error(error)

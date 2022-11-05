@@ -6,6 +6,7 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import getCashRegisters from "app/cash-registers/queries/getCashRegisters"
 import SidebarLayout from "app/core/layouts/SidebarLayout"
+import moment from "moment"
 
 const ITEMS_PER_PAGE = 100
 
@@ -23,6 +24,7 @@ export const CashRegistersList = () => {
 
   return (
     <div>
+      <div>atual</div>
       <ul>
         {cashRegisters.map((cashRegister) => (
           <li key={cashRegister.id}>
@@ -31,7 +33,7 @@ export const CashRegistersList = () => {
                 cashRegisterId: cashRegister.id,
               })}
             >
-              <a>{cashRegister.name}</a>
+              <a>{moment(cashRegister.createdAt).format("L")}</a>
             </Link>
           </li>
         ))}

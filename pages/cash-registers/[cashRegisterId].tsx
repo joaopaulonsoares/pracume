@@ -38,7 +38,7 @@ export const CashRegister = () => {
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteCashRegisterMutation({ id: cashRegister.id })
-              router.push(Routes.CashRegistersPage())
+              void router.push(Routes.CashRegistersPage())
             }
           }}
           style={{ marginLeft: "0.5rem" }}

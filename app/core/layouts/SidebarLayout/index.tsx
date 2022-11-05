@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react"
-import { Box, alpha, lighten, useTheme } from "@mui/material"
+import { Box, alpha, lighten, useTheme, Container } from "@mui/material"
 import Head from "next/head"
 import Sidebar from "./Sidebar"
 import Header from "./Header"
@@ -52,7 +52,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({ children }) => {
           }}
         >
           <Box display="block" width="100%">
-            {children}
+            <Container>{children}</Container>
           </Box>
         </Box>
       </Box>

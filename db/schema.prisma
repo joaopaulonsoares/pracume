@@ -149,7 +149,7 @@ model CashRegister {
   id        Int        @id @default(autoincrement())
   createdAt DateTime   @default(now())
   closedAt  DateTime   @updatedAt
-  isClosed  Boolean
+  isClosed  Boolean    @default(false)
   Order     Order[]
   OrderPad  OrderPad[]
 }

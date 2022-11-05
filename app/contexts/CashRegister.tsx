@@ -1,3 +1,4 @@
+import moment from "moment"
 import React, { createContext, useContext, useState } from "react"
 
 interface ICashRegisterContext {
@@ -7,6 +8,7 @@ interface ICashRegisterContext {
   updatecashRegisterId(cashRegisterIdParam: number): void
   updateCashRegisterOpenHour(cashRegisterOpenHourParam: string): void
   updateIsOpen(isOpenParam: boolean): void
+  updateCashRegisterInfos(cashRegisterInfo: any): void
 }
 
 export const CashRegisterContext = createContext<ICashRegisterContext>({} as ICashRegisterContext)
@@ -27,6 +29,12 @@ export const CashRegisterProvider: React.FC = ({ children }: any) => {
     setIsOpen(isOpenParam)
   }
 
+  function updateCashRegisterInfos(cashRegisterInfo: any) {
+    setCashRegisterId(cashRegisterInfo.id)
+    setIsOpen(!cashRegisterInfo.isClosed)
+    setCashRegisterOpenHour(moment(cashRegisterInfo.createdAt).format("MMMM Do YYYY, h:mm:ss a"))
+  }
+
   return (
     <CashRegisterContext.Provider
       value={{
@@ -36,6 +44,7 @@ export const CashRegisterProvider: React.FC = ({ children }: any) => {
         updatecashRegisterId,
         updateCashRegisterOpenHour,
         updateIsOpen,
+        updateCashRegisterInfos,
       }}
     >
       {children}
