@@ -20,7 +20,7 @@ import { OrderCategoryChip } from "app/core/components/Chips/OrderCategoryChip"
 
 function Row(props: { row }) {
   const { row } = props
-  const { products, amount, id, createdAt, deliveryTime, status } = row
+  const { products, amount, id, createdAt, deliveryTime, status, productsResumed } = row
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -29,7 +29,7 @@ function Row(props: { row }) {
         <TableCell># {id}</TableCell>
         <TableCell align="center">{moment(createdAt).format("LTS")}</TableCell>
         <TableCell align="center">-</TableCell>
-        <TableCell align="center">{products.length} items</TableCell>
+        <TableCell align="center">{productsResumed.length} items</TableCell>
         <TableCell>{OrderStatusChip(status)}</TableCell>
         <TableCell align="center">{formatScaledPriceToPtBr(amount)}</TableCell>
         <TableCell>
@@ -43,7 +43,7 @@ function Row(props: { row }) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Itens do pedido
+                Itens resumidos do pedido
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
@@ -54,14 +54,14 @@ function Row(props: { row }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {products.map((historyRow, index) => (
+                  {productsResumed.map((historyRow, index) => (
                     <TableRow key={`product-item-${id}-${index}`}>
                       <TableCell component="th" scope="row">
-                        {historyRow.itemName}
+                        {historyRow.name}
                       </TableCell>
                       <TableCell>{OrderCategoryChip(historyRow.category)}</TableCell>
                       <TableCell align="right">
-                        {formatScaledPriceToPtBr(historyRow.amount)}
+                        {formatScaledPriceToPtBr(historyRow.amount.value)}
                       </TableCell>
                     </TableRow>
                   ))}
